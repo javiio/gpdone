@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  useDoc,
-  setDoc,
-  updateDoc,
-  addItemToArrayDoc,
-} from '../../platform/data';
-import useProjects from '../../projects/hooks/useProjects';
-import type { Project } from '../../projects/types';
-import type { BlockData, Block } from '../types';
-import { dataToBlock, blockToData, getId } from '../utils';
+import { useDoc, setDoc, updateDoc, addItemToArrayDoc } from '~platform';
+import { useProjects, type Project } from '~projects';
+import { dataToBlock, blockToData, getId, type BlockData, type Block } from '../';
 
-const useCurrentBlock = () => {
+export const useCurrentBlock = () => {
   const [currentBlock, setCurrentBlock] = useState<Block>();
   const [data, loading, error] = useDoc('data/currentBlock');
   const { projects } = useProjects();
@@ -50,5 +43,3 @@ const useCurrentBlock = () => {
     updateCurrentBlock,
   };
 };
-
-export default useCurrentBlock;

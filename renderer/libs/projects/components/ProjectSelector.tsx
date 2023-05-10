@@ -1,6 +1,5 @@
 import cn from 'classnames';
-import { Project } from '../types';
-import useProjects from '../hooks/useProjects';
+import { useProjects, type Project } from '../';
 
 type Props = {
   selected: Project | undefined;
@@ -8,7 +7,7 @@ type Props = {
   onChange(p: Project): void;
 };
 
-function ProjectSelector({ selected, onChange }: Props) {
+export function ProjectSelector({ selected, onChange }: Props) {
   const { projects } = useProjects();
 
   return (
@@ -41,5 +40,3 @@ function ProjectSelector({ selected, onChange }: Props) {
     </ul>
   );
 }
-
-export default ProjectSelector;

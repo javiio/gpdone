@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import cn from 'classnames';
-import Error from '../../platform/components/Error';
-import Loading from '../../platform/components/Loading';
-import type { Project } from '../../projects/types';
-import useCurrentBlock from '../hooks/useCurrentBlock';
-import ProjectSelector from '../../projects/components/ProjectSelector';
+import { Loading, Error } from '~platform';
+import { ProjectSelector } from '~projects';
+import { useCurrentBlock } from '../';
 
-function CurrentBlock() {
+export function CurrentBlock() {
   const { currentBlock, loading, error, pushCurrentBlock } =
     useCurrentBlock();
   const [title, setTitle] = useState(currentBlock?.title || '');
@@ -48,5 +46,3 @@ function CurrentBlock() {
     </div>
   );
 }
-
-export default CurrentBlock;

@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-export default function DynamicStylesGenerator() {
+export function DynamicStylesGenerator() {
   return (
     <div
       className={cn(

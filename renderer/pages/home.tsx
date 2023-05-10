@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import CurrentBlock from '../libs/blocks/components/CurrentBlock';
+import { CurrentBlock } from '~blocks';
 
 function Home() {
   return (

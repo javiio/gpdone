@@ -1,5 +1,5 @@
 import type { Timestamp } from 'firebase/firestore';
-import { Project } from '../projects/types';
+import type { Project } from '~projects';
 
 export type BlockData = {
   title: string;

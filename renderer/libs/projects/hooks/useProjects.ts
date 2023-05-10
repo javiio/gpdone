@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useCollection } from '../../platform/data';
-import type { Project } from '../types';
+import { useCollection } from '~platform';
+import type { Project } from '../';
 
-const useProjects = () => {
+export const useProjects = () => {
   const [projects, setProjects] = useState<Project[]>();
   const [data, isLoading, error] = useCollection('projects');
 
@@ -26,5 +26,3 @@ const useProjects = () => {
     getProject,
   };
 };
-
-export default useProjects;

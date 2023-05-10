@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 import { DateTime } from 'luxon';
-import type { Project } from '../projects/types';
+import type { Project } from '~projects';
 import type { Block, BlockData } from './types';
 
 export const dataToBlock = (
