@@ -8,7 +8,9 @@ function Home() {
       <Head>
         <title>GPD</title>
       </Head>
-      <CurrentBlock />
+      <div className="m-4">
+        <CurrentBlock />
+      </div>
     </React.Fragment>
   );
 }

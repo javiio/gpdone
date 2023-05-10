@@ -4,6 +4,7 @@ import Error from '../../platform/components/Error';
 import Loading from '../../platform/components/Loading';
 import type { Project } from '../../projects/types';
 import useCurrentBlock from '../hooks/useCurrentBlock';
+import ProjectSelector from '../../projects/components/ProjectSelector';
 
 function CurrentBlock() {
   const { currentBlock, loading, error, pushCurrentBlock } =
@@ -19,16 +20,15 @@ function CurrentBlock() {
   }, [currentBlock]);
 
   const push = () => {
-    pushCurrentBlock(title, project as Project);
+    pushCurrentBlock(title, project);
   };
 
   return (
     <div>
-      <div className="m-4"
-      >
-        {error && <Error />}
-        {loading && <Loading />}
-        {currentBlock && !loading && !error && (
+      {error && <Error />}
+      {loading && <Loading />}
+      {currentBlock && !loading && !error && (
+        <>
           <textarea
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -37,8 +37,11 @@ function CurrentBlock() {
               project?.color && `border-${project?.color} focus:outline-${project?.color}`,
             )}
           />
-        )}
-      </div>
+
+          <ProjectSelector selected={project} onChange={setProject} />
+        </>
+      )}
+
       <button type="button" onClick={push}>
         Add
       </button>
