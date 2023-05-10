@@ -6,23 +6,21 @@ import type { Block, BlockData } from './types';
 export const dataToBlock = (
   data: BlockData,
   projects: Project[] | undefined
-): Block | undefined => {
-  const block = { ...data } as Block;
-  const project = projects?.find((p) => p.id === block.projectId);
-  if (project) {
-    block.project = project;
-    block.borderColor = project.color && `border-${project.color}`;
-    block.bgColor = project.color && `bg-${project.color}`;
-  }
-
-  return block;
+): Block => {
+  const project = projects?.find((p) => p.id === data.projectId);
+  return {
+    ...data,
+    project,
+    borderColor: project ? `border-${project.color}` : 'border-gray-500',
+    bgColor: project ? `bg-${project.color}` : 'bg-gray-500',
+  };
 };
 
 export const blockToData = (block: Block): BlockData => {
   const data: BlockData = {
     title: block.title,
     projectId: block.projectId,
-    createdAt: block.createdAt || Timestamp.now(),
+    createdAt: block.createdAt ?? Timestamp.now(),
   };
 
   return data;

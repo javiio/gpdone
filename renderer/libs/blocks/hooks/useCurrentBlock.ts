@@ -9,9 +9,9 @@ export const useCurrentBlock = () => {
   const { projects } = useProjects();
 
   useEffect(() => {
-    const blockData = data?.data() as BlockData;
+    const blockData = data?.data();
     if (blockData) {
-      setCurrentBlock(dataToBlock(blockData, projects));
+      setCurrentBlock(dataToBlock(blockData as BlockData, projects));
     }
   }, [data, projects]);
 
@@ -19,13 +19,13 @@ export const useCurrentBlock = () => {
     await updateDoc({ title, projectId }, 'data/currentBlock');
   };
 
-  const pushCurrentBlock = async (title: string, project: Project) => {
+  const pushCurrentBlock = async (title: string, project: Project | undefined) => {
     if (currentBlock) {
-      updateCurrentBlock(title, project.id);
+      await updateCurrentBlock(title, project?.id ?? '');
       const blockData = blockToData({
         ...currentBlock,
         title,
-        projectId: project.id,
+        projectId: project?.id ?? '',
       });
       try {
         await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());

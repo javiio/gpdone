@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { Loading, Error } from '~platform';
 import { ProjectSelector } from '~projects';
 import { useCurrentBlock } from '../';
 
-export function CurrentBlock() {
+export const CurrentBlock = () => {
   const { currentBlock, loading, error, pushCurrentBlock } =
     useCurrentBlock();
-  const [title, setTitle] = useState(currentBlock?.title || '');
+  const [title, setTitle] = useState(currentBlock?.title ?? '');
   const [project, setProject] = useState(currentBlock?.project);
 
   useEffect(() => {
@@ -17,8 +17,8 @@ export function CurrentBlock() {
     }
   }, [currentBlock]);
 
-  const push = () => {
-    pushCurrentBlock(title, project);
+  const push = async () => {
+    await pushCurrentBlock(title, project);
   };
 
   return (
@@ -29,10 +29,10 @@ export function CurrentBlock() {
         <>
           <textarea
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => { setTitle(e.target.value); }}
             className={cn(
               'text-3xl bg-slate-800 w-full border-l-4 p-4 overflow-auto resize-none focus:outline',
-              project?.color && `border-${project?.color} focus:outline-${project?.color}`,
+              project?.color && `border-${project?.color} focus:outline-${project?.color}`
             )}
           />
 
@@ -45,4 +45,4 @@ export function CurrentBlock() {
       </button>
     </div>
   );
-}
+};

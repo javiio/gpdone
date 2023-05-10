@@ -4,14 +4,14 @@ import { DynamicStylesGenerator } from '~platform';
 
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return  (
+const GPDApp = ({ Component, pageProps }: AppProps) => {
+  return (
     <React.Fragment>
       <Component {...pageProps} />
 
       <DynamicStylesGenerator />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default MyApp
+export default GPDApp;

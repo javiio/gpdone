@@ -1,6 +1,7 @@
+import React from 'react';
 import cn from 'classnames';
 
-export function DynamicStylesGenerator() {
+export const DynamicStylesGenerator = () => {
   return (
     <div
       className={cn(
@@ -13,4 +14,4 @@ export function DynamicStylesGenerator() {
       )}
     />
   );
-}
+};

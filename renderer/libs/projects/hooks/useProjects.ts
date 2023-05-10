@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useCollection } from '~platform';
-import type { Project } from '../';
+import type { Project, ProjectData } from '../';
 
 export const useProjects = () => {
   const [projects, setProjects] = useState<Project[]>();
@@ -9,7 +9,7 @@ export const useProjects = () => {
   useEffect(() => {
     if (data) {
       setProjects(
-        data.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Project))
+        data.docs.map((doc): Project => ({ ...doc.data() as ProjectData, id: doc.id }))
       );
     }
   }, [data]);
