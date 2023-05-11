@@ -15,13 +15,12 @@ export const useCurrentBlock = () => {
     }
   }, [data, projects]);
 
-  const updateCurrentBlock = async (title: string, projectId: string) => {
+  const updateCurrentBlock = async (title: string, projectId = '') => {
     await updateDoc({ title, projectId }, 'data/currentBlock');
   };
 
   const pushCurrentBlock = async (title: string, project: Project | undefined) => {
     if (currentBlock) {
-      await updateCurrentBlock(title, project?.id ?? '');
       const blockData = blockToData({
         ...currentBlock,
         title,
