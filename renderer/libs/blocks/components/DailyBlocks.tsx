@@ -86,8 +86,8 @@ export const DailyBlocks = () => {
         ))}
       </div>
       <div className="relative flex-1">
-        {times.map(() => (
-          <>
+        {times.map((time) => (
+          <div key={time}>
             <div
               className="border-b border-white/10 w-full"
               style={{ height: 30 * HEIGHT_PER_MINUTE }}
@@ -96,7 +96,7 @@ export const DailyBlocks = () => {
               className="border-b border-white/30 w-full"
               style={{ height: 30 * HEIGHT_PER_MINUTE }}
             />
-          </>
+          </div>
         ))}
 
         {renderBlocks()}
