@@ -13,11 +13,14 @@ const times = Array.from(Array(END_TIME - START_TIME).keys()).map(
 const calcTimePosition = (time = new Date(), decreaseBlockSize = false) => {
   const hours = time.getHours();
   const minutes = time.getMinutes();
-  let minutosFromStartTime = (hours - START_TIME) * 60 + minutes;
-  if (decreaseBlockSize) {
-    minutosFromStartTime -= BLOCK_TIME;
+  let minutesFromStartTime = (hours - START_TIME) * 60 + minutes;
+  if (hours < START_TIME) {
+    minutesFromStartTime += 24 * 60;
   }
-  return minutosFromStartTime * HEIGHT_PER_MINUTE;
+  if (decreaseBlockSize) {
+    minutesFromStartTime -= BLOCK_TIME;
+  }
+  return minutesFromStartTime * HEIGHT_PER_MINUTE;
 };
 
 const calcBlockPosition = (block: Block) => {

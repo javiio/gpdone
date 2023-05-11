@@ -3,6 +3,8 @@ import { DateTime } from 'luxon';
 import type { Project } from '~projects';
 import type { Block, BlockData } from './types';
 
+const START_TIME = 7;
+
 export const dataToBlock = (
   data: BlockData,
   projects: Project[] | undefined
@@ -26,6 +28,11 @@ export const blockToData = (block: Block): BlockData => {
   return data;
 };
 
-export const getId = (date = DateTime.now()) => date.toFormat('yyyyMMdd');
+export const getId = (date: DateTime = DateTime.now()) => {
+  if (date.hour < START_TIME) {
+    return date.minus(24 * 60 * 60 * 1000).toFormat('yyyyMMdd');
+  }
+  return date.toFormat('yyyyMMdd');
+};
 
 export const getDate = () => Timestamp.now();
