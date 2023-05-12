@@ -27,7 +27,7 @@ export const CurrentBlock = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!textareaRef.current?.matches(':focus')) {
+      if (enableShortcuts()) {
         if (event.key === 'e') {
           event.preventDefault();
           textareaRef.current?.focus();
@@ -37,7 +37,7 @@ export const CurrentBlock = () => {
           push()
             .catch((e) => { console.log(e); });
         }
-      } else if (event.key === 'Escape' || event.key === 'Enter') {
+      } else if (event.key === 'Escape') {
         event.preventDefault();
         textareaRef.current?.blur();
       }
@@ -50,6 +50,10 @@ export const CurrentBlock = () => {
     };
   }, []);
 
+  const enableShortcuts = () => {
+    return !textareaRef.current?.matches(':focus');
+  };
+
   const blur = async () => {
     await updateCurrentBlock(title, project?.id);
   };
@@ -61,7 +65,7 @@ export const CurrentBlock = () => {
   };
 
   return (
-    <div>
+    <div className="relative">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
@@ -78,7 +82,13 @@ export const CurrentBlock = () => {
           />
           {isPushLoading && <Loading />}
 
-          <ProjectSelector selected={project} onChange={setProject} />
+          <div className="absolute left-6 bottom-3">
+            <ProjectSelector
+              selected={project}
+              onChange={setProject}
+              enableShortcuts={enableShortcuts}
+            />
+          </div>
         </>
       )}
     </div>
