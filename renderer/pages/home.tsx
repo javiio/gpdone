@@ -8,8 +8,10 @@ const Home = () => {
       <Head>
         <title>GPD</title>
       </Head>
-      <div className="m-4 max-w-md">
-        <CurrentBlock />
+      <div className="max-w-md relative">
+        <div className="sticky top-0 p-4 bg-slate-700">
+          <CurrentBlock />
+        </div>
         <DailyBlocks />
       </div>
     </React.Fragment>
