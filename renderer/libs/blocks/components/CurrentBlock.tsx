@@ -26,6 +26,10 @@ export const CurrentBlock = () => {
   }, [currentBlock]);
 
   useEffect(() => {
+    calcInputHeight();
+  }, [title]);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (enableShortcuts()) {
         if (event.key === 'e') {
@@ -64,6 +68,13 @@ export const CurrentBlock = () => {
     setIsPushLoading(false);
   };
 
+  const calcInputHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
   return (
     <div className="relative">
       {error && <Error />}
@@ -76,9 +87,10 @@ export const CurrentBlock = () => {
             onChange={(e) => { setTitle(e.target.value); }}
             onBlur={blur}
             className={cn(
-              'text-3xl bg-slate-800 w-full border-l-8 p-4 overflow-auto resize-none focus:outline',
-              project?.color && `border-${project?.color} focus:outline-${project?.color}`
+              'text-3xl bg-slate-900 w-full border-l-8 p-4 pb-10 overflow-auto overscroll-none resize-none focus:outline',
+              project?.color && `border-${project.color} focus:outline-${project.color}`
             )}
+            rows={1}
           />
           {isPushLoading && <Loading />}
 

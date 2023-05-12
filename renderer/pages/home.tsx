@@ -9,7 +9,7 @@ const Home = () => {
         <title>GPD</title>
       </Head>
       <div className="max-w-md relative">
-        <div className="sticky top-0 p-4 bg-slate-700">
+        <div className="sticky top-0 p-4 bg-slate-800 z-10">
           <CurrentBlock />
         </div>
         <DailyBlocks />
