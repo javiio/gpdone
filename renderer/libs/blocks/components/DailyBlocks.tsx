@@ -32,6 +32,7 @@ export const DailyBlocks = () => {
   const [currentTimePosition, setCurrentTimePosition] = useState(
     calcTimePosition()
   );
+  const [viewMode, setViewMode] = useState('fullday');
   const { blocks } = useDailyBlocks();
 
   useEffect(() => {
@@ -74,42 +75,46 @@ export const DailyBlocks = () => {
 
   return (
     <div className="flex">
-      <div>
-        {times.map((time) => (
-          <div
-            key={time}
-            className="text-sm pt-1.5 text-white/75"
-            style={{ height: 60 * HEIGHT_PER_MINUTE }}
-          >
-            {time}
+      {viewMode === 'fullday' && (
+        <>
+          <div>
+            {times.map((time) => (
+              <div
+                key={time}
+                className="text-sm pt-1.5 text-white/75"
+                style={{ height: 60 * HEIGHT_PER_MINUTE }}
+              >
+                {time}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="relative flex-1">
-        {times.map((time) => (
-          <div key={time}>
+          <div className="relative flex-1">
+            {times.map((time) => (
+              <div key={time}>
+                <div
+                  className="border-b border-white/10 w-full"
+                  style={{ height: 30 * HEIGHT_PER_MINUTE }}
+                />
+                <div
+                  className="border-b border-white/30 w-full"
+                  style={{ height: 30 * HEIGHT_PER_MINUTE }}
+                />
+              </div>
+            ))}
+
+            {renderBlocks()}
+
             <div
-              className="border-b border-white/10 w-full"
-              style={{ height: 30 * HEIGHT_PER_MINUTE }}
-            />
-            <div
-              className="border-b border-white/30 w-full"
-              style={{ height: 30 * HEIGHT_PER_MINUTE }}
-            />
+              className="w-full h-0.5 bg-red-500 absolute"
+              style={{ top: currentTimePosition }}
+            >
+              <div
+              className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1"
+              />
+            </div>
           </div>
-        ))}
-
-        {renderBlocks()}
-
-        <div
-          className="w-full h-0.5 bg-red-500 absolute"
-          style={{ top: currentTimePosition }}
-        >
-          <div
-          className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1"
-           />
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
