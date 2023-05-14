@@ -32,7 +32,7 @@ export const DailyBlocks = () => {
   const [currentTimePosition, setCurrentTimePosition] = useState(
     calcTimePosition()
   );
-  const [viewMode, setViewMode] = useState('fullday');
+  const [viewMode, setViewMode] = useState<'full' | 'compact'>('compact');
   const { blocks } = useDailyBlocks();
 
   useEffect(() => {
@@ -45,6 +45,24 @@ export const DailyBlocks = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.metaKey && event.key === 'v') {
+        toggleViewMode();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const toggleViewMode = () => {
+    setViewMode((prev) => prev === 'full' ? 'compact' : 'full');
+  };
+
   const renderBlocks = () => {
     const blocksPerProject: Record<string, number> = {};
     return blocks?.map((block, i) => {
@@ -54,20 +72,19 @@ export const DailyBlocks = () => {
         <div
           key={i}
           className={cn(
-            'mx-3 py-1 px-4 text-sm absolute w-96',
-            `border border-l-8 ${block.borderColor}`,
-            `${block.bgColor}/10`
+            'py-1 pl-4 pr-6 text-sm w-96 border border-l-8 truncate',
+            `${block.borderColor} ${block.bgColor}/10`,
+            `${viewMode === 'full' ? 'absolute' : 'mb-1'}`
           )}
           style={{
             height: BLOCK_TIME * HEIGHT_PER_MINUTE,
             top: calcBlockPosition(block),
           }}
         >
-          {block.title}
-
-          <div className="absolute top-1 right-2 opacity-50 text-sm">
+          <div className="float-right opacity-50 text-sm -mr-4">
             {count}
           </div>
+          {block.title}
         </div>
       );
     });
@@ -75,46 +92,42 @@ export const DailyBlocks = () => {
 
   return (
     <div className="flex">
-      {viewMode === 'fullday' && (
-        <>
-          <div>
-            {times.map((time) => (
-              <div
-                key={time}
-                className="text-sm pt-1.5 text-white/75"
-                style={{ height: 60 * HEIGHT_PER_MINUTE }}
-              >
-                {time}
-              </div>
-            ))}
+      <div className="w-12">
+        {viewMode === 'full' && times.map((time) => (
+          <div
+            key={time}
+            className="text-sm p-1.5 text-white/75 text-right"
+            style={{ height: 60 * HEIGHT_PER_MINUTE }}
+          >
+            {time}
           </div>
-          <div className="relative flex-1">
-            {times.map((time) => (
-              <div key={time}>
-                <div
-                  className="border-b border-white/10 w-full"
-                  style={{ height: 30 * HEIGHT_PER_MINUTE }}
-                />
-                <div
-                  className="border-b border-white/30 w-full"
-                  style={{ height: 30 * HEIGHT_PER_MINUTE }}
-                />
-              </div>
-            ))}
-
-            {renderBlocks()}
-
+        ))}
+      </div>
+      <div className="relative flex-1">
+        {viewMode === 'full' && times.map((time) => (
+          <div key={time}>
             <div
-              className="w-full h-0.5 bg-red-500 absolute"
-              style={{ top: currentTimePosition }}
-            >
-              <div
-              className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1"
-              />
-            </div>
+              className="border-b border-white/10 w-full"
+              style={{ height: 30 * HEIGHT_PER_MINUTE }}
+            />
+            <div
+              className="border-b border-white/30 w-full"
+              style={{ height: 30 * HEIGHT_PER_MINUTE }}
+            />
           </div>
-        </>
-      )}
+        ))}
+        {renderBlocks()}
+        {viewMode === 'full' && (
+          <div
+            className="w-full h-0.5 bg-red-500 absolute"
+            style={{ top: currentTimePosition }}
+          >
+            <div
+            className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
