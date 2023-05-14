@@ -26,17 +26,15 @@ export const useCurrentBlock = () => {
   };
 
   const pushCurrentBlock = async (title: string, project: Project | undefined) => {
-    if (currentBlock) {
-      const blockData = blockToData({
-        ...currentBlock,
-        title,
-        projectId: project?.id ?? '',
-      });
-      try {
-        await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());
-      } catch {
-        await setDoc({ blocks: [blockData] }, 'blocks', getId());
-      }
+    const blockData = blockToData({
+      ...currentBlock,
+      title,
+      projectId: project?.id ?? '',
+    });
+    try {
+      await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());
+    } catch {
+      await setDoc({ blocks: [blockData] }, 'blocks', getId());
     }
   };
 

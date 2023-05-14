@@ -18,7 +18,7 @@ export const dataToBlock = (
   };
 };
 
-export const blockToData = (block: Block): BlockData => {
+export const blockToData = (block: Block | BlockData): BlockData => {
   const data: BlockData = {
     title: block.title,
     projectId: block.projectId,
