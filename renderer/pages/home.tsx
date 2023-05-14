@@ -12,9 +12,7 @@ const Home = () => {
         <div className="sticky top-0 p-4 bg-slate-800 z-10">
           <CurrentBlock />
         </div>
-        <div className="mt-4">
-          <DailyBlocks />
-        </div>
+        <DailyBlocks />
       </div>
     </React.Fragment>
   );
