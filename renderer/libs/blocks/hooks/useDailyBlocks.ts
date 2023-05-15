@@ -15,6 +15,8 @@ export const useDailyBlocks = (date?: DateTime) => {
       setBlocks(
         dataBlocks.map((b: object) => dataToBlock(b as BlockData, projects))
       );
+    } else {
+      setBlocks([]);
     }
   }, [data, date, projects]);
 

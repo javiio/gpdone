@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
+import type { DateTime } from 'luxon';
 import { useDailyBlocks, type Block } from '../';
 
 const BLOCK_TIME = 25;
@@ -28,12 +29,12 @@ const calcBlockPosition = (block: Block) => {
   return calcTimePosition(time ?? new Date(), true);
 };
 
-export const DailyBlocks = () => {
+export const DailyBlocks = ({ date }: { date?: DateTime }) => {
   const [currentTimePosition, setCurrentTimePosition] = useState(
     calcTimePosition()
   );
   const [viewMode, setViewMode] = useState<'full' | 'compact'>('compact');
-  const { blocks } = useDailyBlocks();
+  const { blocks } = useDailyBlocks(date);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
