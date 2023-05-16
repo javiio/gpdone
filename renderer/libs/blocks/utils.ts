@@ -30,8 +30,11 @@ export const blockToData = (block: Block | BlockData): BlockData => {
 };
 
 export const getId = (date: DateTime = DateTime.now()) => {
-  if (date.hour < START_TIME) {
-    return date.minus(24 * 60 * 60 * 1000).toFormat('yyyyMMdd');
+  if (
+    date.startOf('day') === DateTime.now().startOf('day') &&
+    DateTime.now().hour < START_TIME
+  ) {
+    return date.minus({ days: 1 }).toFormat('yyyyMMdd');
   }
   return date.toFormat('yyyyMMdd');
 };
