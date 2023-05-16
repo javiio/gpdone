@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error } from '~platform';
 import { ProjectSelector } from '~projects';
-import { useCurrentBlock } from '../';
+import { TimerProgressLine, useCurrentBlock } from '../';
+import Timer from './Timer';
 
 export const CurrentBlock = () => {
   const {
@@ -100,6 +103,20 @@ export const CurrentBlock = () => {
               onChange={setProject}
               enableShortcuts={enableShortcuts}
             />
+          </div>
+
+          <div className="absolute right-14 bottom-1.5">
+            <Timer />
+          </div>
+
+          <div className="absolute right-4 bottom-2.5">
+            <button onClick={push}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </button>
+          </div>
+
+          <div className="absolute left-0 right-0 bottom-0.5">
+            <TimerProgressLine color={project?.color} />
           </div>
         </>
       )}
