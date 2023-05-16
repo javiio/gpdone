@@ -10,12 +10,12 @@ const Home = () => {
       <Head>
         <title>GPD</title>
       </Head>
-      <div className="max-w-md relative">
-        <div className="sticky top-0 p-4 bg-slate-800 z-10">
-          <CurrentDateSelector />
+      <div className="max-w-lg relative">
+        <div className="sticky top-0 pl-4 pt-4 pb-2 bg-slate-900 z-10">
           <CurrentBlock />
+          <CurrentDateSelector />
         </div>
-        <div className="mt-4">
+        <div>
           <DailyBlocks date={currentDate} />
         </div>
       </div>

@@ -3,5 +3,5 @@ import { DateTime } from 'luxon';
 
 export const currentDateState = atom<DateTime>({
   key: 'currentDateState',
-  default: DateTime.now(),
+  default: DateTime.now().startOf('day'),
 });

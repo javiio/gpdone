@@ -87,7 +87,7 @@ export const CurrentBlock = () => {
             onChange={(e) => { setTitle(e.target.value); }}
             onBlur={blur}
             className={cn(
-              'text-3xl bg-slate-900 w-full border-l-8 p-4 pb-10 overflow-auto overscroll-none resize-none focus:outline',
+              'text-3xl bg-slate-950 w-full border-l-8 p-4 pb-10 overflow-auto overscroll-none resize-none focus:outline',
               project?.color && `border-${project.color} focus:outline-${project.color}`
             )}
             rows={1}
