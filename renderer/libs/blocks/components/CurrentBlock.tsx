@@ -52,7 +52,7 @@ export const CurrentBlock = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [title, project]);
 
   const enableShortcuts = () => {
     return !textareaRef.current?.matches(':focus');
