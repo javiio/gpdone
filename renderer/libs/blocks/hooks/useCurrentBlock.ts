@@ -1,10 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { useDoc, setDoc, updateDoc, addItemToArrayDoc } from '~platform';
-import { useProjects, type Project } from '~projects';
-import { dataToBlock, blockToData, getId, type BlockData, type Block } from '../';
+import { useProjects } from '~projects';
+import {
+  dataToBlock,
+  blockToData,
+  getId,
+  currentBlockState,
+  type BlockData,
+} from '../';
 
 export const useCurrentBlock = () => {
-  const [currentBlock, setCurrentBlock] = useState<Block>();
+  const [currentBlock, setCurrentBlock] = useRecoilState(currentBlockState);
   const [data, loading, error] = useDoc('data/currentBlock');
   const { projects } = useProjects();
 
@@ -15,22 +22,13 @@ export const useCurrentBlock = () => {
     }
   }, [data, projects]);
 
-  const updateCurrentBlock = async (title: string, projectId = '') => {
-    setCurrentBlock((prev) => {
-      if (prev) {
-        return { ...prev, title, projectId };
-      }
-      return dataToBlock({ title, projectId }, projects);
-    });
+  const saveCurrentBlock = async () => {
+    const { title, projectId } = currentBlock;
     await updateDoc({ title, projectId }, 'data/currentBlock');
   };
 
-  const pushCurrentBlock = async (title: string, project: Project | undefined) => {
-    const blockData = blockToData({
-      ...currentBlock,
-      title,
-      projectId: project?.id ?? '',
-    });
+  const pushCurrentBlock = async () => {
+    const blockData = blockToData(currentBlock);
     try {
       await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());
     } catch {
@@ -40,9 +38,10 @@ export const useCurrentBlock = () => {
 
   return {
     currentBlock,
+    setCurrentBlock,
     loading,
     error,
     pushCurrentBlock,
-    updateCurrentBlock,
+    saveCurrentBlock,
   };
 };

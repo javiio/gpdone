@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { remainingTimeState, BLOCK_TIME } from '../';
 
 const Timer: React.FC = () => {
@@ -61,15 +61,15 @@ const Timer: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      {!timerRunning && remainingTime !== BLOCK_TIME && (
-        <button onClick={resetTimer}>
-          <FontAwesomeIcon icon={faTimes} className="mr-2" />
-        </button>
-      )}
+    <div className="opacity-70">
       <button onClick={startStopTimer} className="text-2xl">
         {formatTime(remainingTime)}
       </button>
+      {!timerRunning && remainingTime !== BLOCK_TIME && (
+        <button onClick={resetTimer}>
+          <FontAwesomeIcon icon={faRefresh} className="ml-1" />
+        </button>
+      )}
     </div>
   );
 };

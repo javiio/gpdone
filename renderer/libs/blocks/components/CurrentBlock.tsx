@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error } from '~platform';
 import { ProjectSelector } from '~projects';
 import { TimerProgressLine, useCurrentBlock } from '../';
@@ -10,65 +10,49 @@ import Timer from './Timer';
 export const CurrentBlock = () => {
   const {
     currentBlock,
+    setCurrentBlock,
     loading,
     error,
     pushCurrentBlock,
-    updateCurrentBlock,
-  } =
-    useCurrentBlock();
-  const [title, setTitle] = useState(currentBlock?.title ?? '');
-  const [project, setProject] = useState(currentBlock?.project);
-  const [isPushLoading, setIsPushLoading] = useState(false);
+    saveCurrentBlock,
+  } = useCurrentBlock();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (currentBlock) {
-      setTitle(currentBlock.title);
-      setProject(currentBlock.project);
-    }
+    calcInputHeight();
   }, [currentBlock]);
 
-  useEffect(() => {
-    calcInputHeight();
-  }, [title]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (enableShortcuts()) {
-        if (event.key === 'e') {
-          event.preventDefault();
-          textareaRef.current?.focus();
-          textareaRef.current?.select();
-        } else if (event.key === 'a') {
-          event.preventDefault();
-          push()
-            .catch((e) => { console.log(e); });
-        }
-      } else if (event.key === 'Escape') {
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (enableShortcuts()) {
+      if (event.key === 'e') {
         event.preventDefault();
-        textareaRef.current?.blur();
+        textareaRef.current?.focus();
+        textareaRef.current?.select();
+      } else if (event.key === 'a') {
+        event.preventDefault();
+        pushCurrentBlock()
+          .catch((e) => { console.log(e); });
       }
-    };
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      textareaRef.current?.blur();
+    }
+  };
 
+  useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [title, project]);
+  }, [currentBlock]);
 
   const enableShortcuts = () => {
     return !textareaRef.current?.matches(':focus');
   };
 
   const blur = async () => {
-    await updateCurrentBlock(title, project?.id);
-  };
-
-  const push = async () => {
-    setIsPushLoading(true);
-    await pushCurrentBlock(title, project);
-    setIsPushLoading(false);
+    await saveCurrentBlock();
   };
 
   const calcInputHeight = () => {
@@ -78,6 +62,15 @@ export const CurrentBlock = () => {
     }
   };
 
+  const handleOnChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentBlock((prev) => ({
+      ...prev,
+      title: e.target.value,
+    }));
+  };
+
+  const color = currentBlock?.project?.color ?? 'gray-400';
+
   return (
     <div className="relative">
       {error && <Error />}
@@ -86,22 +79,18 @@ export const CurrentBlock = () => {
         <>
           <textarea
             ref={textareaRef}
-            value={title}
-            onChange={(e) => { setTitle(e.target.value); }}
+            value={currentBlock.title}
+            onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
               'text-3xl bg-slate-950 w-full border-l-8 p-4 pb-10 overflow-auto overscroll-none resize-none focus:outline',
-              project?.color && `border-${project.color} focus:outline-${project.color}`
+              `border-${color} focus:outline-${color}`
             )}
             rows={1}
           />
-          {isPushLoading && <Loading />}
 
           <div className="absolute left-6 bottom-3">
-            <ProjectSelector
-              selected={project}
-              onChange={setProject}
-              enableShortcuts={enableShortcuts}
+            <ProjectSelector enableShortcuts={enableShortcuts}
             />
           </div>
 
@@ -110,13 +99,13 @@ export const CurrentBlock = () => {
           </div>
 
           <div className="absolute right-4 bottom-2.5">
-            <button onClick={push}>
-              <FontAwesomeIcon icon={faPaperPlane} />
+            <button onClick={pushCurrentBlock}>
+              <FontAwesomeIcon icon={faPlus} size="lg" />
             </button>
           </div>
 
           <div className="absolute left-0 right-0 bottom-0.5">
-            <TimerProgressLine color={project?.color} />
+            <TimerProgressLine />
           </div>
         </>
       )}

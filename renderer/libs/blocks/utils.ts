@@ -11,8 +11,12 @@ export const dataToBlock = (
   projects: Project[] | undefined
 ): Block => {
   const project = projects?.find((p) => p.id === data.projectId);
+  return updateBlockProject(data, project);
+};
+
+export const updateBlockProject = (block: Block | BlockData, project: Project | undefined): Block => {
   return {
-    ...data,
+    ...block,
     project,
     borderColor: project ? `border-${project.color}` : 'border-gray-500',
     bgColor: project ? `bg-${project.color}` : 'bg-gray-500',
