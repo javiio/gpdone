@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { DateTime } from 'luxon';
-import { BLOCK_TIME } from './utils';
+import { BLOCK_TIME } from './';
 
 export const currentDateState = atom<DateTime>({
   key: 'currentDateState',
