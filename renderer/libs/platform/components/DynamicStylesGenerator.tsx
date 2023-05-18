@@ -6,6 +6,7 @@ export const DynamicStylesGenerator = () => {
     <div
       className={cn(
         'hidden',
+        'border-gray-400 bg-gray-400 bg-gray-400/10 bg-gray-400/50 hover:bg-gray-400/25 focus:outline-gray-400',
         'border-yellow-500 bg-yellow-500 bg-yellow-500/10 bg-yellow-500/50 hover:bg-yellow-500/25 focus:outline-yellow-500',
         'border-green-500 bg-green-500 bg-green-500/10 bg-green-500/50 hover:bg-green-500/25 focus:outline-green-500',
         'border-sky-500 bg-sky-500 bg-sky-500/10 bg-sky-500/50 hover:bg-sky-500/25 focus:outline-sky-500',

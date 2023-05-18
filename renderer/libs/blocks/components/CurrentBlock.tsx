@@ -15,6 +15,7 @@ export const CurrentBlock = () => {
     error,
     pushCurrentBlock,
     saveCurrentBlock,
+    color,
   } = useCurrentBlock();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -68,8 +69,6 @@ export const CurrentBlock = () => {
       title: e.target.value,
     }));
   };
-
-  const color = currentBlock?.project?.color ?? 'gray-400';
 
   return (
     <div className="relative">

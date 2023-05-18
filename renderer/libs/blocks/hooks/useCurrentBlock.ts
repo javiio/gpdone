@@ -40,6 +40,8 @@ export const useCurrentBlock = () => {
     }
   };
 
+  const color = currentBlock?.project?.color ?? 'gray-400';
+
   return {
     currentBlock,
     setCurrentBlock,
@@ -47,5 +49,6 @@ export const useCurrentBlock = () => {
     error,
     pushCurrentBlock,
     saveCurrentBlock,
+    color,
   };
 };
