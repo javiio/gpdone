@@ -2,13 +2,7 @@ import { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { useDoc, setDoc, updateDoc, addItemToArrayDoc } from '~platform';
 import { useProjects } from '~projects';
-import {
-  dataToBlock,
-  blockToData,
-  getId,
-  type BlockData,
-  type Block,
-} from '../';
+import { dataToBlock, blockToData, getId, type BlockData, type Block } from '../';
 
 const currentBlockState = atom<Block>({
   key: 'currentBlockState',
