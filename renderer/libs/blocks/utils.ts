@@ -3,7 +3,6 @@ import { DateTime } from 'luxon';
 import type { Project } from '~projects';
 import type { Block, BlockData } from './types';
 
-export const BLOCK_TIME = 25 * 60;
 const START_TIME = 7;
 
 export const dataToBlock = (

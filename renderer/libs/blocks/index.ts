@@ -5,6 +5,7 @@ export * from './components/Timer';
 export * from './components/TimerProgressLine';
 export * from './hooks/useCurrentBlock';
 export * from './hooks/useDailyBlocks';
+export * from './hooks/useTimer';
 export * from './types';
 export * from './utils';
 export * from './atoms';
