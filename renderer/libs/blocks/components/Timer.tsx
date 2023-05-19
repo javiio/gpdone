@@ -28,14 +28,14 @@ const Timer: React.FC = () => {
 
   return (
     <div className="opacity-70">
+      {isPaused && remainingTime !== blockTime && (
+        <button onClick={resetTimer}>
+          <FontAwesomeIcon icon={faRefresh} className="mr-1.5" />
+        </button>
+      )}
       <button onClick={toggleTimer} className="text-2xl">
         {formatTime()}
       </button>
-      {isPaused && remainingTime !== blockTime && (
-        <button onClick={resetTimer}>
-          <FontAwesomeIcon icon={faRefresh} className="ml-1" />
-        </button>
-      )}
     </div>
   );
 };

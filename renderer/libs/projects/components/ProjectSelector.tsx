@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
-import { updateBlockProject, useCurrentBlock } from '~blocks';
+import { useCurrentBlock } from '~blocks';
 import { useProjects } from '../';
 
 export const ProjectSelector = ({ enableShortcuts }: { enableShortcuts: () => boolean }) => {
-  const { currentBlock, setCurrentBlock, saveCurrentBlock } = useCurrentBlock();
+  const { currentBlock, updateProject } = useCurrentBlock();
   const { projects } = useProjects();
   const [showAll, setShowAll] = useState(false);
 
@@ -18,9 +18,7 @@ export const ProjectSelector = ({ enableShortcuts }: { enableShortcuts: () => bo
           const key = `${(i + 1)}`;
           if (event.key === key) {
             event.preventDefault();
-            setCurrentBlock((prev) => updateBlockProject(prev, project));
-            saveCurrentBlock()
-              .catch((e) => { console.log(e); });
+            updateProject(project);
             setShowAll(false);
           }
         });
@@ -44,7 +42,7 @@ export const ProjectSelector = ({ enableShortcuts }: { enableShortcuts: () => bo
     <ul className="text-xs flex space-x-2">
       {projects
         ?.sort((a, b) => (a?.order ?? 0) - (b?.order ?? 0))
-        ?.filter((project) => showAll || project.id === currentBlock.project?.id)
+        ?.filter((project) => showAll || project.id === currentBlock?.project?.id)
         .map((project) => (
           <li
             key={project.id}
@@ -53,14 +51,14 @@ export const ProjectSelector = ({ enableShortcuts }: { enableShortcuts: () => bo
               `border-${project.color} bg-${project.color}/10`
             )}
           >
-            {project.id === currentBlock.project?.id
+            {project.id === currentBlock?.project?.id
               ? (<div className={`px-1.5 py-0.5 bg-${project.color}/50`}>
                   {project.name}
                 </div>
                 )
               : (<button
                   type="button"
-                  onClick={() => { setCurrentBlock((prev) => updateBlockProject(prev, project)); }}
+                  onClick={() => { updateProject(project); }}
                   className={`px-1.5 py-0.5 hover:bg-${project.color}/25`}
                 >
                   {project.name}

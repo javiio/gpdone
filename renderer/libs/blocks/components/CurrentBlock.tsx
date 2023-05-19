@@ -10,7 +10,7 @@ import Timer from './Timer';
 export const CurrentBlock = () => {
   const {
     currentBlock,
-    setCurrentBlock,
+    updateTitle,
     loading,
     error,
     pushCurrentBlock,
@@ -64,10 +64,7 @@ export const CurrentBlock = () => {
   };
 
   const handleOnChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCurrentBlock((prev) => ({
-      ...prev,
-      title: e.target.value,
-    }));
+    updateTitle(e.target.value);
   };
 
   return (
