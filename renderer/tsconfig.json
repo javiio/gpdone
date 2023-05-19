@@ -20,6 +20,9 @@
       ],
       "~projects": [
         "./libs/projects"
+      ],
+      "~timer": [
+        "./libs/timer"
       ]
     },
     "strictNullChecks": true,

@@ -1,11 +1,10 @@
 import React from 'react';
-import { useTimer, useCurrentBlock } from '../';
+import { useCurrentBlock } from '~blocks';
+import { useTimer } from '../';
 
 export const TimerProgressLine = () => {
   const { progress } = useTimer();
   const { color } = useCurrentBlock();
-
-  console.log(progress);
 
   return (
     <div className="h-1">

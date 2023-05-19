@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
-import { useTimer, useCurrentBlock } from '../';
 import { ConfirmationModal } from '~platform';
+import { useCurrentBlock } from '~blocks';
+import { useTimer } from '../';
 
-const Timer: React.FC = () => {
+export const Timer: React.FC = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const {
     blockTime,
@@ -52,5 +53,3 @@ const Timer: React.FC = () => {
     </div>
   );
 };
-
-export default Timer;

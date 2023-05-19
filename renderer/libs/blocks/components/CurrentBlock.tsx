@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error } from '~platform';
 import { ProjectSelector } from '~projects';
-import { TimerProgressLine, useCurrentBlock } from '../';
-import Timer from './Timer';
+import { Timer, TimerProgressLine } from '~timer';
+import { useCurrentBlock } from '../';
 
 export const CurrentBlock = () => {
   const {

@@ -2,7 +2,8 @@ import React from 'react';
 import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { DynamicStylesGenerator } from '~platform';
-import { ProvideTimer, ProvideCurrentBlock } from '~blocks';
+import { ProvideCurrentBlock } from '~blocks';
+import { ProvideTimer } from '~timer';
 
 import '../styles/globals.css';
 
