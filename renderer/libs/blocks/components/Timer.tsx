@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { useTimer, useCurrentBlock } from '../';
+import { ConfirmationModal } from '~platform';
 
 const Timer: React.FC = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const {
     blockTime,
     remainingTime,
@@ -31,7 +33,7 @@ const Timer: React.FC = () => {
   return (
     <div>
       {isPaused && remainingTime !== blockTime && (
-        <button onClick={resetTimer}>
+        <button onClick={() => { setShowConfirmation(true); }}>
           <FontAwesomeIcon icon={faRefresh} className="mr-1.5 opacity-70" />
         </button>
       )}
@@ -41,6 +43,12 @@ const Timer: React.FC = () => {
       >
         {formatTime()}
       </button>
+
+      <ConfirmationModal
+        showModal={showConfirmation}
+        setShowModal={setShowConfirmation}
+        onConfirm={resetTimer}
+      />
     </div>
   );
 };
