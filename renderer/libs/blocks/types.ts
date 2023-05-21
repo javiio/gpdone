@@ -4,6 +4,8 @@ import type { Project } from '~projects';
 export interface BlockData {
   title: string
   projectId: string
+  startedAt?: Timestamp
+  finishedAt?: Timestamp
   createdAt?: Timestamp
 }
 

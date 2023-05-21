@@ -8,6 +8,7 @@ import { atom, useRecoilState } from 'recoil';
 import type { FirestoreError } from 'firebase/firestore';
 import { useDoc, setDoc, updateDoc, addItemToArrayDoc } from '~platform';
 import { useProjects, type Project } from '~projects';
+import { useTimer } from '~timer';
 import {
   dataToBlock,
   blockToData,
@@ -46,6 +47,7 @@ export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
   const [currentBlock, setCurrentBlock] = useRecoilState(currentBlockState);
   const [data, loading, error] = useDoc('data/currentBlock');
   const { projects } = useProjects();
+  const { startedAt, finishedAt } = useTimer();
 
   useEffect(() => {
     const blockData = data?.data();
@@ -73,7 +75,7 @@ export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
       return prev;
     });
     if (block) {
-      const blockData = blockToData(block);
+      const blockData = { ...blockToData(block), startedAt, finishedAt };
       try {
         await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());
       } catch {

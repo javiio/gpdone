@@ -5,6 +5,7 @@ import React, {
   createContext,
   type ReactNode,
 } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
 interface TimerContext {
   blockTime: number
@@ -14,6 +15,8 @@ interface TimerContext {
   resetTimer: () => void
   formatTime: () => string
   progress: number
+  startedAt?: Timestamp
+  finishedAt?: Timestamp
 };
 
 const BLOCK_TIME = 10;
@@ -32,6 +35,8 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
   const [remainingTime, setRemainingTime] = useState(BLOCK_TIME);
   const [isPaused, setIsPaused] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [startedAt, setStartedAt] = useState<Timestamp>();
+  const [finishedAt, setFinishedAt] = useState<Timestamp>();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -53,8 +58,12 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
   }, [isPaused]);
 
   useEffect(() => {
+    if (remainingTime === BLOCK_TIME - 1) {
+      setStartedAt(Timestamp.now());
+    }
     if (remainingTime === 0) {
       setIsPaused(true);
+      setFinishedAt(Timestamp.now());
     }
   }, [remainingTime]);
 
@@ -81,6 +90,8 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
     resetTimer,
     formatTime,
     progress,
+    startedAt,
+    finishedAt,
   };
 
   return (
