@@ -19,7 +19,7 @@ interface TimerContext {
   finishedAt?: Timestamp
 };
 
-const BLOCK_TIME = 10;
+const BLOCK_TIME = 25 * 60;
 
 const timerContext = createContext<TimerContext>({
   blockTime: BLOCK_TIME,
