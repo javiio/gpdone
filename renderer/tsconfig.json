@@ -23,7 +23,10 @@
       ],
       "~timer": [
         "./libs/timer"
-      ]
+      ],
+      "~assets": [
+        "./assets"
+      ],
     },
     "strictNullChecks": true,
     "jsx": "preserve"
