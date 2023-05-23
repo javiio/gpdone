@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Loading, Error } from '~platform';
+import { Loading, Error, ConfirmationModal } from '~platform';
 import { ProjectSelector } from '~projects';
-import { Timer, TimerProgressLine } from '~timer';
+import { Timer, TimerProgressLine, useTimer } from '~timer';
 import { useCurrentBlock } from '../';
 
 export const CurrentBlock = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const {
     currentBlock,
     updateTitle,
@@ -17,6 +18,7 @@ export const CurrentBlock = () => {
     saveCurrentBlock,
     color,
   } = useCurrentBlock();
+  const { remainingTime } = useTimer();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export const CurrentBlock = () => {
         textareaRef.current?.select();
       } else if (event.key === 'a') {
         event.preventDefault();
-        pushCurrentBlock()
+        push()
           .catch((e) => { console.log(e); });
       }
     } else if (event.key === 'Escape') {
@@ -46,7 +48,7 @@ export const CurrentBlock = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentBlock]);
+  }, [currentBlock, remainingTime]);
 
   const enableShortcuts = () => {
     return !textareaRef.current?.matches(':focus');
@@ -54,6 +56,14 @@ export const CurrentBlock = () => {
 
   const blur = async () => {
     await saveCurrentBlock();
+  };
+
+  const push = async () => {
+    if (remainingTime === 0) {
+      await pushCurrentBlock();
+    } else {
+      setShowConfirmation(true);
+    }
   };
 
   const calcInputHeight = () => {
@@ -95,7 +105,10 @@ export const CurrentBlock = () => {
           </div>
 
           <div className="absolute right-4 bottom-2.5">
-            <button onClick={pushCurrentBlock}>
+            <button
+              onClick={push}
+              className={remainingTime === 0 ? `text-${color}` : 'opacity-50'}
+            >
               <FontAwesomeIcon icon={faPlus} size="lg" />
             </button>
           </div>
@@ -105,6 +118,12 @@ export const CurrentBlock = () => {
           </div>
         </>
       )}
+
+      <ConfirmationModal
+        showModal={showConfirmation}
+        setShowModal={setShowConfirmation}
+        onConfirm={pushCurrentBlock}
+      />
     </div>
   );
 };
