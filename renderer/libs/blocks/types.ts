@@ -5,7 +5,8 @@ import { type TimerLog } from '~timer';
 export interface BlockData {
   title: string
   projectId: string
-  timer: TimerLog[]
+  timerLogs: TimerLog[]
+  blockTime: number
   createdAt?: Timestamp
 }
 

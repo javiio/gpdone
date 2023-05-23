@@ -3,7 +3,6 @@ import cn from 'classnames';
 import type { DateTime } from 'luxon';
 import { useDailyBlocks, type Block } from '../';
 
-const BLOCK_TIME = 25;
 const START_TIME = 7;
 const END_TIME = 24;
 const HEIGHT_PER_MINUTE = 1.2;
@@ -11,22 +10,30 @@ const times = Array.from(Array(END_TIME - START_TIME).keys()).map(
   (i) => `${i + START_TIME}:00`
 );
 
-const calcTimePosition = (time = new Date(), decreaseBlockSize = false) => {
+const calcTimePosition = (time = new Date(), blockTime = 0) => {
   const hours = time.getHours();
   const minutes = time.getMinutes();
   let minutesFromStartTime = (hours - START_TIME) * 60 + minutes;
   if (hours < START_TIME) {
     minutesFromStartTime += 24 * 60;
   }
-  if (decreaseBlockSize) {
-    minutesFromStartTime -= BLOCK_TIME;
-  }
+
+  minutesFromStartTime -= blockTime / 60;
   return minutesFromStartTime * HEIGHT_PER_MINUTE;
 };
 
 const calcBlockPosition = (block: Block) => {
-  const time = block.createdAt?.toDate();
-  return calcTimePosition(time ?? new Date(), true);
+  let time: Date;
+  if (
+    block.timerLogs?.length &&
+    block.timerLogs[block.timerLogs.length - 1].action === 'finish'
+  ) {
+    time = block.timerLogs[block.timerLogs.length - 1].time.toDate();
+  } else {
+    time = block.createdAt?.toDate() ?? new Date();
+  }
+
+  return calcTimePosition(time ?? new Date(), block.blockTime ?? 25 * 60);
 };
 
 export const DailyBlocks = ({ date }: { date?: DateTime }) => {
@@ -39,7 +46,7 @@ export const DailyBlocks = ({ date }: { date?: DateTime }) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTimePosition(calcTimePosition());
-    }, 5 * 60 * 1000); // Update current time every 5 mins
+    }, 60 * 1000); // Update current time every min
 
     return () => {
       clearInterval(intervalId);
@@ -69,6 +76,7 @@ export const DailyBlocks = ({ date }: { date?: DateTime }) => {
     return blocks?.map((block, i) => {
       const count = (blocksPerProject[block.projectId] ?? 0) + 1;
       blocksPerProject[block.projectId] = count;
+      const blockTime = block.blockTime ?? 25 * 60;
       return (
         <div
           key={i}
@@ -78,7 +86,7 @@ export const DailyBlocks = ({ date }: { date?: DateTime }) => {
             `${viewMode === 'full' ? 'absolute' : 'mb-1'}`
           )}
           style={{
-            height: BLOCK_TIME * HEIGHT_PER_MINUTE,
+            height: (blockTime / 60) * HEIGHT_PER_MINUTE,
             top: calcBlockPosition(block),
           }}
         >
