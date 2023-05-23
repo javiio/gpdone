@@ -47,7 +47,7 @@ export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
   const [currentBlock, setCurrentBlock] = useRecoilState(currentBlockState);
   const [data, loading, error] = useDoc('data/currentBlock');
   const { projects } = useProjects();
-  const { startedAt, finishedAt } = useTimer();
+  const { timerLogs } = useTimer();
 
   useEffect(() => {
     const blockData = data?.data();
@@ -75,7 +75,7 @@ export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
       return prev;
     });
     if (block) {
-      const blockData = { ...blockToData(block), startedAt, finishedAt };
+      const blockData = { ...blockToData(block), timerLogs };
       try {
         await addItemToArrayDoc(blockData, 'blocks', 'blocks', getId());
       } catch {

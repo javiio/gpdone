@@ -10,11 +10,11 @@ import '../styles/globals.css';
 const GPDApp = ({ Component, pageProps }: AppProps) => {
   return (
     <RecoilRoot>
-      <ProvideCurrentBlock>
-        <ProvideTimer>
+      <ProvideTimer>
+        <ProvideCurrentBlock>
           <Component {...pageProps} />
-        </ProvideTimer>
-      </ProvideCurrentBlock>
+        </ProvideCurrentBlock>
+      </ProvideTimer>
 
       <DynamicStylesGenerator />
     </RecoilRoot>

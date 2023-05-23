@@ -6,6 +6,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import { Timestamp } from 'firebase/firestore';
+import type { TimerLog, TimerLogAction } from '../';
 
 interface TimerContext {
   blockTime: number
@@ -15,8 +16,7 @@ interface TimerContext {
   resetTimer: () => void
   formatTime: () => string
   progress: number
-  startedAt?: Timestamp
-  finishedAt?: Timestamp
+  timerLogs: TimerLog[]
 };
 
 const BLOCK_TIME = 25 * 60;
@@ -29,14 +29,14 @@ const timerContext = createContext<TimerContext>({
   resetTimer: () => {},
   formatTime: () => '',
   progress: 0,
+  timerLogs: [],
 });
 
 export const ProvideTimer = ({ children }: { children: ReactNode }) => {
   const [remainingTime, setRemainingTime] = useState(BLOCK_TIME);
   const [isPaused, setIsPaused] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [startedAt, setStartedAt] = useState<Timestamp>();
-  const [finishedAt, setFinishedAt] = useState<Timestamp>();
+  const [timerLogs, setTimerLogs] = useState<TimerLog[]>([]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -54,16 +54,14 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
       }, 1000);
     }
 
+    addTimerLog();
+
     return () => { clearInterval(interval); };
   }, [isPaused]);
 
   useEffect(() => {
-    if (remainingTime === BLOCK_TIME - 1) {
-      setStartedAt(Timestamp.now());
-    }
     if (remainingTime === 0) {
       setIsPaused(true);
-      setFinishedAt(Timestamp.now());
     }
   }, [remainingTime]);
 
@@ -74,12 +72,28 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
   const resetTimer = () => {
     setRemainingTime(BLOCK_TIME);
     setIsPaused(true);
+    setTimerLogs([]);
   };
 
   const formatTime = () => {
     const minutes = Math.floor(remainingTime / 60).toString().padStart(2, '0');
     const seconds = (remainingTime % 60).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
+  };
+
+  const addTimerLog = () => {
+    let action: TimerLogAction;
+    if (isPaused && remainingTime === BLOCK_TIME) {
+      return;
+    }
+    if (remainingTime === BLOCK_TIME) {
+      action = 'start';
+    } else if (remainingTime === 0) {
+      action = 'finish';
+    } else {
+      action = isPaused ? 'pause' : 'resume';
+    }
+    setTimerLogs((prev) => ([...prev, { action, time: Timestamp.now() }]));
   };
 
   const value: TimerContext = {
@@ -90,8 +104,7 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
     resetTimer,
     formatTime,
     progress,
-    startedAt,
-    finishedAt,
+    timerLogs,
   };
 
   return (
