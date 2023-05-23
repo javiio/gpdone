@@ -60,7 +60,7 @@ export const Timer: React.FC = () => {
       )}
       <button
         onClick={toggleTimer}
-        className={cn('text-4xl', isPaused ? 'opacity-70' : `text-${color}`)}
+        className={cn('text-4xl font-[Arial]', isPaused ? 'opacity-70' : `text-${color}`)}
       >
         {formatTime()}
       </button>
