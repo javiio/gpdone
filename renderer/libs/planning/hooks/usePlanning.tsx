@@ -19,16 +19,13 @@ export const usePlanning = (date?: DateTime) => {
     }
   }, [data, date, getProject]);
 
-  const addToPlanning = (projectId: string) => {
-    const project = getProject(projectId);
-    if (project) {
-      setPlanning((prev) => {
-        const p = [...prev, project];
-        setDoc({ planning: p.map((project) => project.id) }, 'blocks', getId(date))
-          .catch((e) => { console.log(e); });
-        return p;
-      });
-    }
+  const addToPlanning = (project: Project) => {
+    setPlanning((prev) => {
+      const p = [...prev, project];
+      setDoc({ planning: p.map((project) => project.id) }, 'blocks', getId(date))
+        .catch((e) => { console.log(e); });
+      return p;
+    });
   };
 
   return {
