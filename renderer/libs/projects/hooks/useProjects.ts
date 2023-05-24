@@ -15,7 +15,7 @@ export const useProjects = () => {
   }, [data]);
 
   const getProject = useCallback(
-    (projectId?: string) => projects?.find((p) => p.name === projectId),
+    (projectId?: string) => projects?.find((p) => p.id === projectId),
     [projects]
   );
 

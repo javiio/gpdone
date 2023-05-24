@@ -1,38 +1,24 @@
-import React, { useEffect } from 'react';
-import { useProjects } from '~projects';
+import React from 'react';
+import cn from 'classnames';
+import type { DateTime } from 'luxon';
 import { usePlanning } from '../';
 
-export const PlanningList = () => {
-  const { planning, addToPlanning } = usePlanning();
-  const { projects } = useProjects();
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    projects?.forEach((project, i) => {
-      const key = `${(i + 1)}`;
-      if (event.key === key) {
-        event.preventDefault();
-        addToPlanning(project.id);
-      }
-    });
-  };
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [projects]);
+export const PlanningList = ({ date }: { date?: DateTime }) => {
+  const { planning } = usePlanning(date);
 
   return (
     <ul>
-      {planning.map((project, i) => {
-        return (
-          <li key={i}>
-            {project?.name}
-          </li>
-        );
-      })}
+      {planning.map((project, i) => (
+        <li
+          key={i}
+          className={cn(
+            'border rounded-md overflow-hidden w-32 my-2 py-3 text-center opacity-80',
+            `border-${project?.color}/75 bg-${project?.color}/10`
+          )}
+        >
+          {project?.name}
+        </li>
+      ))}
     </ul>
   );
 };
