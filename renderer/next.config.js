@@ -19,10 +19,11 @@ module.exports = {
   },
   resolve: {
     alias: {
+      '~assets': path.resolve(__dirname, './assets'),
       '~blocks': path.resolve(__dirname, './libs/blocks'),
       '~platform': path.resolve(__dirname, './libs/platform'),
       '~projects': path.resolve(__dirname, './libs/projects'),
-      '~assets': path.resolve(__dirname, './assets'),
+      '~planning': path.resolve(__dirname, './libs/planning'),
     }
   }
 };

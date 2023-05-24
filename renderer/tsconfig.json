@@ -12,6 +12,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "~assets": [
+        "./assets"
+      ],
       "~blocks": [
         "./libs/blocks"
       ],
@@ -24,9 +27,9 @@
       "~timer": [
         "./libs/timer"
       ],
-      "~assets": [
-        "./assets"
-      ],
+      "~planning": [
+        "./libs/planning"
+      ]
     },
     "strictNullChecks": true,
     "jsx": "preserve"
