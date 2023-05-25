@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import { DynamicStylesGenerator } from '~platform';
 import { ProvideCurrentBlock } from '~blocks';
 import { ProvideTimer } from '~timer';
+import { Navbar } from 'layout/Navbar';
 
 import '../styles/globals.css';
 
@@ -12,7 +13,10 @@ const GPDApp = ({ Component, pageProps }: AppProps) => {
     <RecoilRoot>
       <ProvideTimer>
         <ProvideCurrentBlock>
-          <Component {...pageProps} />
+          <Navbar />
+          <div className="ml-16">
+            <Component {...pageProps} />
+          </div>
         </ProvideCurrentBlock>
       </ProvideTimer>
 
