@@ -29,6 +29,9 @@
       ],
       "~planning": [
         "./libs/planning"
+      ],
+      "~notes": [
+        "./libs/notes"
       ]
     },
     "strictNullChecks": true,

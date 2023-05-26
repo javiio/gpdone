@@ -24,6 +24,7 @@ module.exports = {
       '~platform': path.resolve(__dirname, './libs/platform'),
       '~projects': path.resolve(__dirname, './libs/projects'),
       '~planning': path.resolve(__dirname, './libs/planning'),
+      '~notes': path.resolve(__dirname, './libs/notes'),
     }
   }
 };
