@@ -21,7 +21,9 @@
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "firebase": "^9.21.0",
+    "lodash": "^4.17.21",
     "luxon": "^3.3.0",
+    "react-draft-wysiwyg": "^1.15.0",
     "react-firebase-hooks": "^5.1.1",
     "recoil": "^0.7.7"
   },
