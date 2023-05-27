@@ -10,6 +10,7 @@ import {
 import {
   useCollection as useFirebaseCollection,
   useDocument as useFirebaseDoc,
+  useDocumentOnce as useFirebaseDocOnce,
 } from 'react-firebase-hooks/firestore';
 import firebaseConfig from './firebase.config';
 
@@ -29,6 +30,12 @@ export const useDoc = (...path: string[]) => {
   return useFirebaseDoc(
     doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path),
     { snapshotListenOptions: { includeMetadataChanges: true } }
+  );
+};
+
+export const useDocOnce = (...path: string[]) => {
+  return useFirebaseDocOnce(
+    doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path)
   );
 };
 
