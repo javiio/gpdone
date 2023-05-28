@@ -3,13 +3,13 @@ import cn from 'classnames';
 import { useCurrentBlock } from '~blocks';
 import { useProjects } from '../';
 
-export const ProjectSelector = ({ enableShortcuts }: { enableShortcuts: () => boolean }) => {
+export const ProjectSelector = () => {
   const { currentBlock, updateProject } = useCurrentBlock();
   const { projects } = useProjects();
   const [showAll, setShowAll] = useState(false);
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (enableShortcuts?.()) {
+    if (event.metaKey) {
       if (event.key === 'p') {
         event.preventDefault();
         setShowAll(true);

@@ -26,7 +26,7 @@ export const CurrentBlock = () => {
   }, [currentBlock]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (enableShortcuts()) {
+    if (event.metaKey) {
       if (event.key === 'e') {
         event.preventDefault();
         textareaRef.current?.focus();
@@ -49,10 +49,6 @@ export const CurrentBlock = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [currentBlock, remainingTime]);
-
-  const enableShortcuts = () => {
-    return !textareaRef.current?.matches(':focus');
-  };
 
   const blur = async () => {
     await saveCurrentBlock();
@@ -96,8 +92,7 @@ export const CurrentBlock = () => {
           />
 
           <div className="absolute left-6 bottom-3">
-            <ProjectSelector enableShortcuts={enableShortcuts}
-            />
+            <ProjectSelector />
           </div>
 
           <div className="absolute right-14 bottom-1.5">
