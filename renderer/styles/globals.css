@@ -17,3 +17,7 @@
 input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(1); /* Invert the color */
 }
+
+.public-DraftEditor-content {
+  @apply h-screen grow overflow-auto;
+}
