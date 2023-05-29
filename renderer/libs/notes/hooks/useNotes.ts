@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { debounce } from 'lodash';
-import { useDocOnce, updateDoc } from '~platform';
+import { useDocOnce, setDoc } from '~platform';
 import type { Note } from '../';
 
 export const useNote = (noteId: string) => {
@@ -27,7 +27,7 @@ export const useNote = (noteId: string) => {
       body: convertToRaw(content),
       updatedAt: new Date(),
     };
-    await updateDoc(data, 'notes', noteId);
+    await setDoc(data, 'notes', noteId);
   }, 5000);
 
   const handleChange = (state: EditorState) => {
