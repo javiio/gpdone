@@ -10,7 +10,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({ noteId }) => {
   const { editorState, handleChange } = useNote(noteId);
 
   return (
-    <div>
+    <div className="p-4">
       {editorState &&
         <Editor
           editorState={editorState}

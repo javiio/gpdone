@@ -9,6 +9,7 @@ import { useCurrentBlock } from '../';
 
 export const CurrentBlock = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [fontSize, setFontSize] = useState('text-3xl');
   const {
     currentBlock,
     updateTitle,
@@ -18,27 +19,34 @@ export const CurrentBlock = () => {
     saveCurrentBlock,
     color,
   } = useCurrentBlock();
-  const { remainingTime } = useTimer();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { remainingTime, startTimer } = useTimer();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    calcInputHeight();
+    setFontSize(calcFontSize());
   }, [currentBlock]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.metaKey) {
       if (event.key === 'e') {
         event.preventDefault();
-        textareaRef.current?.focus();
-        textareaRef.current?.select();
+        inputRef.current?.focus();
+        inputRef.current?.select();
       } else if (event.key === 'a') {
         event.preventDefault();
         push()
           .catch((e) => { console.log(e); });
       }
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      textareaRef.current?.blur();
+    }
+    if (document.activeElement === inputRef.current) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        inputRef.current?.blur();
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        inputRef.current?.blur();
+        startTimer();
+      }
     }
   };
 
@@ -62,44 +70,59 @@ export const CurrentBlock = () => {
     }
   };
 
-  const calcInputHeight = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+  const calcFontSize = () => {
+    const count = currentBlock?.title.length ?? 0;
+    if (count < 35) {
+      return 'text-5xl';
     }
+    if (count < 45) {
+      return 'text-4xl';
+    }
+    if (count < 55) {
+      return 'text-3xl';
+    }
+    if (count < 65) {
+      return 'text-2xl';
+    }
+    if (count < 85) {
+      return 'text-xl';
+    }
+    if (count <= 100) {
+      return 'text-lg';
+    }
+    return 'text-md';
   };
 
-  const handleOnChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleOnChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateTitle(e.target.value);
   };
 
   return (
-    <div className="relative">
+    <div className="fixed top-0 right-0 left-16 h-20 z-30">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
         <>
-          <textarea
-            ref={textareaRef}
+          <input
+            ref={inputRef}
             value={currentBlock.title}
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
-              'text-3xl bg-slate-950 w-full border-l-8 p-4 pb-10 overflow-auto overscroll-none resize-none focus:outline',
-              `border-${color} focus:outline-${color}`
+              'bg-slate-950 w-full border-l-2 p-4 pr-40 focus:outline h-20',
+              `${fontSize} border-${color} focus:outline-${color}`
             )}
-            rows={1}
           />
 
-          <div className="absolute left-6 bottom-3">
+          <div className="absolute right-14 top-[55px]">
             <ProjectSelector />
           </div>
 
-          <div className="absolute right-14 bottom-1.5">
+          <div className="absolute right-4 top-3">
             <Timer />
           </div>
 
-          <div className="absolute right-4 bottom-2.5">
+          <div className="absolute right-5 top-[54px]">
             <button
               onClick={push}
               className={remainingTime === 0 ? `text-${color}` : 'opacity-50'}
@@ -108,7 +131,7 @@ export const CurrentBlock = () => {
             </button>
           </div>
 
-          <div className="absolute left-0 right-0 bottom-0.5">
+          <div className="absolute left-0 right-0 top-0">
             <TimerProgressLine />
           </div>
         </>

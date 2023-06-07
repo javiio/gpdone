@@ -12,8 +12,8 @@ const Home = () => {
       <Head>
         <title>Planning</title>
       </Head>
-      <div className="flex p-4">
-        <div className="w-lg relative flex-1">
+      <div className="flex">
+        <div className="w-lg relative flex-1 p-4">
           <PlanningForm date={currentDate} />
           <PlanningList date={currentDate} />
         </div>

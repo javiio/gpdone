@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
-import { CurrentBlock, DailyBlocks, CurrentDateSelector, currentDateState } from '~blocks';
+import { DailyBlocks, CurrentDateSelector, currentDateState } from '~blocks';
 import { NoteEditor } from '~notes';
 
 const Home = () => {
@@ -14,7 +14,6 @@ const Home = () => {
       <div className="flex">
         <div className="w-lg relative flex-1">
           <div className="sticky top-0 pl-4 pt-4 pb-2 bg-slate-900 z-10">
-            <CurrentBlock />
             <CurrentDateSelector />
           </div>
           <div>
@@ -22,7 +21,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="bg-slate-700 flex-1 h-screen">
+        <div className="flex-1 bg-slate-700">
           <NoteEditor noteId="playground" />
         </div>
       </div>

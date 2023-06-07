@@ -51,11 +51,14 @@ export const Timer: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <audio ref={audioRef} />
       {isPaused && remainingTime !== blockTime && (
-        <button onClick={() => { setShowConfirmation(true); }}>
-          <FontAwesomeIcon icon={faRefresh} className="mr-1.5 opacity-70" />
+        <button
+          onClick={() => { setShowConfirmation(true); }}
+          className="absolute -top-1 -left-5"
+        >
+          <FontAwesomeIcon icon={faRefresh} className="opacity-70" />
         </button>
       )}
       <button

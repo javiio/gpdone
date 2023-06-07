@@ -19,5 +19,5 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .public-DraftEditor-content {
-  @apply h-screen grow overflow-auto;
+  min-height: calc(100vh - 112px);;
 }

@@ -7,10 +7,10 @@ export const TimerProgressLine = () => {
   const { color } = useCurrentBlock();
 
   return (
-    <div className="h-1">
+    <div className="h-2">
       <div
         className={`bg-${color} h-full`}
-        style={{ width: `${progress.toString()}%` }}
+        style={{ width: `${(100 - progress).toString()}%` }}
       />
     </div>
   );

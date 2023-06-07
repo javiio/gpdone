@@ -2,7 +2,7 @@ import React from 'react';
 import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { DynamicStylesGenerator } from '~platform';
-import { ProvideCurrentBlock } from '~blocks';
+import { ProvideCurrentBlock, CurrentBlock } from '~blocks';
 import { ProvideTimer } from '~timer';
 import { Navbar } from 'layout/Navbar';
 
@@ -14,7 +14,8 @@ const GPDApp = ({ Component, pageProps }: AppProps) => {
       <ProvideTimer>
         <ProvideCurrentBlock>
           <Navbar />
-          <div className="ml-16">
+          <CurrentBlock />
+          <div className="absolute top-20 left-16 right-0 bottom-0 overflow-auto">
             <Component {...pageProps} />
           </div>
         </ProvideCurrentBlock>
