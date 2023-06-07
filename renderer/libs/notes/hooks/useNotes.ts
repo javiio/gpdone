@@ -28,7 +28,7 @@ export const useNote = (noteId: string) => {
       updatedAt: new Date(),
     };
     await setDoc(data, 'notes', noteId);
-  }, 5000);
+  }, 500);
 
   const handleChange = (state: EditorState) => {
     const contentState = state.getCurrentContent();
