@@ -13,6 +13,7 @@ interface TimerContext {
   remainingTime: number
   isPaused: boolean
   toggleTimer: () => void
+  startTimer: () => void
   resetTimer: () => void
   formatTime: () => string
   progress: number
@@ -26,6 +27,7 @@ const timerContext = createContext<TimerContext>({
   remainingTime: BLOCK_TIME,
   isPaused: true,
   toggleTimer: () => {},
+  startTimer: () => {},
   resetTimer: () => {},
   formatTime: () => '',
   progress: 0,
@@ -69,6 +71,10 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
     setIsPaused((prev) => !prev);
   };
 
+  const startTimer = () => {
+    setIsPaused(false);
+  };
+
   const resetTimer = () => {
     setRemainingTime(BLOCK_TIME);
     setIsPaused(true);
@@ -100,6 +106,7 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
     blockTime: BLOCK_TIME,
     remainingTime,
     isPaused,
+    startTimer,
     toggleTimer,
     resetTimer,
     formatTime,

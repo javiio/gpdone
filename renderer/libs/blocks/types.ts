@@ -8,7 +8,7 @@ export interface BlockData {
   timerLogs: TimerLog[]
   blockTime: number
   createdAt?: Timestamp
-}
+};
 
 export interface Block extends BlockData {
   project?: Project
