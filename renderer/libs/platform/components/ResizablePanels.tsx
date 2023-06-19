@@ -2,16 +2,24 @@ import React, { useState, useRef, useEffect } from 'react';
 
 interface ResizablePanelsProps {
   vertical?: boolean
+  aSize?: string
+  bSize?: string
   children: React.ReactNode[]
 };
 
-export const ResizablePanels: React.FC<ResizablePanelsProps> = ({ vertical = false, children }) => {
+export const ResizablePanels: React.FC<ResizablePanelsProps> = ({
+  vertical = false,
+  children,
+  aSize = '50%',
+  bSize = '50%',
+}
+) => {
   if (React.Children.count(children) !== 2) {
     throw new Error('ResizablePanels component requires exactly two children elements.');
   }
 
-  const [panelASize, setPanelASize] = useState(vertical ? '50%' : '50%');
-  const [panelBSize, setPanelBSize] = useState(vertical ? '50%' : '50%');
+  const [panelASize, setPanelASize] = useState(aSize);
+  const [panelBSize, setPanelBSize] = useState(bSize);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const dragOffset = useRef(0);

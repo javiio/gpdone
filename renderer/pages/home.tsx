@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
+import { ResizablePanels } from '~platform';
 import { DailyBlocks, CurrentDateSelector, currentDateState } from '~blocks';
 import { NoteEditor } from '~notes';
 
@@ -11,8 +12,8 @@ const Home = () => {
       <Head>
         <title>GPD</title>
       </Head>
-      <div className="flex">
-        <div className="w-lg relative flex-1">
+      <ResizablePanels vertical aSize="40%" bSize="60%">
+        <div className="relative">
           <div className="sticky top-0 pl-4 pt-4 pb-2 bg-slate-900 z-10">
             <CurrentDateSelector />
           </div>
@@ -21,10 +22,10 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex-1 bg-slate-700">
+        <div className="bg-slate-700">
           <NoteEditor noteId="playground" />
         </div>
-      </div>
+      </ResizablePanels>
     </React.Fragment>
   );
 };
