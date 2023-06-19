@@ -27,6 +27,8 @@ export const blockToData = (block: Block | BlockData): BlockData => {
   const data: BlockData = {
     title: block.title,
     projectId: block.projectId,
+    timerLogs: block.timerLogs ?? [],
+    blockTime: block.blockTime,
     createdAt: block.createdAt ?? Timestamp.now(),
   };
 
