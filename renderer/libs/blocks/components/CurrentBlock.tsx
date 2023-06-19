@@ -98,7 +98,7 @@ export const CurrentBlock = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-16 h-20 z-30">
+    <div className="fixed top-0 right-0 left-0 h-20 z-30">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
@@ -109,7 +109,7 @@ export const CurrentBlock = () => {
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
-              'bg-slate-950 w-full border-l-2 p-4 pr-40 focus:outline h-20',
+              'bg-slate-950 w-full border-l-4 p-4 pr-40 focus:outline h-20',
               `${fontSize} border-${color} focus:outline-${color}`
             )}
           />
