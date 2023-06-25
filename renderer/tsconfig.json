@@ -32,6 +32,9 @@
       ],
       "~notes": [
         "./libs/notes"
+      ],
+      "~tasks": [
+        "./libs/tasks"
       ]
     },
     "strictNullChecks": true,

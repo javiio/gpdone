@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useCollection } from '~platform';
+import { useCollection, addDoc } from '~platform';
 import type { Task } from '../';
 
 export const useTasks = (projectId?: string) => {
@@ -23,10 +23,15 @@ export const useTasks = (projectId?: string) => {
     [tasks]
   );
 
+  const saveTask = async ({ title, projectId }) => {
+    await addDoc({ title, projectId }, 'tasks');
+  };
+
   return {
     tasks,
     isLoading,
     error,
     getTask,
+    saveTask,
   };
 };

@@ -14,8 +14,8 @@ export const ProjectSelector = () => {
       setShowAll((prev) => !prev);
     }
     if (showAll) {
-      projects?.forEach((project, i) => {
-        const key = `${(i + 1)}`;
+      projects?.forEach((project, i: number) => {
+        const key = (i + 1).toString();
         if (event.key === key) {
           event.preventDefault();
           updateProject(project);
@@ -49,7 +49,6 @@ export const ProjectSelector = () => {
   return (
     <ul className="text-xs flex space-x-2">
       {projects
-        ?.sort((a, b) => (a?.order ?? 0) - (b?.order ?? 0))
         ?.filter((project) => showAll || project.id === currentBlock?.project?.id)
         .map((project) => (
           <li

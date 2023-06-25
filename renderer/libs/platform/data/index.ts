@@ -3,6 +3,7 @@ import {
   getFirestore,
   collection,
   doc,
+  addDoc as addFirebaseDoc,
   setDoc as setFirebaseDoc,
   updateDoc as updateFirebaseDoc,
   arrayUnion,
@@ -36,6 +37,13 @@ export const useDoc = (...path: string[]) => {
 export const useDocOnce = (...path: string[]) => {
   return useFirebaseDocOnce(
     doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path)
+  );
+};
+
+export const addDoc = async (data: object, ...path: string[]) => {
+  await addFirebaseDoc(
+    collection(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path),
+    data
   );
 };
 

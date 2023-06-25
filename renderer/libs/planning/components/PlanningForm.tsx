@@ -9,8 +9,8 @@ export const PlanningForm = ({ date }: { date: DateTime }) => {
   const { addToPlanning } = usePlanning(date);
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    projects?.forEach((project, i) => {
-      const key = `${(i + 1)}`;
+    projects?.forEach((project, i: number) => {
+      const key = (i + 1).toString();
       if (event.key === key) {
         event.preventDefault();
         addToPlanning(project);
@@ -32,9 +32,7 @@ export const PlanningForm = ({ date }: { date: DateTime }) => {
 
   return (
     <ul className="text-xs flex space-x-2">
-      {projects
-        ?.sort((a, b) => (a?.order ?? 0) - (b?.order ?? 0))
-        .map((project, i) => (
+      {projects.map((project, i) => (
           <li
             key={project.id}
             className={cn(
