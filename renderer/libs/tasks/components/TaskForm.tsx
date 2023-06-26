@@ -8,7 +8,7 @@ interface TaskFormProps {
 
 export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
   const [title, setTitle] = useState('');
-  const { saveTask } = useTasks();
+  const { addTask } = useTasks();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -18,7 +18,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
     e.preventDefault();
     if (title.trim() === '') return;
 
-    await saveTask({ title, projectId: project?.id ?? '' });
+    await addTask({ title, project });
     setTitle('');
   };
 

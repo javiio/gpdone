@@ -1,12 +1,17 @@
 import type { Timestamp } from 'firebase/firestore';
 import type { RawDraftContentState } from 'draft-js';
-export interface Task {
-  id: string
-  projectId?: string
+import { type Project } from '~projects';
+export interface TaskData {
   title: string
   body: RawDraftContentState
   completed: boolean
-  createdAt: Timestamp
+  projectId?: string
+  createdAt?: Timestamp
   updatedAt?: Timestamp
   completedAt?: Timestamp
 };
+
+export interface Task extends TaskData {
+  id: string
+  project?: Project
+}

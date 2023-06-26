@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { type Project } from '~projects';
-import { useTasks } from '../';
+import { useTasks, TaskItem } from '../';
 
 interface TasksListProps {
   project?: Project
@@ -10,10 +10,10 @@ export const TasksList: React.FC<TasksListProps> = ({ project }) => {
   const { tasks } = useTasks();
 
   return (
-    <ul>
+    <div>
       {tasks?.map((task) => (
-        <li key={task.id}>{task.title}</li>
+        <TaskItem key={task.id} task={task} />
       ))}
-    </ul>
+    </div>
   );
 };

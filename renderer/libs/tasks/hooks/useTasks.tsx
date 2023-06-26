@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 import { useCollection, addDoc } from '~platform';
 import type { Task } from '../';
 
@@ -18,20 +19,20 @@ export const useTasks = (projectId?: string) => {
     }
   }, [data, projectId]);
 
-  const getTask = useCallback(
-    (taskId?: string) => tasks?.find((task) => task.id === taskId),
-    [tasks]
-  );
-
-  const saveTask = async ({ title, projectId }) => {
-    await addDoc({ title, projectId }, 'tasks');
+  const addTask = async ({ title, project }) => {
+    const task = {
+      title,
+      projectId: project?.id ?? '',
+      completed: false,
+      createdAt: Timestamp.now(),
+    };
+    await addDoc(task, 'tasks');
   };
 
   return {
     tasks,
     isLoading,
     error,
-    getTask,
-    saveTask,
+    addTask,
   };
 };
