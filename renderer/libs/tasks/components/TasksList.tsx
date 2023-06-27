@@ -11,9 +11,11 @@ export const TasksList: React.FC<TasksListProps> = ({ project }) => {
 
   return (
     <div>
-      {tasks?.map((task) => (
-        <TaskItem key={task.id} task={task} />
-      ))}
+      {tasks
+        .filter((task) => !project || task.projectId === project?.id)
+        .map((task) => (
+          <TaskItem key={task.id} task={task} />
+        ))}
     </div>
   );
 };
