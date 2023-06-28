@@ -5,9 +5,10 @@ import { useNote } from '../';
 
 interface NoteEditorProps {
   noteId: string
+  placeholder?: string
 }
 
-export const NoteEditor: React.FC<NoteEditorProps> = ({ noteId }) => {
+export const NoteEditor: React.FC<NoteEditorProps> = ({ noteId, placeholder }) => {
   const { editorState, handleChange, isLoading, error } = useNote(noteId);
 
   if (error) {
@@ -15,12 +16,13 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({ noteId }) => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-[80px]">
       {isLoading && <Loading />}
       {!isLoading && editorState &&
         <Editor
           editorState={editorState}
           onChange={handleChange}
+          placeholder={placeholder ?? 'Type here...'}
         />
       }
     </div>

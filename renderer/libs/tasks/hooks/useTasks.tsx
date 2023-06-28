@@ -51,6 +51,7 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   const addTask = async ({ title, project }) => {
     const task = {
       title,
+      subtasks: [],
       projectId: project?.id ?? '',
       completed: false,
       createdAt: Timestamp.now(),

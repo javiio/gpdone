@@ -6,6 +6,12 @@
   body {
     @apply bg-slate-900 text-white;
   }
+  h2 {
+    @apply text-2xl font-light;
+  }
+  h3 {
+    @apply text-xl font-light;
+  }
 }
 
 @layer components {
@@ -19,5 +25,9 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .public-DraftEditor-content {
-  min-height: calc(100vh - 112px);;
+  min-height: 48px;
+}
+
+.public-DraftEditorPlaceholder-root {
+  @apply absolute text-gray-400;
 }

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import { ResizablePanels } from '~platform';
 import { ProjectsTabs, type Project } from '~projects';
-import { TaskForm, TasksList } from '~tasks';
+import { TaskForm, TasksList, TaskInfo, useTasks } from '~tasks';
 
 const Tasks = () => {
   const [project, setProject] = useState<Project | undefined>(undefined);
+  const { selectedTask } = useTasks();
 
   return (
     <React.Fragment>
       <Head>
         <title>Tasks</title>
       </Head>
-      <div>
+      <ResizablePanels vertical aSize="40%" bSize="60%">
         <div className="p-4">
           <ProjectsTabs project={project} setProject={setProject} />
           <div className="my-4">
@@ -19,7 +21,8 @@ const Tasks = () => {
           </div>
           <TasksList project={project} />
         </div>
-      </div>
+        <TaskInfo task={selectedTask} />
+      </ResizablePanels>
     </React.Fragment>
   );
 };
