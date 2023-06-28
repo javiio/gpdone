@@ -11,6 +11,8 @@ import type { TaskData, Task } from '../';
 
 interface TaskContext {
   tasks: Task[]
+  selectedTask?: Task
+  setSelectedTask: (Task) => void
   isLoading: boolean
   error?: FirestoreError
   addTask: (object) => void
@@ -19,11 +21,13 @@ interface TaskContext {
 const tasksContext = createContext<TaskContext>({
   tasks: [],
   isLoading: false,
-  addTask: (o) => undefined,
+  addTask: () => undefined,
+  setSelectedTask: () => undefined,
 });
 
 export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task>();
   const [data, isLoading, error] = useCollection('tasks');
   const { getProject } = useProjects();
 
@@ -59,6 +63,8 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     isLoading,
     error,
     addTask,
+    selectedTask,
+    setSelectedTask,
   };
 
   return (
