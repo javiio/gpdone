@@ -5,7 +5,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error, ConfirmationModal } from '~platform';
 import { ProjectSelector } from '~projects';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
-import { useCurrentBlock } from '../';
+import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -19,6 +19,7 @@ export const CurrentBlock = () => {
     saveCurrentBlock,
     color,
   } = useCurrentBlock();
+  const { blocks } = useDailyBlocks();
   const { remainingTime, startTimer } = useTimer();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -120,6 +121,15 @@ export const CurrentBlock = () => {
 
           <div className="absolute right-4 top-1.5">
             <Timer />
+          </div>
+
+          <div className="absolute left-4 bottom-1 flex space-x-[3px]">
+            {blocks?.map((block, i) => (
+              <div
+                key={i}
+                className={cn('h-2.5 w-2.5 rounded-full', block.bgColor)}
+              />
+            ))}
           </div>
 
           <div className="absolute right-4 bottom-1">
