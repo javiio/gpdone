@@ -56,7 +56,7 @@ export const Timer: React.FC = () => {
       {isPaused && remainingTime !== blockTime && (
         <button
           onClick={() => { setShowConfirmation(true); }}
-          className="absolute -top-1 -left-5"
+          className="absolute top-[1px] -left-5"
         >
           <FontAwesomeIcon icon={faRefresh} className="opacity-70" />
         </button>

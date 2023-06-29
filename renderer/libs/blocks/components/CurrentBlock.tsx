@@ -32,7 +32,7 @@ export const CurrentBlock = () => {
         event.preventDefault();
         inputRef.current?.focus();
         inputRef.current?.select();
-      } else if (event.key === 'a') {
+      } else if (event.key === 'n') {
         event.preventDefault();
         push()
           .catch((e) => { console.log(e); });
@@ -72,22 +72,22 @@ export const CurrentBlock = () => {
 
   const calcFontSize = () => {
     const count = currentBlock?.title.length ?? 0;
-    if (count < 35) {
+    if (count < 25) {
       return 'text-5xl';
     }
-    if (count < 45) {
+    if (count < 35) {
       return 'text-4xl';
     }
-    if (count < 55) {
+    if (count < 45) {
       return 'text-3xl';
     }
-    if (count < 65) {
+    if (count < 55) {
       return 'text-2xl';
     }
-    if (count < 85) {
+    if (count < 75) {
       return 'text-xl';
     }
-    if (count <= 100) {
+    if (count <= 90) {
       return 'text-lg';
     }
     return 'text-md';
@@ -98,7 +98,7 @@ export const CurrentBlock = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-0 h-20 z-30">
+    <div className="fixed top-0 right-0 left-0 h-32 z-30 border border-red-500">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
@@ -109,20 +109,20 @@ export const CurrentBlock = () => {
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
-              'bg-slate-950 w-full border-l-4 p-4 pr-40 focus:outline h-20',
+              'bg-yellow-950 w-full border-l-4 px-4 pt-2 focus:outline h-32',
               `${fontSize} border-${color} focus:outline-${color}`
             )}
           />
 
-          <div className="absolute right-14 top-[55px]">
+          <div className="absolute left-4 top-4">
             <ProjectSelector />
           </div>
 
-          <div className="absolute right-4 top-3">
+          <div className="absolute right-4 top-1.5">
             <Timer />
           </div>
 
-          <div className="absolute right-5 top-[54px]">
+          <div className="absolute right-4 bottom-1">
             <button
               onClick={push}
               className={remainingTime === 0 ? `text-${color}` : 'opacity-50'}
@@ -131,7 +131,7 @@ export const CurrentBlock = () => {
             </button>
           </div>
 
-          <div className="absolute left-0 right-0 top-0">
+          <div className="absolute left-[4px] right-0 top-0">
             <TimerProgressLine />
           </div>
         </>

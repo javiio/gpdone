@@ -79,6 +79,7 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
     setRemainingTime(BLOCK_TIME);
     setIsPaused(true);
     setTimerLogs([]);
+    setProgress(0);
   };
 
   const formatTime = () => {
