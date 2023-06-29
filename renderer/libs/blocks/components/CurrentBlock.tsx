@@ -99,7 +99,7 @@ export const CurrentBlock = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-0 h-32 z-30 border border-red-500">
+    <div className="fixed top-0 right-0 left-0 h-32 z-30">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
@@ -110,7 +110,7 @@ export const CurrentBlock = () => {
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
-              'bg-yellow-950 w-full border-l-4 px-4 pt-2 focus:outline h-32',
+              'bg-slate-950 w-full border-l-4 px-3 pt-2 focus:outline h-32',
               `${fontSize} border-${color} focus:outline-${color}`
             )}
           />
@@ -123,7 +123,7 @@ export const CurrentBlock = () => {
             <Timer />
           </div>
 
-          <div className="absolute left-4 bottom-1 flex space-x-[3px]">
+          <div className="absolute left-5 bottom-2 flex space-x-1">
             {blocks?.map((block, i) => (
               <div
                 key={i}
