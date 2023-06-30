@@ -99,7 +99,7 @@ export const CurrentBlock = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-0 h-32 z-30">
+    <div className="fixed top-0 right-0 left-14 h-32 z-30">
       {error && <Error />}
       {loading && <Loading />}
       {currentBlock && !loading && !error && (
@@ -119,7 +119,7 @@ export const CurrentBlock = () => {
             <ProjectSelector />
           </div>
 
-          <div className="absolute right-4 top-1.5">
+          <div className="absolute right-4 top-2">
             <Timer />
           </div>
 
