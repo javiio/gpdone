@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import cn from 'classnames';
 
 interface ResizablePanelsProps {
   vertical?: boolean
@@ -59,43 +60,37 @@ export const ResizablePanels: React.FC<ResizablePanelsProps> = ({
     dragOffset.current = vertical ? e.clientY : e.clientX;
   };
 
-  const containerStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: vertical ? 'column' : 'row',
-    height: vertical ? '100%' : undefined,
-    width: vertical ? undefined : '100%',
-  };
-
-  const panelStyle: React.CSSProperties = {
-    flex: '1 1 auto',
-    overflow: 'auto',
-  };
-
-  const panelAStyle: React.CSSProperties = {
-    ...panelStyle,
-    flexBasis: panelASize,
-  };
-
-  const panelBStyle: React.CSSProperties = {
-    ...panelStyle,
-    flexBasis: panelBSize,
-  };
-
-  const dividerStyle: React.CSSProperties = {
-    cursor: vertical ? 'row-resize' : 'col-resize',
-    width: vertical ? '100%' : '4px',
-    height: vertical ? '4px' : '100%',
-  };
-
   return (
-    <div className="flex h-full" style={containerStyle} ref={containerRef}>
-      <div style={panelAStyle}>{React.Children.toArray(children)[0]}</div>
+    <span className={cn('flex',
+      vertical && 'flex-col h-full',
+      !vertical && 'flex-row w-full h-16'
+    )}
+     ref={containerRef}
+    >
       <div
-        className="bg-slate-400"
-        style={dividerStyle}
+        className="flex-1 overflow-auto"
+        style={{ flexBasis: panelASize }}
+      >
+        {React.Children.toArray(children)[0]}
+      </div>
+
+      <div
+        className={cn('bg-slate-950 items-center justify-center flex',
+          vertical && 'cursor-row-resize w-full h-4',
+          !vertical && 'cursor-col-resize h-ful w-4'
+        )}
         onMouseDown={handleMouseDown}
-      />
-      <div style={panelBStyle}>{React.Children.toArray(children)[1]}</div>
-    </div>
+      >
+        <div className={`bg-slate-400 rounded-full ${vertical ? 'w-28 h-[3px]' : 'h-3 w-[3px]'}`}
+        />
+      </div>
+
+      <div
+        className="flex-1 overflow-auto"
+        style={{ flexBasis: panelBSize }}
+      >
+        {React.Children.toArray(children)[1]}
+      </div>
+    </span>
   );
 };

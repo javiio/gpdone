@@ -19,7 +19,7 @@ const GPDApp = ({ Component, pageProps }: AppProps) => {
             <ProvideCurrentBlock>
               <Navbar />
               <CurrentBlock />
-              <div className="absolute top-32 left-16 right-0 bottom-0 overflow-auto">
+              <div className="absolute top-32 left-14 right-0 bottom-0 overflow-auto">
                 <Component {...pageProps} />
               </div>
             </ProvideCurrentBlock>
