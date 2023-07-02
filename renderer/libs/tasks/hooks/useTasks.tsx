@@ -33,7 +33,7 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (data) {
-      const projectTasks: Task[] = data.docs.map((doc) => {
+      const allTasks: Task[] = data.docs.map((doc) => {
         const taskData = doc.data() as TaskData;
         const project = getProject(taskData.projectId);
 
@@ -44,7 +44,10 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
         };
       });
 
-      setTasks(projectTasks);
+      setTasks(allTasks);
+      if (selectedTask) {
+        setSelectedTask(allTasks.find((t) => t.id === selectedTask.id));
+      }
     }
   }, [data]);
 
