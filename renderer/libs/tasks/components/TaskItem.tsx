@@ -37,6 +37,7 @@ export const TaskItem = ({ task }: Props) => {
         type="checkbox"
         checked={isCompleted}
         onClick={handleToggle}
+        onChange={() => {}}
       />
 
       <span className={cn(
