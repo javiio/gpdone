@@ -51,9 +51,8 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   const addTask = async ({ title, project }) => {
     const task = {
       title,
-      subtasks: [],
-      projectId: project?.id ?? '',
       completed: false,
+      projectId: project?.id ?? '',
       createdAt: Timestamp.now(),
     };
     await addDoc(task, 'tasks');

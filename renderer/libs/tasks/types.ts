@@ -6,11 +6,18 @@ export interface SubTask {
   title: string
   completed: boolean
 }
+
+export interface TaskLink {
+  title: string
+  url: string
+}
+
 export interface TaskData {
   title: string
-  body: RawDraftContentState
+  body?: RawDraftContentState
   completed: boolean
-  subtasks: SubTask[]
+  subtasks?: SubTask[]
+  links?: TaskLink[]
   projectId?: string
   createdAt?: Timestamp
   updatedAt?: Timestamp
