@@ -1,5 +1,5 @@
 import { updateDoc, addItemToArrayDoc } from '~platform';
-import type { Task, TaskLink } from '../';
+import type { Task, TaskLink, SubTask } from '../';
 
 export const useTask = (task: Task) => {
   const { completed, id } = task;
@@ -12,8 +12,13 @@ export const useTask = (task: Task) => {
     await addItemToArrayDoc(link, 'links', 'tasks', id);
   };
 
+  const updateSubtasks = async (subtasks: SubTask[]) => {
+    await updateDoc({ subtasks }, 'tasks', id);
+  };
+
   return {
     toggle,
     addLink,
+    updateSubtasks,
   };
 };

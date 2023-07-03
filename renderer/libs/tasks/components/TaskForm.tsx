@@ -11,12 +11,12 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
   const { addTask } = useTasks();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    setTitle(e.target.value.trim());
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.trim() === '') return;
+    if (title === '') return;
 
     await addTask({ title, project });
     setTitle('');

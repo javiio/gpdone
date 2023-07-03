@@ -15,13 +15,13 @@ interface TaskContext {
   setSelectedTask: (Task) => void
   isLoading: boolean
   error?: FirestoreError
-  addTask: (object) => void
+  addTask: (object) => Promise<void>
 };
 
 const tasksContext = createContext<TaskContext>({
   tasks: [],
   isLoading: false,
-  addTask: () => undefined,
+  addTask: async (o) => await Promise.resolve(o),
   setSelectedTask: () => undefined,
 });
 

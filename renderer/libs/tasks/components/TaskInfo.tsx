@@ -1,6 +1,7 @@
 import React from 'react';
 import { NoteEditor } from '~notes';
 import { TaskLinks, type Task } from '../';
+import { SubTasks } from './SubTasks';
 
 export const TaskInfo = ({ task }: { task?: Task }) => {
   return (
@@ -10,12 +11,7 @@ export const TaskInfo = ({ task }: { task?: Task }) => {
           <h2>{task.title}</h2>
           <TaskLinks task={task} />
           <NoteEditor noteId={`task-${task.id}`} />
-          <h3>Subtasks</h3>
-          {task.subtasks?.map((subtask, i) => (
-            <div key={i}>
-              <span>{subtask.title}</span>
-            </div>
-          ))}
+          <SubTasks task={task} />
         </>
       )}
     </div>
