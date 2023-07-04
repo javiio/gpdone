@@ -12,6 +12,10 @@ export const useTask = (task: Task) => {
     await addItemToArrayDoc(link, 'links', 'tasks', id);
   };
 
+  const updateLinks = async (links: TaskLink[]) => {
+    await updateDoc({ links }, 'tasks', id);
+  };
+
   const updateSubtasks = async (subtasks: SubTask[]) => {
     await updateDoc({ subtasks }, 'tasks', id);
   };
@@ -19,6 +23,7 @@ export const useTask = (task: Task) => {
   return {
     toggle,
     addLink,
+    updateLinks,
     updateSubtasks,
   };
 };
