@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error, ConfirmationModal } from '~platform';
 import { ProjectSelector } from '~projects';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
+import { TaskCombobox, type Task } from '~tasks';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
@@ -18,10 +19,10 @@ export const CurrentBlock = () => {
     pushCurrentBlock,
     saveCurrentBlock,
     color,
+    inputRef,
   } = useCurrentBlock();
   const { blocks } = useDailyBlocks();
   const { remainingTime, startTimer } = useTimer();
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setFontSize(calcFontSize());
@@ -31,15 +32,15 @@ export const CurrentBlock = () => {
     if (event.metaKey) {
       if (event.key === 'e') {
         event.preventDefault();
-        inputRef.current?.focus();
-        inputRef.current?.select();
+        inputRef?.current?.focus();
+        inputRef?.current?.select();
       } else if (event.key === 'n') {
         event.preventDefault();
         push()
           .catch((e) => { console.log(e); });
       }
     }
-    if (document.activeElement === inputRef.current) {
+    if (document.activeElement === inputRef?.current) {
       if (event.key === 'Escape') {
         event.preventDefault();
         inputRef.current?.blur();
@@ -98,6 +99,15 @@ export const CurrentBlock = () => {
     updateTitle(e.target.value);
   };
 
+  const onChangeTask = (task: Task) => {
+    updateTitle(task.title);
+    // HeadlessUI Combobox will put the focus back to the combobox's input on select,
+    // so we timeout to wait and then move the focus to the currentBlock input
+    setTimeout(() => {
+      inputRef?.current?.focus();
+    }, 10);
+  };
+
   return (
     <div className="fixed top-0 right-0 left-14 h-32 z-30">
       {error && <Error />}
@@ -110,13 +120,14 @@ export const CurrentBlock = () => {
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
-              'bg-slate-950 w-full border-l-4 px-3 pt-2 focus:outline h-32',
+              'bg-slate-950 w-full border-l-4 px-3 pt-4 focus:outline h-32',
               `${fontSize} border-${color} focus:outline-${color}`
             )}
           />
 
-          <div className="absolute left-4 top-4">
+          <div className="absolute left-4 top-3 flex space-x-2 items-center">
             <ProjectSelector />
+            <TaskCombobox project={currentBlock.project} onChange={onChangeTask} />
           </div>
 
           <div className="absolute right-4 top-2">

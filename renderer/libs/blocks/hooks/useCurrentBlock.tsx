@@ -1,4 +1,5 @@
 import React, {
+  useRef,
   useEffect,
   createContext,
   useContext,
@@ -32,6 +33,7 @@ interface CurrentBlockContext {
   updateTitle: (t: string) => void
   updateProject: (p: Project) => void
   color: string
+  inputRef?: React.RefObject<HTMLInputElement>
 };
 
 const currentBlockContext = createContext<CurrentBlockContext>({
@@ -44,6 +46,7 @@ const currentBlockContext = createContext<CurrentBlockContext>({
 });
 
 export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [currentBlock, setCurrentBlock] = useRecoilState(currentBlockState);
   const [data, loading, error] = useDoc('data/currentBlock');
   const { projects } = useProjects();
@@ -109,6 +112,7 @@ export const ProvideCurrentBlock = ({ children }: { children: ReactNode }) => {
     updateTitle,
     updateProject,
     color,
+    inputRef,
   };
 
   return (

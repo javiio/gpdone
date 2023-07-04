@@ -47,7 +47,7 @@ export const ProjectSelector = () => {
   };
 
   return (
-    <ul className="text-xs flex space-x-2">
+    <ul className="text-xs flex space-x-2 h-6">
       {projects
         ?.filter((project) => showAll || project.id === currentBlock?.project?.id)
         .map((project) => (
@@ -62,7 +62,7 @@ export const ProjectSelector = () => {
               type="button"
               onClick={() => { handleSelectedProject(project); }}
               className={cn(
-                'px-1.5 py-0.5',
+                'px-1.5 py-[3px]',
                 `hover:bg-${project.color}/25`,
                 project.id === currentBlock?.project?.id && `bg-${project.color}/50`
               )}
