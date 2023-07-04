@@ -52,11 +52,12 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   }, [data]);
 
   const addTask = async ({ title, project }) => {
-    const task = {
+    const task: TaskData = {
       title,
       completed: false,
       projectId: project?.id ?? '',
       createdAt: Timestamp.now(),
+      plannedBlocks: 1,
     };
     await addDoc(task, 'tasks');
   };

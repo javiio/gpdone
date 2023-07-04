@@ -21,7 +21,9 @@ const Tasks = () => {
           </div>
           <TasksList project={project} />
         </div>
-        <TaskInfo task={selectedTask} />
+        <div>
+          {selectedTask && <TaskInfo task={selectedTask} />}
+        </div>
       </ResizablePanels>
     </React.Fragment>
   );

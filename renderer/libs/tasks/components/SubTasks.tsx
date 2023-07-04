@@ -71,7 +71,7 @@ export const SubTasks = ({ task }: { task: Task }) => {
           value={title}
           onChange={handleInputChange}
           placeholder="Task..."
-          className="bg-slate-950 px-2 py-0.5 w-64"
+          className="bg-slate-950 px-2 py-0.5 w-48 focus:flex-1 transition-all"
         />
         <button type="submit">
           <PlusIcon className="h-6 w-6" />

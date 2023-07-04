@@ -20,10 +20,15 @@ export const useTask = (task: Task) => {
     await updateDoc({ subtasks }, 'tasks', id);
   };
 
+  const updatePlannedBlocks = async (plannedBlocks: number) => {
+    await updateDoc({ plannedBlocks }, 'tasks', id);
+  };
+
   return {
     toggle,
     addLink,
     updateLinks,
     updateSubtasks,
+    updatePlannedBlocks,
   };
 };
