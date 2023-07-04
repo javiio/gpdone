@@ -12,13 +12,23 @@ export const useTask = (task: Task) => {
     await addItemToArrayDoc(link, 'links', 'tasks', id);
   };
 
+  const updateLinks = async (links: TaskLink[]) => {
+    await updateDoc({ links }, 'tasks', id);
+  };
+
   const updateSubtasks = async (subtasks: SubTask[]) => {
     await updateDoc({ subtasks }, 'tasks', id);
+  };
+
+  const updatePlannedBlocks = async (plannedBlocks: number) => {
+    await updateDoc({ plannedBlocks }, 'tasks', id);
   };
 
   return {
     toggle,
     addLink,
+    updateLinks,
     updateSubtasks,
+    updatePlannedBlocks,
   };
 };

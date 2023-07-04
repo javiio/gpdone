@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useTask, type Task } from '../';
 
 export const SubTasks = ({ task }: { task: Task }) => {
@@ -29,11 +29,22 @@ export const SubTasks = ({ task }: { task: Task }) => {
     await updateSubtasks(buff);
   };
 
+  const handleRemove = async (i: number) => {
+    const buff = [...subtasks];
+    buff.splice(i, 1);
+    setSubtasks(buff);
+    setTitle('');
+    await updateSubtasks(buff);
+  };
+
   return (
     <div>
       <h3>Subtasks</h3>
       {subtasks.map((subtask, i) => (
-        <div className='ml-4' key={i}>
+        <div
+          key={i}
+          className="px-4 py-0.5 border border-transparent hover:border-slate-200/50 relative group"
+        >
           <input
             type="checkbox"
             checked={subtask.completed}
@@ -47,15 +58,20 @@ export const SubTasks = ({ task }: { task: Task }) => {
           )}>
             {subtask.title}
           </span>
+
+          <XMarkIcon
+            className="h-4 w-4 absolute right-2 top-[5px] hidden group-hover:block"
+            onClick={async () => { await handleRemove(i); }}
+          />
         </div>
       ))}
-      <form onSubmit={handleSubmit} className="flex space-x-4 mt-4">
+      <form onSubmit={handleSubmit} className="flex space-x-2 mt-2 ml-4">
         <input
           type="text"
           value={title}
           onChange={handleInputChange}
           placeholder="Task..."
-          className="bg-slate-900 px-2 py-1 max-w[128px] focus:outline rounded-md"
+          className="bg-slate-900 px-2 py-1 w-48 focus:flex-1 transition-all focus:outline rounded-md"
         />
         <button type="submit">
           <PlusIcon className="h-5 w-5" />

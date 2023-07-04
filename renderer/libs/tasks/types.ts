@@ -18,6 +18,8 @@ export interface TaskData {
   completed: boolean
   subtasks?: SubTask[]
   links?: TaskLink[]
+  plannedBlocks: number
+  blocks?: string[]
   projectId?: string
   createdAt?: Timestamp
   updatedAt?: Timestamp
