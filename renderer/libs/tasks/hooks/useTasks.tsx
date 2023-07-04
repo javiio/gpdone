@@ -21,8 +21,8 @@ interface TaskContext {
 const tasksContext = createContext<TaskContext>({
   tasks: [],
   isLoading: false,
-  addTask: async (o) => await Promise.resolve(o),
   setSelectedTask: () => undefined,
+  addTask: async () => {},
 });
 
 export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {

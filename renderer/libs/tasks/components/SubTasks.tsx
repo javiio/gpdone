@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import { useTask, type Task } from '../';
 
 export const SubTasks = ({ task }: { task: Task }) => {
@@ -24,15 +25,15 @@ export const SubTasks = ({ task }: { task: Task }) => {
 
     const buff = [...subtasks, { title, completed: false }];
     setSubtasks(buff);
-    await updateSubtasks(buff);
     setTitle('');
+    await updateSubtasks(buff);
   };
 
   return (
     <div>
       <h3>Subtasks</h3>
       {subtasks.map((subtask, i) => (
-        <div className='ml-4'>
+        <div className='ml-4' key={i}>
           <input
             type="checkbox"
             checked={subtask.completed}
@@ -54,9 +55,11 @@ export const SubTasks = ({ task }: { task: Task }) => {
           value={title}
           onChange={handleInputChange}
           placeholder="Task..."
-          className="bg-slate-950 px-2 py-0.5 max-w[128px]"
+          className="bg-slate-900 px-2 py-1 max-w[128px] focus:outline rounded-md"
         />
-        <button type="submit">Add</button>
+        <button type="submit">
+          <PlusIcon className="h-5 w-5" />
+        </button>
       </form>
     </div>
   );

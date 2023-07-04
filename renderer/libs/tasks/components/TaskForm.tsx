@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import { type Project } from '~projects';
 import { useTasks } from '../';
 
@@ -11,15 +12,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
   const { addTask } = useTasks();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value.trim());
+    setTitle(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title === '') return;
-
-    await addTask({ title, project });
+    if (title.trim() === '') return;
     setTitle('');
+    await addTask({ title, project });
   };
 
   return (
@@ -29,9 +29,11 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
         value={title}
         onChange={handleInputChange}
         placeholder="Task..."
-        className="bg-slate-950 px-4 py-2 flex-1"
+        className="bg-slate-950 px-4 py-2 flex-1 focus:outline rounded-md"
       />
-      <button type="submit">Add</button>
+      <button type="submit">
+        <PlusIcon className="h-5 w-5" />
+      </button>
     </form>
   );
 };
