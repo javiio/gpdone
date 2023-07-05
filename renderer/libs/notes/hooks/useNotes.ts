@@ -12,6 +12,8 @@ export const useNote = (noteId: string) => {
   useEffect(() => {
     if (data?.data()) {
       setNote(data.data() as Note);
+    } else {
+      setNote(undefined);
     }
   }, [data]);
 
@@ -19,6 +21,8 @@ export const useNote = (noteId: string) => {
     if (note?.body) {
       const contentState = convertFromRaw(note.body);
       setEditorState(EditorState.createWithContent(contentState));
+    } else {
+      setEditorState(EditorState.createEmpty());
     }
   }, [note]);
 

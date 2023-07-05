@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useTask, type Task } from '../';
@@ -7,6 +7,10 @@ export const SubTasks = ({ task }: { task: Task }) => {
   const [title, setTitle] = useState('');
   const [subtasks, setSubtasks] = useState(task.subtasks ?? []);
   const { updateSubtasks } = useTask(task);
+
+  useEffect(() => {
+    setSubtasks(task.subtasks ?? []);
+  }, [task]);
 
   const handleToggle = async (i: number) => {
     const buff = [...subtasks];
