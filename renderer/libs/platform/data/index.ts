@@ -65,7 +65,7 @@ export const updateDoc = async (data: object, ...path: string[]) => {
 };
 
 export const addItemToArrayDoc = async (
-  data: object,
+  data: any,
   attribute: string,
   ...path: string[]
 ) => {

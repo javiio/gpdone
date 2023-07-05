@@ -1,6 +1,7 @@
 import type { Timestamp } from 'firebase/firestore';
 import type { RawDraftContentState } from 'draft-js';
-import { type Project } from '~projects';
+import type { Project } from '~projects';
+import type { Block } from '~blocks';
 
 export interface SubTask {
   title: string
@@ -19,7 +20,7 @@ export interface TaskData {
   subtasks?: SubTask[]
   links?: TaskLink[]
   plannedBlocks: number
-  blocks?: string[]
+  blocksIds?: string[]
   projectId?: string
   createdAt?: Timestamp
   updatedAt?: Timestamp
@@ -29,4 +30,5 @@ export interface TaskData {
 export interface Task extends TaskData {
   id: string
   project?: Project
+  blocks?: Block[]
 }

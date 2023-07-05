@@ -5,12 +5,12 @@ import { useTasks, type Task } from '../';
 import { type Project } from '~projects';
 
 interface Props {
+  value?: Task
   project?: Project
-  onChange?: (Task) => void
+  onChange: (Task) => void
 }
 
-export const TaskCombobox = ({ project, onChange }: Props) => {
-  const [selected, setSelected] = useState<Task>();
+export const TaskCombobox = ({ value, project, onChange }: Props) => {
   const [query, setQuery] = useState('');
   const [color, setColor] = useState('gray-500');
   const [allTasks, setAllTasks] = useState<Task[]>([]);
@@ -35,19 +35,14 @@ export const TaskCombobox = ({ project, onChange }: Props) => {
           .includes(query.toLowerCase().replace(/\s+/g, ''))
       );
 
-  const handleChange = (task: Task) => {
-    setSelected(task);
-    onChange?.(task);
-  };
-
   return (
     <div className="">
-      <Combobox value={selected} onChange={handleChange}>
+      <Combobox value={value} onChange={onChange}>
         <div className="relative">
           <div className="relative w-full cursor-default text-left text-sm">
             <Combobox.Input
               className={`w-full border-none py-1.5 pl-3 pr-10 text-sm leading-5 bg-slate-800 rounded-md focus:outline focus:outline-${color}`}
-              displayValue={(task: Task) => task.title}
+              displayValue={(task: Task) => value ? task.title : ''}
               onChange={(event) => { setQuery(event.target.value); }}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -64,7 +59,7 @@ export const TaskCombobox = ({ project, onChange }: Props) => {
             leaveTo="opacity-0"
             afterLeave={() => { setQuery(''); }}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 focus:outline-none sm:text-sm z-30">
               {filteredTasks.length === 0 && query !== ''
                 ? (
                   <div className="relative cursor-default select-none py-2 px-4 text-gray-700">

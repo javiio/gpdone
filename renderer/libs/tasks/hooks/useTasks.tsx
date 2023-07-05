@@ -5,7 +5,7 @@ import React, {
   createContext,
 } from 'react';
 import { Timestamp, type FirestoreError } from 'firebase/firestore';
-import { useCollection, addDoc } from '~platform';
+import { useCollection, addDoc, updateDoc } from '~platform';
 import { useProjects } from '~projects';
 import type { TaskData, Task } from '../';
 
@@ -16,6 +16,7 @@ interface TaskContext {
   isLoading: boolean
   error?: FirestoreError
   addTask: (object) => Promise<void>
+  addBlockToTask: (task: Task, blockId: string) => Promise<void>
 };
 
 const tasksContext = createContext<TaskContext>({
@@ -23,13 +24,14 @@ const tasksContext = createContext<TaskContext>({
   isLoading: false,
   setSelectedTask: () => undefined,
   addTask: async () => {},
+  addBlockToTask: async () => {},
 });
 
 export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task>();
   const [data, isLoading, error] = useCollection('tasks');
-  const { getProject } = useProjects();
+  const { projects, getProject } = useProjects();
 
   useEffect(() => {
     if (data) {
@@ -49,7 +51,7 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
         setSelectedTask(allTasks.find((t) => t.id === selectedTask.id));
       }
     }
-  }, [data]);
+  }, [data, projects]);
 
   const addTask = async ({ title, project }) => {
     const task: TaskData = {
@@ -62,6 +64,11 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     await addDoc(task, 'tasks');
   };
 
+  const addBlockToTask = async (task: Task, blockId: string) => {
+    const blocksIds = [...(task.blocksIds ?? []), blockId];
+    await updateDoc({ blocksIds }, 'tasks', task.id);
+  };
+
   const value = {
     tasks,
     isLoading,
@@ -69,6 +76,7 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     addTask,
     selectedTask,
     setSelectedTask,
+    addBlockToTask,
   };
 
   return (

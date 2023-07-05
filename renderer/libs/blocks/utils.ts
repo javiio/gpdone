@@ -1,19 +1,27 @@
 import { Timestamp } from 'firebase/firestore';
 import { DateTime } from 'luxon';
 import type { Project } from '~projects';
+import type { Task } from '~tasks';
 import type { Block, BlockData } from './types';
 
 const START_TIME = 7;
 
 export const dataToBlock = (
   data: BlockData,
-  projects: Project[] | undefined
+  projects: Project[] | undefined,
+  tasks: Task[] | undefined
 ): Block => {
   const project = projects?.find((p) => p.id === data.projectId);
-  return updateBlockProject(data, project);
+  const buffer = updateBlockProject(data, project);
+  const task = tasks?.find((t) => t.id === data.tasksIds?.[0]);
+  buffer.tasks = task ? [task] : [];
+  return buffer;
 };
 
-export const updateBlockProject = (block: Block | BlockData, project: Project | undefined): Block => {
+export const updateBlockProject = (
+  block: Block | BlockData,
+  project: Project | undefined
+): Block => {
   return {
     ...block,
     projectId: project?.id ?? '',
@@ -27,6 +35,7 @@ export const blockToData = (block: Block | BlockData): BlockData => {
   const data: BlockData = {
     title: block.title,
     projectId: block.projectId,
+    tasksIds: block.tasksIds ?? [],
     timerLogs: block.timerLogs ?? [],
     blockTime: block.blockTime,
     createdAt: block.createdAt ?? Timestamp.now(),

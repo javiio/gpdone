@@ -4,6 +4,7 @@ export * from './components/TaskItem';
 export * from './components/TaskInfo';
 export * from './components/TaskLinks';
 export * from './components/TaskCombobox';
+export * from './components/TaskBlocksProgress';
 export * from './hooks/useTasks';
 export * from './hooks/useTask';
 export * from './types';

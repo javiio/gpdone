@@ -5,7 +5,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error, ConfirmationModal } from '~platform';
 import { ProjectSelector } from '~projects';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
-import { TaskCombobox, type Task } from '~tasks';
+import { TaskCombobox, TaskBlocksProgress, type Task } from '~tasks';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
@@ -14,6 +14,7 @@ export const CurrentBlock = () => {
   const {
     currentBlock,
     updateTitle,
+    updateTask,
     loading,
     error,
     pushCurrentBlock,
@@ -99,13 +100,14 @@ export const CurrentBlock = () => {
     updateTitle(e.target.value);
   };
 
-  const onChangeTask = (task: Task) => {
+  const onChangeTask = async (task: Task) => {
     updateTitle(task.title);
     // HeadlessUI Combobox will put the focus back to the combobox's input on select,
     // so we timeout to wait and then move the focus to the currentBlock input
     setTimeout(() => {
       inputRef?.current?.focus();
     }, 10);
+    await updateTask(task);
   };
 
   return (
@@ -127,7 +129,12 @@ export const CurrentBlock = () => {
 
           <div className="absolute left-4 top-3 flex space-x-2 items-center">
             <ProjectSelector />
-            <TaskCombobox project={currentBlock.project} onChange={onChangeTask} />
+            <TaskCombobox
+              value={currentBlock.tasks?.[0]}
+              onChange={onChangeTask}
+              project={currentBlock.project}
+            />
+            {currentBlock.tasks?.[0] && <TaskBlocksProgress task={currentBlock.tasks?.[0]} />}
           </div>
 
           <div className="absolute right-4 top-2">

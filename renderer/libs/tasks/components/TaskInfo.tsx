@@ -21,7 +21,7 @@ export const TaskInfo = ({ task }: { task: Task }) => {
     <div className="p-4 bg-slate-700 relative">
       <h2>{task.title}</h2>
       <div className="flex space-x-2 absolute top-1 right-2 text-lg">
-        <span>{task.blocks?.length ?? 0}</span>
+        <span>{task.blocksIds?.length ?? 0}</span>
         <span className="text-slate-400">/</span>
         <NumberSelector value={plannedBlocks} setValue={handleChangePlannedBlocks} />
       </div>
