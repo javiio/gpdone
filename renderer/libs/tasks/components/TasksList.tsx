@@ -10,7 +10,7 @@ export const TasksList: React.FC<TasksListProps> = ({ project }) => {
   const { tasks } = useTasks();
 
   return (
-    <div>
+    <div className="flex-row space-y-0.5">
       {tasks
         .filter((task) => !project || task.projectId === project?.id)
         .map((task) => (

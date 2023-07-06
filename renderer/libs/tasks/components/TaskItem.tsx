@@ -11,6 +11,7 @@ export const TaskItem = ({ task }: Props) => {
   const { selectedTask, setSelectedTask } = useTasks();
   const { toggle } = useTask(task);
   const [isCompleted, setIsCompleted] = useState(completed);
+  const color = task.project?.color ?? 'gray-400';
 
   const handleToggle = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -28,9 +29,10 @@ export const TaskItem = ({ task }: Props) => {
 
   return (
     <div
-      className={cn('relative px-4 py-2 border border-transparent hover:border-slate-600', {
-        '!border-slate-100': id === selectedTask?.id,
-      })}
+      className={cn(
+        `flex space-x-3 items-center relative px-4 py-2 rounded border hover:border-${color}`,
+        id === selectedTask?.id ? `border-${color} bg-${color}/25` : 'border-transparent'
+      )}
       onClick={handleSelect}
     >
       <input
@@ -38,14 +40,15 @@ export const TaskItem = ({ task }: Props) => {
         checked={isCompleted}
         onClick={handleToggle}
         onChange={() => {}}
+        className="w-4 h-4"
       />
 
-      <span className={cn(
-        'ml-4',
+      <div className={cn(
+        'ml-2',
         isCompleted && 'italic text-gray-400 line-through'
       )}>
         {title}
-      </span>
+      </div>
     </div>
   );
 };
