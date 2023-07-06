@@ -42,7 +42,7 @@ export const Navbar = () => {
             e.preventDefault();
             await router.push(href);
           }}
-          className={`px-3 py-4 text-lg border-slate-950 hover:border-l-4 ${
+          className={`px-3 py-4 text-lg border-slate-950 hover:border-l-4 transition-all ${
             router.pathname === href ? '!border-white text-white border-l-4' : 'text-white/50 hover:text-white'
           }`}
         >

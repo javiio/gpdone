@@ -31,3 +31,20 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .public-DraftEditorPlaceholder-root {
   @apply absolute text-gray-400;
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-3;
+}
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+/* Scrollbar handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-purple-800/50
+}
+/* Scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-purple-800/75
+}
