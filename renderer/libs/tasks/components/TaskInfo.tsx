@@ -22,7 +22,9 @@ export const TaskInfo = ({ task }: { task: Task }) => {
       <h2>{task.title}</h2>
       <div className="flex flex-col absolute top-0 right-2 items-end">
         <NumberSelector value={plannedBlocks} setValue={handleChangePlannedBlocks} />
-        <TaskBlocksProgress task={task} />
+        <div className="m-0.5">
+          <TaskBlocksProgress task={task} />
+        </div>
       </div>
       <TaskLinks task={task} />
       <NoteEditor noteId={`task-${task.id}`} />

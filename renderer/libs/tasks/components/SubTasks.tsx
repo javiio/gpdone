@@ -43,7 +43,7 @@ export const SubTasks = ({ task }: { task: Task }) => {
 
   return (
     <div>
-      <h3>Subtasks</h3>
+      <h3>Checklist</h3>
       {subtasks.map((subtask, i) => (
         <div
           key={i}
@@ -69,15 +69,15 @@ export const SubTasks = ({ task }: { task: Task }) => {
           />
         </div>
       ))}
-      <form onSubmit={handleSubmit} className="flex space-x-2 mt-2 ml-4">
+      <form onSubmit={handleSubmit} className="flex space-x-2 mt-2 ml-4 group">
         <input
           type="text"
           value={title}
           onChange={handleInputChange}
-          placeholder="Task..."
+          placeholder="Add item..."
           className="bg-slate-900 px-2 py-1 w-48 focus:flex-1 transition-all focus:outline rounded-md"
         />
-        <button type="submit">
+        <button type="submit" className="hidden group-focus-within:block">
           <PlusIcon className="h-5 w-5" />
         </button>
       </form>

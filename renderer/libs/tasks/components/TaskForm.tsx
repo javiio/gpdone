@@ -23,15 +23,15 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-4">
+    <form onSubmit={handleSubmit} className="flex space-x-4 group">
       <input
         type="text"
         value={title}
         onChange={handleInputChange}
-        placeholder="Task..."
-        className="bg-slate-950 px-4 py-2 flex-1 focus:outline rounded-md"
+        placeholder="New task..."
+        className="bg-slate-950 px-4 py-2 w-64 focus:flex-1 focus:outline rounded-md transition-all"
       />
-      <button type="submit">
+      <button type="submit" className="hidden group-focus-within:block">
         <PlusIcon className="h-5 w-5" />
       </button>
     </form>
