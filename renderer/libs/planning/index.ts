@@ -1,4 +1,4 @@
 export * from './components/PlanningList';
-export * from './components/PlannedBlockSelect';
+export * from './components/BlockPlanForm';
 export * from './hooks/usePlanning';
 export * from './types';

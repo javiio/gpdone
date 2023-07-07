@@ -1,12 +1,12 @@
 import type { Project } from '~projects';
 import type { Task } from '~tasks';
 
-export interface PlannedBlockData {
+export interface BlockPlanData {
   projectId: string
   taskId?: string
 }
 
-export interface PlannedBlock extends PlannedBlockData {
+export interface BlockPlan extends BlockPlanData {
   project: Project
   task?: Task
 }

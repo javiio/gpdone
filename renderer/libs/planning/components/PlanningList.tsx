@@ -3,60 +3,60 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
 import type { DateTime } from 'luxon';
 import { useProjects } from '~projects';
-import { usePlanning, PlannedBlockSelect, type PlannedBlock } from '../';
+import { usePlanning, BlockPlanForm, type BlockPlan } from '../';
 
 export const PlanningList = ({ date }: { date?: DateTime }) => {
   const { planning, updatePlanning } = usePlanning(date);
   const { projects } = useProjects();
-  const [plannedBlocks, setPlannedBlocks] = useState(planning);
+  const [blockPlans, setBlockPlans] = useState(planning);
 
   const handleDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
-    const reorderedItems = Array.from(plannedBlocks);
+    const reorderedItems = Array.from(blockPlans);
     const [removed] = reorderedItems.splice(result.source.index, 1);
     reorderedItems.splice(result.destination.index, 0, removed);
 
-    setPlannedBlocks(reorderedItems);
+    setBlockPlans(reorderedItems);
     await updatePlanning(reorderedItems);
   };
 
   useEffect(() => {
-    setPlannedBlocks(planning);
+    setBlockPlans(planning);
   }, [planning]);
 
   const handleAddBlock = async () => {
     const project = projects[0];
-    const newPlanning: PlannedBlock[] = [...plannedBlocks, { project, projectId: project.id }];
-    setPlannedBlocks(newPlanning);
+    const newPlanning: BlockPlan[] = [...blockPlans, { project, projectId: project.id }];
+    setBlockPlans(newPlanning);
     await updatePlanning(newPlanning);
   };
 
-  const handleOnChange = async (plannedBlock: PlannedBlock, i: number) => {
-    const newPlanning: PlannedBlock[] = [...plannedBlocks];
-    newPlanning[i] = plannedBlock;
-    setPlannedBlocks(newPlanning);
+  const handleOnChange = async (blockPlan: BlockPlan, i: number) => {
+    const newPlanning: BlockPlan[] = [...blockPlans];
+    newPlanning[i] = blockPlan;
+    setBlockPlans(newPlanning);
     await updatePlanning(newPlanning);
   };
 
   const handleOnRemove = async (i: number) => {
-    const newPlanning: PlannedBlock[] = [...plannedBlocks];
+    const newPlanning: BlockPlan[] = [...blockPlans];
     newPlanning.splice(i, 1);
-    setPlannedBlocks(newPlanning);
+    setBlockPlans(newPlanning);
     await updatePlanning(newPlanning);
   };
 
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="plannedBlocks">
+        <Droppable droppableId="blockPlans">
           {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
               className="flex-row space-y-2"
             >
-              {plannedBlocks.map((plannedBlock, i) => (
+              {blockPlans.map((blockPlan, i) => (
                 <Draggable key={i} draggableId={i.toString()} index={i}>
                   {(provided) => (
                     <div
@@ -64,9 +64,9 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <PlannedBlockSelect
-                        value={plannedBlock}
-                        onChange={async (p: PlannedBlock) => { await handleOnChange(p, i); }}
+                      <BlockPlanForm
+                        value={blockPlan}
+                        onChange={async (p: BlockPlan) => { await handleOnChange(p, i); }}
                         onRemove={async () => { await handleOnRemove(i); }}
                       />
                     </div>

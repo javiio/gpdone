@@ -2,15 +2,15 @@ import React, { useRef } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ProjectCombobox, type Project } from '~projects';
 import { TaskCombobox, type Task } from '~tasks';
-import { type PlannedBlock } from '../';
+import { type BlockPlan } from '..';
 
 interface Props {
-  value: PlannedBlock
-  onChange: (plannedBlock: PlannedBlock) => Promise<void>
+  value: BlockPlan
+  onChange: (blockPlan: BlockPlan) => Promise<void>
   onRemove: () => Promise<void>
 };
 
-export const PlannedBlockSelect = ({ value, onChange, onRemove }: Props) => {
+export const BlockPlanForm = ({ value, onChange, onRemove }: Props) => {
   const { project, task } = value;
   const taskInputRef = useRef<HTMLInputElement>(null);
 

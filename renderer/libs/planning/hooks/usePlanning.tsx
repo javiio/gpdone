@@ -4,36 +4,36 @@ import { useDoc, setDoc } from '~platform';
 import { useProjects, type Project } from '~projects';
 import { useTasks } from '~tasks';
 import { getId } from '~blocks';
-import { type PlannedBlock, type PlannedBlockData } from '../';
+import { type BlockPlan, type BlockPlanData } from '../';
 
 export const usePlanning = (date?: DateTime) => {
-  const [planning, setPlanning] = useState<PlannedBlock[]>([]);
+  const [planning, setPlanning] = useState<BlockPlan[]>([]);
   const [data, isLoading, error] = useDoc('blocks', getId(date));
   const { getProject } = useProjects();
   const { getTask } = useTasks();
 
   useEffect(() => {
     if (data?.data()) {
-      const planningData: PlannedBlockData[] = data.data()?.planning || [];
-      setPlanning(planningData.map((p) => dataToPlannedBlock(p)));
+      const planningData: BlockPlanData[] = data.data()?.planning || [];
+      setPlanning(planningData.map((p) => dataToBlockPlan(p)));
     } else {
       setPlanning([]);
     }
   }, [data, date, getProject]);
 
-  const plannedBlockToData = (plannedBlock: PlannedBlock): PlannedBlockData => ({
-    projectId: plannedBlock.projectId,
-    ...(plannedBlock.taskId && { taskId: plannedBlock.taskId }),
+  const blockPlanToData = (blockPlan: BlockPlan): BlockPlanData => ({
+    projectId: blockPlan.projectId,
+    ...(blockPlan.taskId && { taskId: blockPlan.taskId }),
   });
 
-  const dataToPlannedBlock = (data: PlannedBlockData): PlannedBlock => ({
+  const dataToBlockPlan = (data: BlockPlanData): BlockPlan => ({
     ...data,
     project: getProject(data.projectId) as Project,
     task: getTask(data.taskId),
   });
 
-  const updatePlanning = async (plannedBlocks: PlannedBlock[]) => {
-    const planningData = plannedBlocks.map((p) => plannedBlockToData(p));
+  const updatePlanning = async (blockPlans: BlockPlan[]) => {
+    const planningData = blockPlans.map((p) => blockPlanToData(p));
     await setDoc({ planning: planningData }, 'blocks', getId(date));
   };
 
