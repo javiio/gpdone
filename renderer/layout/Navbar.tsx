@@ -4,8 +4,8 @@ import { HomeIcon, CalendarDaysIcon, StarIcon, DocumentTextIcon } from '@heroico
 
 const navItems = [
   { name: 'Home', href: '/home', icon: HomeIcon },
-  { name: 'Planning', href: '/planning', icon: CalendarDaysIcon },
   { name: 'Tasks', href: '/tasks', icon: StarIcon },
+  { name: 'Planning', href: '/planning', icon: CalendarDaysIcon },
   { name: 'Notes', href: '/notes', icon: DocumentTextIcon },
 ];
 

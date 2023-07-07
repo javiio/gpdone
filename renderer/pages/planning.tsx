@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
 import { currentDateState } from '~blocks';
-import { PlanningList, PlanningForm } from '~planning';
+import { PlanningList } from '~planning';
 import { NoteEditor } from '~notes';
 import { ResizablePanels } from '~platform';
 
@@ -15,7 +15,6 @@ const Home = () => {
       </Head>
       <ResizablePanels vertical aSize="40%" bSize="60%">
         <div className="w-lg relative flex-1 p-4">
-          <PlanningForm date={currentDate} />
           <PlanningList date={currentDate} />
         </div>
 

@@ -3,6 +3,7 @@ import React, {
   useState,
   useContext,
   createContext,
+  useCallback,
 } from 'react';
 import { Timestamp, type FirestoreError } from 'firebase/firestore';
 import { useCollection, addDoc, updateDoc } from '~platform';
@@ -17,6 +18,7 @@ interface TaskContext {
   error?: FirestoreError
   addTask: (object) => Promise<void>
   addBlockToTask: (task: Task, blockId: string) => Promise<void>
+  getTask: (taskId: string | undefined) => Task | undefined
 };
 
 const tasksContext = createContext<TaskContext>({
@@ -25,6 +27,7 @@ const tasksContext = createContext<TaskContext>({
   setSelectedTask: () => undefined,
   addTask: async () => {},
   addBlockToTask: async () => {},
+  getTask: () => undefined,
 });
 
 export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
@@ -69,6 +72,11 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     await updateDoc({ blocksIds }, 'tasks', task.id);
   };
 
+  const getTask = useCallback(
+    (taskId: string | undefined) => tasks?.find((t) => t.id === taskId),
+    [tasks]
+  );
+
   const value = {
     tasks,
     isLoading,
@@ -77,6 +85,7 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     selectedTask,
     setSelectedTask,
     addBlockToTask,
+    getTask,
   };
 
   return (

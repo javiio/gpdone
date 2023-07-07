@@ -1,51 +1,87 @@
 import React, { useEffect, useState } from 'react';
-import cn from 'classnames';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
 import type { DateTime } from 'luxon';
-import { usePlanning } from '~planning';
-import { useDailyBlocks, type Block } from '~blocks';
+import { useProjects } from '~projects';
+import { usePlanning, PlannedBlockSelect, type PlannedBlock } from '../';
 
 export const PlanningList = ({ date }: { date?: DateTime }) => {
-  const { planning } = usePlanning(date);
-  const { blocks } = useDailyBlocks(date);
-  const [highlightedPlanning, setHighlightedPlanning] = useState<boolean[]>([]);
+  const { planning, updatePlanning } = usePlanning(date);
+  const { projects } = useProjects();
+  const [plannedBlocks, setPlannedBlocks] = useState(planning);
+
+  const handleDragEnd = async (result: DropResult) => {
+    if (!result.destination) return;
+
+    const reorderedItems = Array.from(plannedBlocks);
+    const [removed] = reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination.index, 0, removed);
+
+    setPlannedBlocks(reorderedItems);
+    await updatePlanning(reorderedItems);
+  };
 
   useEffect(() => {
-    if (planning && blocks) {
-      const newHighlightedPlanning: boolean[] = [];
-      const projectBlockCount = new Map<string, number>();
+    setPlannedBlocks(planning);
+  }, [planning]);
 
-      // Count number of blocks per project
-      blocks.forEach((block: Block) => {
-        projectBlockCount.set(block.projectId, (projectBlockCount.get(block.projectId) ?? 0) + 1);
-      });
+  const handleAddBlock = async () => {
+    const project = projects[0];
+    const newPlanning: PlannedBlock[] = [...plannedBlocks, { project, projectId: project.id }];
+    setPlannedBlocks(newPlanning);
+    await updatePlanning(newPlanning);
+  };
 
-      // Set project plan to be highlighted if there are blocks for it
-      planning.forEach((project) => {
-        const count = projectBlockCount.get(project?.id) ?? 0;
-        newHighlightedPlanning.push(count > 0);
-        if (count > 0) {
-          projectBlockCount.set(project?.id, count - 1);
-        }
-      });
+  const handleOnChange = async (plannedBlock: PlannedBlock, i: number) => {
+    const newPlanning: PlannedBlock[] = [...plannedBlocks];
+    newPlanning[i] = plannedBlock;
+    setPlannedBlocks(newPlanning);
+    await updatePlanning(newPlanning);
+  };
 
-      setHighlightedPlanning(newHighlightedPlanning);
-    }
-  }, [planning, blocks]);
+  const handleOnRemove = async (i: number) => {
+    const newPlanning: PlannedBlock[] = [...plannedBlocks];
+    newPlanning.splice(i, 1);
+    setPlannedBlocks(newPlanning);
+    await updatePlanning(newPlanning);
+  };
 
   return (
-    <ul>
-      {planning.map((project, i) => (
-        <li
-          key={i}
-          className={cn(
-            'border rounded-md overflow-hidden w-32 my-2 py-3 text-center',
-            highlightedPlanning[i] ? `border-${project?.color}/50 bg-${project?.color}/50` : `border-${project?.color}/75 bg-${project?.color}/10`,
-            highlightedPlanning[i] ? '' : 'opacity-80'
+    <>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="plannedBlocks">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="flex-row space-y-2"
+            >
+              {plannedBlocks.map((plannedBlock, i) => (
+                <Draggable key={i} draggableId={i.toString()} index={i}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <PlannedBlockSelect
+                        value={plannedBlock}
+                        onChange={async (p: PlannedBlock) => { await handleOnChange(p, i); }}
+                        onRemove={async () => { await handleOnRemove(i); }}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
           )}
-        >
-          {project?.name}
-        </li>
-      ))}
-    </ul>
+        </Droppable>
+      </DragDropContext>
+
+      <button onClick={handleAddBlock}>
+        <PlusIcon className="h-5 w-5" />
+      </button>
+    </>
   );
 };

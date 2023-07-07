@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, forwardRef, Ref } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { useTasks, type Task } from '../';
@@ -10,7 +10,10 @@ interface Props {
   onChange: (Task) => void
 }
 
-export const TaskCombobox = ({ value, project, onChange }: Props) => {
+export const TaskCombobox = forwardRef((
+  { value, project, onChange }: Props,
+  ref: Ref<HTMLInputElement>
+) => {
   const [query, setQuery] = useState('');
   const [color, setColor] = useState('gray-500');
   const [allTasks, setAllTasks] = useState<Task[]>([]);
@@ -44,6 +47,7 @@ export const TaskCombobox = ({ value, project, onChange }: Props) => {
               className={`w-full border-none py-1.5 pl-3 pr-10 text-sm leading-5 bg-slate-800 rounded-md focus:outline focus:outline-${color}`}
               displayValue={(task: Task) => value ? task.title : ''}
               onChange={(event) => { setQuery(event.target.value); }}
+              ref={ref}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
@@ -103,4 +107,5 @@ export const TaskCombobox = ({ value, project, onChange }: Props) => {
       </Combobox>
     </div>
   );
-};
+});
+TaskCombobox.displayName = 'TaskCombobox';
