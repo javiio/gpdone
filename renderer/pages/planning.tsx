@@ -1,13 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
-import { useRecoilValue } from 'recoil';
-import { currentDateState } from '~blocks';
 import { PlanningList } from '~planning';
+import { useCurrentDate } from '~calendar';
 import { NoteEditor } from '~notes';
 import { ResizablePanels } from '~platform';
 
-const Home = () => {
-  const currentDate = useRecoilValue(currentDateState);
+const Planning = () => {
+  const { date } = useCurrentDate();
+
   return (
     <React.Fragment>
       <Head>
@@ -15,7 +15,7 @@ const Home = () => {
       </Head>
       <ResizablePanels vertical aSize="40%" bSize="60%">
         <div className="w-lg relative flex-1 p-4">
-          <PlanningList date={currentDate} />
+          <PlanningList date={date} />
         </div>
 
         <div className="bg-slate-700 flex-1 h-screen">
@@ -26,4 +26,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Planning;
