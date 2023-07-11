@@ -35,6 +35,9 @@
       ],
       "~tasks": [
         "./libs/tasks"
+      ],
+      "~calendar": [
+        "./libs/calendar"
       ]
     },
     "strictNullChecks": true,

@@ -3,30 +3,30 @@ import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Loading, Error, ConfirmationModal } from '~platform';
-import { ProjectSelector } from '~projects';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
-import { TaskCombobox, TaskBlocksProgress, type Task } from '~tasks';
+import { BlockPlanForm, type BlockPlan } from '~planning';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
+  const [title, setTitle] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [fontSize, setFontSize] = useState('text-3xl');
   const {
     currentBlock,
     updateTitle,
-    updateTask,
     loading,
     error,
     pushCurrentBlock,
-    saveCurrentBlock,
     color,
     inputRef,
+    updateBlockPlan,
   } = useCurrentBlock();
   const { blocks } = useDailyBlocks();
   const { remainingTime, startTimer } = useTimer();
 
   useEffect(() => {
     setFontSize(calcFontSize());
+    setTitle(currentBlock?.title ?? '');
   }, [currentBlock]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -62,7 +62,7 @@ export const CurrentBlock = () => {
   }, [currentBlock, remainingTime]);
 
   const blur = async () => {
-    await saveCurrentBlock();
+    updateTitle(title);
   };
 
   const push = async () => {
@@ -97,17 +97,11 @@ export const CurrentBlock = () => {
   };
 
   const handleOnChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateTitle(e.target.value);
+    setTitle(e.target.value);
   };
 
-  const onChangeTask = async (task: Task) => {
-    updateTitle(task.title);
-    // HeadlessUI Combobox will put the focus back to the combobox's input on select,
-    // so we timeout to wait and then move the focus to the currentBlock input
-    setTimeout(() => {
-      inputRef?.current?.focus();
-    }, 10);
-    await updateTask(task);
+  const handleChangeBlockPlan = async (blockPlan: BlockPlan) => {
+    await updateBlockPlan(blockPlan);
   };
 
   return (
@@ -118,7 +112,7 @@ export const CurrentBlock = () => {
         <>
           <input
             ref={inputRef}
-            value={currentBlock.title}
+            value={title}
             onChange={handleOnChangeTitle}
             onBlur={blur}
             className={cn(
@@ -128,13 +122,9 @@ export const CurrentBlock = () => {
           />
 
           <div className="absolute left-4 top-3 flex space-x-2 items-center">
-            <ProjectSelector />
-            <TaskCombobox
-              value={currentBlock.tasks?.[0]}
-              onChange={onChangeTask}
-              project={currentBlock.project}
-            />
-            {currentBlock.tasks?.[0] && <TaskBlocksProgress task={currentBlock.tasks?.[0]} />}
+            {currentBlock.blockPlan && (
+              <BlockPlanForm value={currentBlock.blockPlan} onChange={handleChangeBlockPlan} />
+            )}
           </div>
 
           <div className="absolute right-4 top-2">
@@ -145,7 +135,7 @@ export const CurrentBlock = () => {
             {blocks?.map((block, i) => (
               <div
                 key={i}
-                className={cn('h-2.5 w-2.5 rounded-full', block.bgColor)}
+                className={`h-2.5 w-2.5 rounded-full bg-${block.color}`}
               />
             ))}
           </div>

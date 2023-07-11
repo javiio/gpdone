@@ -1,12 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
-import { useRecoilValue } from 'recoil';
 import { ResizablePanels } from '~platform';
-import { DailyBlocks, CurrentDateSelector, currentDateState } from '~blocks';
+import { DailyBlocks } from '~blocks';
+import { CurrentDateSelector, useCurrentDate } from '~calendar';
 import { NoteEditor } from '~notes';
 
 const Home = () => {
-  const currentDate = useRecoilValue(currentDateState);
+  const { date } = useCurrentDate();
+
   return (
     <React.Fragment>
       <Head>
@@ -18,7 +19,7 @@ const Home = () => {
             <CurrentDateSelector />
           </div>
           <div>
-            <DailyBlocks date={currentDate} />
+            <DailyBlocks date={date} />
           </div>
         </div>
 

@@ -1,20 +1,16 @@
 import type { Timestamp } from 'firebase/firestore';
-import type { Project } from '~projects';
-import type { Task } from '~tasks';
 import type { TimerLog } from '~timer';
+import type { BlockPlan, BlockPlanData } from '~planning';
 
 export interface BlockData {
   title: string
-  projectId: string
   timerLogs: TimerLog[]
   blockTime: number
   createdAt?: Timestamp
-  tasksIds?: string[]
+  blockPlansData: BlockPlanData[]
 };
 
 export interface Block extends BlockData {
-  project?: Project
-  borderColor: string
-  bgColor: string
-  tasks?: Task[]
+  blockPlan?: BlockPlan
+  color: string
 };

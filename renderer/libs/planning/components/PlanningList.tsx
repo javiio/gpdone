@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
 import type { DateTime } from 'luxon';
 import { useProjects } from '~projects';
@@ -54,7 +54,7 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="flex-row space-y-2"
+              className="flex-row space-y-0"
             >
               {blockPlans.map((blockPlan, i) => (
                 <Draggable key={i} draggableId={i.toString()} index={i}>
@@ -63,12 +63,18 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      className="relative group border border-transparent hover:border-slate-500 rounded-md py-2 px-2"
                     >
                       <BlockPlanForm
                         value={blockPlan}
                         onChange={async (p: BlockPlan) => { await handleOnChange(p, i); }}
-                        onRemove={async () => { await handleOnRemove(i); }}
                       />
+                      <button
+                        onClick={async () => { await handleOnRemove(i); }}
+                        className="absolute inset-y-0 right-2 hidden group-hover:block"
+                      >
+                        <XMarkIcon className="h-4 w-4" />
+                      </button>
                     </div>
                   )}
                 </Draggable>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { DateTime } from 'luxon';
 import { useDoc, setDoc } from '~platform';
-import { useProjects, type Project } from '~projects';
+import { useProjects } from '~projects';
 import { useTasks } from '~tasks';
 import { getId } from '~blocks';
-import { type BlockPlan, type BlockPlanData } from '../';
+import { dataToBlockPlan, blockPlanToData, type BlockPlan, type BlockPlanData } from '../';
 
 export const usePlanning = (date?: DateTime) => {
   const [planning, setPlanning] = useState<BlockPlan[]>([]);
@@ -15,22 +15,11 @@ export const usePlanning = (date?: DateTime) => {
   useEffect(() => {
     if (data?.data()) {
       const planningData: BlockPlanData[] = data.data()?.planning || [];
-      setPlanning(planningData.map((p) => dataToBlockPlan(p)));
+      setPlanning(planningData.map((p) => dataToBlockPlan(p, getProject, getTask)));
     } else {
       setPlanning([]);
     }
   }, [data, date, getProject]);
-
-  const blockPlanToData = (blockPlan: BlockPlan): BlockPlanData => ({
-    projectId: blockPlan.projectId,
-    ...(blockPlan.taskId && { taskId: blockPlan.taskId }),
-  });
-
-  const dataToBlockPlan = (data: BlockPlanData): BlockPlan => ({
-    ...data,
-    project: getProject(data.projectId) as Project,
-    task: getTask(data.taskId),
-  });
 
   const updatePlanning = async (blockPlans: BlockPlan[]) => {
     const planningData = blockPlans.map((p) => blockPlanToData(p));

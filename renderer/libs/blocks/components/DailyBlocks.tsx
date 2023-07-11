@@ -74,15 +74,16 @@ export const DailyBlocks = ({ date }: { date?: DateTime }) => {
   const renderBlocks = () => {
     const blocksPerProject: Record<string, number> = {};
     return blocks?.map((block, i) => {
-      const count = (blocksPerProject[block.projectId] ?? 0) + 1;
-      blocksPerProject[block.projectId] = count;
+      const projectId = block.blockPlan?.projectId ?? '';
+      const count = (blocksPerProject[projectId] ?? 0) + 1;
+      blocksPerProject[projectId] = count;
       const blockTime = block.blockTime ?? 25 * 60;
       return (
         <div
           key={i}
           className={cn(
             'py-1 pl-4 pr-6 text-sm w-96 border border-l-8 truncate',
-            `${block.borderColor} ${block.bgColor}/10`,
+            `border-${block.color} bg-${block.color}/10`,
             `${viewMode === 'full' ? 'absolute' : 'mb-1'}`
           )}
           style={{

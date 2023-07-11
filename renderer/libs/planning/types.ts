@@ -7,6 +7,6 @@ export interface BlockPlanData {
 }
 
 export interface BlockPlan extends BlockPlanData {
-  project: Project
+  project?: Project
   task?: Task
 }

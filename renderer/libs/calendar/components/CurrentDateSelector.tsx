@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DateTime } from 'luxon';
-import { useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { currentDateState } from '../';
 
 export const CurrentDateSelector: React.FC = () => {
-  const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
+  const [currentDate, setCurrentDate] = useState(DateTime.now().startOf('day'));
 
   const handlePreviousDay = () => {
     setCurrentDate(currentDate.minus({ days: 1 }));
