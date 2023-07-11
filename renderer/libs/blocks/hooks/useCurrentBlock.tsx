@@ -8,9 +8,9 @@ import React, {
 } from 'react';
 import type { FirestoreError } from 'firebase/firestore';
 import { useDoc, setDoc, updateDoc, addItemToArrayDoc } from '~platform';
-import { useProjects, type Project } from '~projects';
+import { useProjects } from '~projects';
 import { useTimer } from '~timer';
-import { useTasks, type Task } from '~tasks';
+import { useTasks } from '~tasks';
 import { blockPlanToData, type BlockPlan } from '~planning';
 import {
   dataToBlock,
@@ -26,8 +26,6 @@ interface CurrentBlockContext {
   error?: FirestoreError
   pushCurrentBlock: () => Promise<void>
   updateTitle: (title: string) => void
-  updateProject: (project: Project) => Promise<void>
-  updateTask: (task: Task) => Promise<void>
   updateBlockPlan: (blockPlan: BlockPlan) => Promise<void>
   color: string
   inputRef?: React.RefObject<HTMLInputElement>
@@ -37,8 +35,6 @@ const currentBlockContext = createContext<CurrentBlockContext>({
   loading: false,
   pushCurrentBlock: async () => {},
   updateTitle: (t: string) => {},
-  updateProject: async (p: Project) => {},
-  updateTask: async (t: Task) => {},
   color: 'gray-400',
   updateBlockPlan: async (b: BlockPlan) => {},
 });
