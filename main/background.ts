@@ -38,8 +38,21 @@ if (isProd) {
       ],
     });
   }
+
+  mainWindow.webContents.on('render-process-gone', (event, detailed) => {
+    console.log(`Crashed, reason: ${detailed.reason}, exitCode = ${detailed.exitCode}`);
+    if (detailed.reason == 'crashed') {
+        // relaunch app
+        app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+        app.exit(0)
+    }
+  });
 })();
 
 app.on('window-all-closed', () => {
   app.quit();
+});
+
+process.on('uncaughtException', (err) => {
+  console.log('Error', err);
 });
