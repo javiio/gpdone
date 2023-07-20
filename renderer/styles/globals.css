@@ -6,6 +6,9 @@
   body {
     @apply bg-slate-900 text-white;
   }
+  h1 {
+    @apply text-3xl;
+  }
   h2 {
     @apply text-2xl font-light;
   }
@@ -22,14 +25,6 @@
 
 input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(1); /* Invert the color */
-}
-
-.public-DraftEditor-content {
-  min-height: 48px;
-}
-
-.public-DraftEditorPlaceholder-root {
-  @apply absolute text-gray-400;
 }
 
 /* Scrollbar */

@@ -18,7 +18,7 @@ export const TaskInfo = ({ task }: { task: Task }) => {
   };
 
   return (
-    <div className="p-4 pt-8 bg-slate-700 relative">
+    <div className="p-4 pt-8 relative">
       <h2>{task.title}</h2>
       <div className="flex flex-col absolute top-0 right-2 items-end">
         <NumberSelector value={plannedBlocks} setValue={handleChangePlannedBlocks} />

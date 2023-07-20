@@ -86,7 +86,7 @@ export const ResizablePanels: React.FC<ResizablePanelsProps> = ({
       </div>
 
       <div
-        className="flex-1 overflow-auto"
+        className="flex-1 overflow-auto bg-slate-700"
         style={{ flexBasis: panelBSize }}
       >
         {React.Children.toArray(children)[1]}

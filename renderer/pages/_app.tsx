@@ -8,6 +8,7 @@ import { ProvideTasks } from '~tasks';
 import { Navbar } from 'layout/Navbar';
 
 import '../styles/globals.css';
+import '../styles/editor.css';
 
 const GPDApp = ({ Component, pageProps }: AppProps) => {
   return (

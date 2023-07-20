@@ -23,7 +23,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="bg-slate-700">
+        <div>
           <NoteEditor noteId="playground" />
         </div>
       </ResizablePanels>

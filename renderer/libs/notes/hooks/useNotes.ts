@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { debounce } from 'lodash';
+import { type EditorState } from 'lexical';
 import { useDocOnce, setDoc } from '~platform';
 import type { Note } from '../';
 
+const EMPTY_CONTENT =
+  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 export const useNote = (noteId: string) => {
   const [note, setNote] = useState<Note>();
   const [data, isLoading, error] = useDocOnce('notes', noteId);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<string>();
 
   useEffect(() => {
     if (data?.data()) {
@@ -18,27 +20,24 @@ export const useNote = (noteId: string) => {
   }, [data]);
 
   useEffect(() => {
-    if (note?.body) {
-      const contentState = convertFromRaw(note.body);
-      setEditorState(EditorState.createWithContent(contentState));
-    } else {
-      setEditorState(EditorState.createEmpty());
+    if (!isLoading) {
+      setEditorState(note?.body ?? EMPTY_CONTENT);
     }
   }, [note]);
 
-  const saveContent = debounce(async (content) => {
+  const handleChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      saveContent(JSON.stringify(editorState));
+    });
+  };
+
+  const saveContent = debounce(async (body) => {
     const data = {
-      body: convertToRaw(content),
+      body,
       updatedAt: new Date(),
     };
     await setDoc(data, 'notes', noteId);
-  }, 500);
-
-  const handleChange = (state: EditorState) => {
-    const contentState = state.getCurrentContent();
-    setEditorState(state);
-    saveContent(contentState);
-  };
+  }, 1000);
 
   return {
     note,

@@ -1,5 +1,4 @@
 import type { Timestamp } from 'firebase/firestore';
-import type { RawDraftContentState } from 'draft-js';
 import type { Project } from '~projects';
 import type { Block } from '~blocks';
 
@@ -15,7 +14,7 @@ export interface TaskLink {
 
 export interface TaskData {
   title: string
-  body?: RawDraftContentState
+  body?: string
   completed: boolean
   subtasks?: SubTask[]
   links?: TaskLink[]

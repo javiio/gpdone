@@ -18,7 +18,7 @@ const Planning = () => {
           <PlanningList date={date} />
         </div>
 
-        <div className="bg-slate-700 flex-1 h-screen">
+        <div>
           <NoteEditor noteId="planning" />
         </div>
       </ResizablePanels>
