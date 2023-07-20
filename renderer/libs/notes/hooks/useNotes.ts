@@ -23,7 +23,7 @@ export const useNote = (noteId: string) => {
     if (!isLoading) {
       setEditorState(note?.body ?? EMPTY_CONTENT);
     }
-  }, [note]);
+  }, [note, isLoading]);
 
   const handleChange = (editorState: EditorState) => {
     editorState.read(() => {
