@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { HomeIcon, CalendarDaysIcon, StarIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { Icon } from '~platform';
 
 const navItems = [
-  { name: 'Home', href: '/home', icon: HomeIcon },
-  { name: 'Tasks', href: '/tasks', icon: StarIcon },
-  { name: 'Planning', href: '/planning', icon: CalendarDaysIcon },
-  { name: 'Notes', href: '/notes', icon: DocumentTextIcon },
+  { name: 'Home', href: '/home', icon: 'home' },
+  { name: 'Tasks', href: '/tasks', icon: 'tasks' },
+  { name: 'Planning', href: '/planning', icon: 'calendar' },
 ];
 
 export const Navbar = () => {
@@ -34,7 +33,7 @@ export const Navbar = () => {
 
   return (
     <nav className="fixed top-0 bottom-0 left-0 w-14 flex flex-col items-center space-y-4 bg-slate-950 z-50">
-      {navItems.map(({ name, href, icon: Icon }) => (
+      {navItems.map(({ name, href, icon }) => (
         <a
           key={name}
           href={href}
@@ -46,7 +45,7 @@ export const Navbar = () => {
             router.pathname === href ? '!border-white text-white border-l-4' : 'text-white/50 hover:text-white'
           }`}
         >
-          <Icon className="h-6 w-6" aria-hidden="true" />
+          <Icon name={icon} size={6} />
         </a>
       ))}
     </nav>

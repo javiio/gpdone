@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { DateTime } from 'luxon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '~platform';
 
 export const CurrentDateSelector: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(DateTime.now().startOf('day'));
@@ -30,14 +29,10 @@ export const CurrentDateSelector: React.FC = () => {
 
   return (
     <div className="flex items-center">
-      <button onClick={handlePreviousDay}>
-        <FontAwesomeIcon icon={faChevronLeft} size="sm" />
-      </button>
+      <IconButton name="chevronLeft" size={4} onClick={handlePreviousDay} />
       <span className="w-24 text-center text-xs">{formatDate(currentDate)}</span>
       {currentDate < DateTime.now().startOf('day') && (
-        <button onClick={handleNextDay}>
-          <FontAwesomeIcon icon={faChevronRight} size="sm" />
-        </button>
+        <IconButton name="chevronRight" size={4} onClick={handleNextDay} />
       )}
     </div>
   );

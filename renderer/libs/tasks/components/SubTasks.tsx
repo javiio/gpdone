@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { IconButton } from '~platform';
 import { useTask, type Task } from '../';
 
 export const SubTasks = ({ task }: { task: Task }) => {
@@ -47,7 +47,7 @@ export const SubTasks = ({ task }: { task: Task }) => {
       {subtasks.map((subtask, i) => (
         <div
           key={i}
-          className="px-4 py-0.5 border border-transparent hover:border-slate-200/50 relative group"
+          className="px-4 py-0.5 border border-transparent hover:border-slate-200/50 relative group rounded-md"
         >
           <input
             type="checkbox"
@@ -63,8 +63,10 @@ export const SubTasks = ({ task }: { task: Task }) => {
             {subtask.title}
           </span>
 
-          <XMarkIcon
-            className="h-4 w-4 absolute right-2 top-[5px] hidden group-hover:block"
+          <IconButton
+            name="x"
+            size={4}
+            className="absolute right-2 top-[5px] hidden group-hover:block"
             onClick={async () => { await handleRemove(i); }}
           />
         </div>
@@ -75,11 +77,9 @@ export const SubTasks = ({ task }: { task: Task }) => {
           value={title}
           onChange={handleInputChange}
           placeholder="Add item..."
-          className="bg-slate-900 px-2 py-1 w-48 focus:flex-1 transition-all focus:outline rounded-md"
+          className="bg-slate-900 px-2 py-1 w-48 focus:flex-1 transition-all focus:outline rounded-md delay-100"
         />
-        <button type="submit" className="hidden group-focus-within:block">
-          <PlusIcon className="h-5 w-5" />
-        </button>
+        <IconButton name="plus" type="submit" className="hidden group-focus-within:block" />
       </form>
     </div>
   );

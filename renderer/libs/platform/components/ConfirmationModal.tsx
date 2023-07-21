@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Icon, IconButton } from '~platform';
 
 interface Props {
   showModal: boolean
@@ -65,8 +65,12 @@ export const ConfirmationModal: React.FC<Props> = ({
                   className="inline-flex items-center justify-center w-8 h-8 text-gray-400 rounded-full hover:text-gray-600 transition duration-150 ease-in-out"
                   onClick={() => { setShowModal(false); }}
                 >
-                  <XMarkIcon className="w-5 h-5" />
                 </button>
+                <IconButton
+                  name="x"
+                  onClick={() => { setShowModal(false); }}
+                  className="inline-flex items-center justify-center w-8 h-8 text-slate-900 hover:text-purple-800 transition duration-150 ease-in-out"
+                />
               </div>
 
               <div className="flex justify-end mt-6">
@@ -74,7 +78,7 @@ export const ConfirmationModal: React.FC<Props> = ({
                   className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-500 hover:bg-green-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   onClick={handleConfirm}
                 >
-                  <CheckIcon className="w-5 h-5 mr-2" />
+                  <Icon name="check" className="mr-2" />
                   Confirm
                 </button>
                 <button

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
+import { IconButton } from '~platform';
 import type { DateTime } from 'luxon';
 import { useProjects } from '~projects';
 import { usePlanning, BlockPlanForm, type BlockPlan } from '../';
@@ -69,12 +69,12 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
                         value={blockPlan}
                         onChange={async (p: BlockPlan) => { await handleOnChange(p, i); }}
                       />
-                      <button
+                      <IconButton
+                        name="x"
+                        size="4"
                         onClick={async () => { await handleOnRemove(i); }}
-                        className="absolute inset-y-0 right-2 hidden group-hover:block"
-                      >
-                        <XMarkIcon className="h-4 w-4" />
-                      </button>
+                        className="absolute top-4 right-2 hidden group-hover:block"
+                      />
                     </div>
                   )}
                 </Draggable>
@@ -85,9 +85,7 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
         </Droppable>
       </DragDropContext>
 
-      <button onClick={handleAddBlock}>
-        <PlusIcon className="h-5 w-5" />
-      </button>
+      <IconButton name="plus" onClick={handleAddBlock} />
     </>
   );
 };

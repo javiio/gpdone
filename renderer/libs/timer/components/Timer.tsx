@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cn from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRefresh } from '@fortawesome/free-solid-svg-icons';
-import { ConfirmationModal } from '~platform';
+import { ConfirmationModal, IconButton } from '~platform';
 import { useCurrentBlock } from '~blocks';
 import { ding, tick } from '~assets';
 
@@ -54,12 +52,12 @@ export const Timer: React.FC = () => {
     <div className="relative">
       <audio ref={audioRef} />
       {isPaused && remainingTime !== blockTime && (
-        <button
+        <IconButton
+          name="refresh"
+          size="4"
           onClick={() => { setShowConfirmation(true); }}
           className="absolute top-[1px] -left-5"
-        >
-          <FontAwesomeIcon icon={faRefresh} className="opacity-70" />
-        </button>
+        />
       )}
       <button
         onClick={toggleTimer}

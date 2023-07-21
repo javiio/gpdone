@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Loading, Error, ConfirmationModal } from '~platform';
+import { Loading, Error, ConfirmationModal, IconButton } from '~platform';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
 import { BlockPlanForm, type BlockPlan } from '~planning';
 import { useCurrentBlock, useDailyBlocks } from '../';
@@ -140,14 +138,14 @@ export const CurrentBlock = () => {
             ))}
           </div>
 
-          <div className="absolute right-4 bottom-1">
-            <button
-              onClick={push}
-              className={remainingTime === 0 ? `text-${color}` : 'opacity-50'}
-            >
-              <FontAwesomeIcon icon={faPlus} size="lg" />
-            </button>
-          </div>
+          <IconButton
+            name="plus"
+            onClick={push}
+            size={remainingTime === 0 ? 6 : 5}
+            className={cn('absolute right-3 bottom-1',
+              remainingTime === 0 ? `text-${color}` : 'opacity-50'
+            )}
+          />
 
           <div className="absolute left-[4px] right-0 top-0">
             <TimerProgressLine />

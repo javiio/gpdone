@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { shell } from 'electron';
-import { LinkIcon, PlusIcon, PencilIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Icon, IconButton } from '~platform';
 import { type Task, type TaskLink, useTask } from '../';
 
 export const TaskLinks = ({ task }: { task: Task }) => {
@@ -40,13 +40,17 @@ export const TaskLinks = ({ task }: { task: Task }) => {
   return (
     <div>
       <div className="flex space-x-2 items-center">
-        <LinkIcon className="h-4 w-4 -mt-0.5" />
+        <Icon name="link" size={4} className="-mt-0.5" />
         {task.links?.map((link: TaskLink, i: number) => (
           <>
             {editMode
               ? <div className="bg-slate-900 rounded pl-2 pr-1 text-sm flex items-center space-x-1">
                   <span>{link.title}</span>
-                  <XMarkIcon className="h-3 w-3" onClick={async () => { await handleClickRemove(i); }} />
+                  <IconButton
+                    name="x"
+                    size={4}
+                    onClick={async () => { await handleClickRemove(i); }}
+                  />
                 </div>
               : <button
                 key={link.title}
@@ -58,10 +62,11 @@ export const TaskLinks = ({ task }: { task: Task }) => {
             }
           </>
         ))}
-        {editMode
-          ? <XMarkIcon className="h-4 w-4" onClick={handleToggleEditMode} />
-          : <PencilIcon className="h-4 w-4" onClick={handleToggleEditMode} />
-        }
+        <IconButton
+          name={editMode ? 'x' : 'pencil'}
+          size={4}
+          onClick={handleToggleEditMode}
+        />
       </div>
 
       {editMode && (
@@ -78,9 +83,7 @@ export const TaskLinks = ({ task }: { task: Task }) => {
             placeholder="URL..."
             className="bg-slate-950 px-2 py-1 flex-1"
           />
-          <button onClick={handleClickAdd} className="w-6">
-            <PlusIcon className="h-5 w-5" />
-          </button>
+          <IconButton name="plus" onClick={handleClickAdd} />
         </div>
       )}
     </div>

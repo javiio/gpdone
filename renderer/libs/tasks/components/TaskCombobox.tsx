@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect, forwardRef, Ref } from 'react';
+import React, { Fragment, useState, useEffect, forwardRef, type Ref } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { useTasks, type Task } from '../';
+import { Icon } from '~platform';
 import { type Project } from '~projects';
+import { useTasks, type Task } from '../';
 
 interface Props {
   value?: Task
@@ -50,10 +50,7 @@ export const TaskCombobox = forwardRef((
               ref={ref}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
+              <Icon name="chevronUpDown" />
             </Combobox.Button>
           </div>
           <Transition
@@ -92,7 +89,7 @@ export const TaskCombobox = forwardRef((
                           {selected
                             ? (
                               <span className={`absolute inset-y-0 left-0 flex items-center pl-3 text-${color}`}>
-                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                <Icon name="check" />
                               </span>
                               )
                             : null}

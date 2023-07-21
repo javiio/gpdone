@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import cn from 'classnames';
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { Icon } from '~platform';
 import { useProjects, type Project } from '../';
 
 interface Props {
@@ -21,10 +21,7 @@ export const ProjectCombobox = ({ value, onChange }: Props) => {
         )}>
           <span className="block truncate">{value.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-0.5">
-            <ChevronUpDownIcon
-              className="h-4 w-4 text-white"
-              aria-hidden="true"
-            />
+            <Icon name="chevronUpDown" size={4} />
           </span>
         </Listbox.Button>
         <Transition
@@ -48,7 +45,7 @@ export const ProjectCombobox = ({ value, onChange }: Props) => {
                   <>
                     <div className="flex items-center">
                       {selected && (
-                        <CheckIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                        <Icon name="check" size={3.5} />
                       )}
                       <span className="truncate block px-1">
                         {project.name}

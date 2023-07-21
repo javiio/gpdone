@@ -4,4 +4,6 @@ export * from './components/Loading';
 export * from './components/ConfirmationModal';
 export * from './components/ResizablePanels';
 export * from './components/NumberSelector';
+export * from './components/Icon';
+export * from './components/IconButton';
 export * from './data';

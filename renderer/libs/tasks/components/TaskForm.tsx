@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { IconButton } from '~platform';
 import { type Project } from '~projects';
 import { useTasks } from '../';
 
@@ -29,11 +29,9 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
         value={title}
         onChange={handleInputChange}
         placeholder="New task..."
-        className="bg-slate-950 px-4 py-2 w-64 focus:flex-1 focus:outline rounded-md transition-all"
+        className="bg-slate-950 px-4 py-2 w-64 focus:flex-1 focus:outline rounded-md transition-all delay-100"
       />
-      <button type="submit" className="hidden group-focus-within:block">
-        <PlusIcon className="h-5 w-5" />
-      </button>
+      <IconButton name="plus" type="submit" className="hidden group-focus-within:block" />
     </form>
   );
 };
