@@ -20,8 +20,8 @@ export const useNote = (noteId: string) => {
   }, [data]);
 
   useEffect(() => {
-    if (!isLoading) {
-      setEditorState(note?.body ?? EMPTY_CONTENT);
+    if (!isLoading && note) {
+      setEditorState(note.body ?? EMPTY_CONTENT);
     }
   }, [note, isLoading]);
 
