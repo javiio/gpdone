@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { type EditorState } from 'lexical';
 import { useDocOnce, setDoc } from '~platform';
-import type { Note } from '../';
+import type { Note } from '..';
 
 const EMPTY_CONTENT =
   '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
@@ -12,18 +12,20 @@ export const useNote = (noteId: string) => {
   const [editorState, setEditorState] = useState<string>();
 
   useEffect(() => {
-    if (data?.data()) {
-      setNote(data.data() as Note);
-    } else {
-      setNote(undefined);
+    if (isLoading || error) {
+      return;
     }
-  }, [data]);
+
+    const _note = data?.data() as Note | undefined;
+    console.log(_note);
+    console.log(_note?.body ?? EMPTY_CONTENT);
+    setNote(_note);
+    setEditorState(_note?.body ?? EMPTY_CONTENT);
+  }, [data, isLoading, error]);
 
   useEffect(() => {
-    if (!isLoading && note) {
-      setEditorState(note.body ?? EMPTY_CONTENT);
-    }
-  }, [note, isLoading]);
+    setEditorState(undefined);
+  }, [noteId]);
 
   const handleChange = (editorState: EditorState) => {
     editorState.read(() => {

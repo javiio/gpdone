@@ -1,3 +1,3 @@
 export * from './types';
-export * from './hooks/useNotes';
+export * from './hooks/useNote';
 export * from './components/NoteEditor';
