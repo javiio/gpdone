@@ -63,7 +63,7 @@ export const ResizablePanels: React.FC<ResizablePanelsProps> = ({
   return (
     <span className={cn('flex',
       vertical && 'flex-col h-full',
-      !vertical && 'flex-row w-full h-16'
+      !vertical && 'flex-row w-full h-full'
     )}
      ref={containerRef}
     >
@@ -77,11 +77,11 @@ export const ResizablePanels: React.FC<ResizablePanelsProps> = ({
       <div
         className={cn('bg-slate-950 items-center justify-center flex',
           vertical && 'cursor-row-resize w-full h-4',
-          !vertical && 'cursor-col-resize h-ful w-4'
+          !vertical && 'cursor-col-resize h-full w-4'
         )}
         onMouseDown={handleMouseDown}
       >
-        <div className={`bg-slate-400 rounded-full ${vertical ? 'w-28 h-[3px]' : 'h-3 w-[3px]'}`}
+        <div className={`bg-slate-400 rounded-full ${vertical ? 'w-28 h-[3px]' : 'h-20 w-[3px]'}`}
         />
       </div>
 
