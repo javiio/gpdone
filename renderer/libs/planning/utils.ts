@@ -18,3 +18,13 @@ export const dataToBlockPlan = (
   project: getProject(data.projectId) as Project,
   task: getTask(data.taskId),
 });
+
+export const taskToBlockPlan = (task: Task): BlockPlan => {
+  const { id, projectId = '', project } = task;
+  return {
+    project,
+    projectId,
+    task,
+    taskId: id,
+  };
+};
