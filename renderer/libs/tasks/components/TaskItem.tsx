@@ -66,7 +66,7 @@ export const TaskItem = ({ task }: Props) => {
         'ml-2',
         isCompleted && 'italic text-gray-400 line-through'
       )}>
-        aqui... {title}
+        {title}
       </div>
     </div>
   );
