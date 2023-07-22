@@ -14,6 +14,7 @@ import {
   CalendarDaysIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
 
 interface IconProps {
@@ -37,6 +38,7 @@ const ICONS_MAP = {
   calendar: CalendarDaysIcon,
   chevronLeft: ChevronLeftIcon,
   chevronRight: ChevronRightIcon,
+  sendArrow: ArrowTopRightOnSquareIcon,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
-import { IconButton } from '~platform';
 import type { DateTime } from 'luxon';
+import { IconButton } from '~platform';
 import { useProjects } from '~projects';
+import { useCurrentBlock } from '~blocks';
 import { usePlanning, BlockPlanForm, type BlockPlan } from '../';
 
 export const PlanningList = ({ date }: { date?: DateTime }) => {
   const { planning, updatePlanning } = usePlanning(date);
   const { projects } = useProjects();
+  const { updateBlockPlan } = useCurrentBlock();
   const [blockPlans, setBlockPlans] = useState(planning);
 
   const handleDragEnd = async (result: DropResult) => {
@@ -46,6 +48,10 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
     await updatePlanning(newPlanning);
   };
 
+  const handleSendBlockPlan = async (blockPlan: BlockPlan) => {
+    await updateBlockPlan(blockPlan);
+  };
+
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -63,8 +69,14 @@ export const PlanningList = ({ date }: { date?: DateTime }) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="relative group border border-transparent hover:border-slate-500 rounded-md py-2 px-2"
+                      className="flex space-x-3 relative group border border-transparent hover:border-slate-500 rounded-md p-2"
                     >
+                      <IconButton
+                        name="sendArrow"
+                        size={4}
+                        onClick={async () => { await handleSendBlockPlan(blockPlan); }}
+                        className="inline-block"
+                      />
                       <BlockPlanForm
                         value={blockPlan}
                         onChange={async (p: BlockPlan) => { await handleOnChange(p, i); }}
