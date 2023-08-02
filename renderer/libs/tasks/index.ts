@@ -6,5 +6,6 @@ export * from './components/TaskLinks';
 export * from './components/TaskCombobox';
 export * from './components/TaskBlocksProgress';
 export * from './hooks/useTasks';
+export * from './hooks/useProjectTasks';
 export * from './hooks/useTask';
 export * from './types';

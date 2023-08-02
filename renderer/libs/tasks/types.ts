@@ -21,7 +21,7 @@ export interface TaskData {
   plannedBlocks: number
   blocksIds?: string[]
   projectId?: string
-  createdAt?: Timestamp
+  createdAt: Timestamp
   updatedAt?: Timestamp
   completedAt?: Timestamp
 };
