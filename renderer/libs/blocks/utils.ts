@@ -1,11 +1,10 @@
 import { Timestamp } from 'firebase/firestore';
 import { DateTime } from 'luxon';
+import { getDateString } from '~platform';
 import type { Project } from '~projects';
 import type { Task } from '~tasks';
 import type { Block, BlockData } from './types';
 import { blockPlanToData, dataToBlockPlan } from '~planning';
-
-const START_TIME = 7;
 
 export const dataToBlock = (
   data: BlockData,
@@ -33,13 +32,7 @@ export const blockToData = (block: Block): BlockData => {
 };
 
 export const getId = (date: DateTime = DateTime.now()) => {
-  if (
-    date.startOf('day').ts === DateTime.now().startOf('day').ts &&
-    DateTime.now().hour < START_TIME
-  ) {
-    return date.minus({ days: 1 }).toFormat('yyyyMMdd');
-  }
-  return date.toFormat('yyyyMMdd');
+  return getDateString(date);
 };
 
 export const getDate = () => Timestamp.now();

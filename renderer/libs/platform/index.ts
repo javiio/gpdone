@@ -7,3 +7,4 @@ export * from './components/NumberSelector';
 export * from './components/Icon';
 export * from './components/IconButton';
 export * from './data';
+export * from './utils';
