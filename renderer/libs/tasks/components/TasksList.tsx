@@ -18,15 +18,17 @@ export const TasksList: React.FC<TasksListProps> = ({ project }) => {
         ))}
       </div>
 
-      <div className="mt-4 mb-12">
-        <Disclosure title="Completed">
-          <div className="flex-row space-y-0.5">
-            {completed.map((task) => (
-              <TaskItem key={task.id} task={task} />
-            ))}
-          </div>
-        </Disclosure>
-      </div>
+      {completed.length > 0 && (
+        <div className="mt-4 mb-12">
+          <Disclosure title="Completed">
+            <div className="flex-row space-y-0.5">
+              {completed.map((task) => (
+                <TaskItem key={task.id} task={task} />
+              ))}
+            </div>
+          </Disclosure>
+        </div>
+      )}
     </>
   );
 };
