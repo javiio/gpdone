@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import { updateDoc, addItemToArrayDoc } from '~platform';
 import type { Task, TaskLink, SubTask } from '../';
 
@@ -5,7 +6,12 @@ export const useTask = (task: Task) => {
   const { completed, id } = task;
 
   const toggle = async () => {
-    await updateDoc({ completed: !completed }, 'tasks', id);
+    const toggled = !completed;
+    const data = {
+      completed: toggled,
+      ...(toggled && { completedAt: Timestamp.now() }),
+    };
+    await updateDoc(data, 'tasks', id);
   };
 
   const addLink = async (link: TaskLink) => {
