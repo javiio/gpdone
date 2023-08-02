@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect, forwardRef, type Ref } from 'reac
 import { Combobox, Transition } from '@headlessui/react';
 import { Icon } from '~platform';
 import { type Project } from '~projects';
-import { useTasks, type Task } from '../';
+import { useProjectTasks, type Task } from '../';
 
 interface Props {
   value?: Task
@@ -16,22 +16,16 @@ export const TaskCombobox = forwardRef((
 ) => {
   const [query, setQuery] = useState('');
   const [color, setColor] = useState('gray-500');
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
-  const { tasks } = useTasks();
+  const { pending } = useProjectTasks(project);
 
   useEffect(() => {
-    if (!project) {
-      setAllTasks(tasks.filter((task) => !task.completed));
-    } else {
-      setAllTasks(tasks.filter((task) => !task.completed && task.projectId === project.id));
-    }
     setColor(project?.color ?? 'gray-500');
-  }, [tasks, project]);
+  }, [project]);
 
   const filteredTasks =
     query === ''
-      ? allTasks
-      : allTasks.filter((task) =>
+      ? pending
+      : pending.filter((task) =>
         task.title
           .toLowerCase()
           .replace(/\s+/g, '')
