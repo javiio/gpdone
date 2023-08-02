@@ -18,7 +18,7 @@ export const TasksList: React.FC<TasksListProps> = ({ project }) => {
         (!task.completed || isToday(task.completedAt))
       );
     setFilteredTasks(_filtered);
-  }, [tasks]);
+  }, [tasks, project]);
 
   return (
     <>
