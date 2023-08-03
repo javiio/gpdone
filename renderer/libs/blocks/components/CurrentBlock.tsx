@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Loading, Error, ConfirmationModal, IconButton } from '~platform';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
-import { BlockPlanForm, type BlockPlan } from '~planning';
+import { BlockPlanForm, usePlanning, type BlockPlan } from '~planning';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
@@ -21,6 +21,7 @@ export const CurrentBlock = () => {
   } = useCurrentBlock();
   const { blocks } = useDailyBlocks();
   const { remainingTime, startTimer } = useTimer();
+  const { plannedUndone } = usePlanning();
 
   useEffect(() => {
     setFontSize(calcFontSize());
@@ -72,7 +73,7 @@ export const CurrentBlock = () => {
   };
 
   const calcFontSize = () => {
-    const count = currentBlock?.title.length ?? 0;
+    const count = title.length ?? 0;
     if (count < 25) {
       return 'text-5xl';
     }
@@ -134,6 +135,12 @@ export const CurrentBlock = () => {
               <div
                 key={i}
                 className={`h-2.5 w-2.5 rounded-full bg-${block.color}`}
+              />
+            ))}
+            {plannedUndone.map((blockPlan, i) => (
+              <div
+                key={i}
+                className={`h-2.5 w-2.5 rounded-full border border-${blockPlan.project?.color ?? 'gray-500'}`}
               />
             ))}
           </div>
