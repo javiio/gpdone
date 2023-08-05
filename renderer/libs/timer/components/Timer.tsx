@@ -11,6 +11,7 @@ export const Timer: React.FC = () => {
   const {
     blockTime,
     remainingTime,
+    setRemainingTime,
     toggleTimer,
     resetTimer,
     isPaused,
@@ -33,17 +34,34 @@ export const Timer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!isPaused && remainingTime % 60 === 0) {
+    if (remainingTime === 0) {
+      playFinished();
+    } else if (!isPaused && remainingTime % 60 === 0) {
       playAudio(tick);
-    } else if (remainingTime === 0) {
-      playAudio(ding);
     }
   }, [remainingTime, isPaused]);
+
+  const playFinished = () => {
+    playAudio(ding);
+    // Play each 12 seconds until timer is reset
+    const interval = setInterval(() => {
+      setRemainingTime((prev: number) => {
+        if (prev === 0) {
+          playAudio(ding);
+        } else {
+          clearInterval(interval);
+        }
+        return prev;
+      });
+    }, 12000);
+  };
 
   const playAudio = (source: string) => {
     const audioElement = audioRef.current;
     if (audioElement) {
-      audioElement.src = source;
+      if (!audioElement.src.endsWith(source)) {
+        audioElement.src = source;
+      }
       void audioElement.play();
     }
   };

@@ -11,6 +11,7 @@ import type { TimerLog, TimerLogAction } from '../';
 interface TimerContext {
   blockTime: number
   remainingTime: number
+  setRemainingTime: (t: number | ((number) => number)) => void
   isPaused: boolean
   toggleTimer: () => void
   startTimer: () => void
@@ -25,6 +26,7 @@ const BLOCK_TIME = 25 * 60;
 const timerContext = createContext<TimerContext>({
   blockTime: BLOCK_TIME,
   remainingTime: BLOCK_TIME,
+  setRemainingTime: (t: number) => {},
   isPaused: true,
   toggleTimer: () => {},
   startTimer: () => {},
@@ -106,6 +108,7 @@ export const ProvideTimer = ({ children }: { children: ReactNode }) => {
   const value: TimerContext = {
     blockTime: BLOCK_TIME,
     remainingTime,
+    setRemainingTime,
     isPaused,
     startTimer,
     toggleTimer,
