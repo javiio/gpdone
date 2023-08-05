@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { Loading, Error, ConfirmationModal, IconButton } from '~platform';
+import { Loading, Error, ConfirmationModal, IconButton, Button } from '~platform';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
 import { BlockPlanForm, usePlanning, type BlockPlan } from '~planning';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
   const [title, setTitle] = useState('');
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showPushConfirmation, setShowPushConfirmation] = useState(false);
+  const [showIgnoreConfirmation, setShowIgnoreConfirmation] = useState(false);
   const [fontSize, setFontSize] = useState('text-3xl');
   const {
     currentBlock,
@@ -20,7 +21,7 @@ export const CurrentBlock = () => {
     updateBlockPlan,
   } = useCurrentBlock();
   const { blocks } = useDailyBlocks();
-  const { remainingTime, startTimer } = useTimer();
+  const { remainingTime, startTimer, resetTimer } = useTimer();
   const { plannedUndone } = usePlanning();
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export const CurrentBlock = () => {
     if (remainingTime === 0) {
       await pushCurrentBlock();
     } else {
-      setShowConfirmation(true);
+      setShowPushConfirmation(true);
     }
   };
 
@@ -145,14 +146,28 @@ export const CurrentBlock = () => {
             ))}
           </div>
 
-          <IconButton
-            name="plus"
-            onClick={push}
-            size={remainingTime === 0 ? 6 : 5}
-            className={cn('absolute right-3 bottom-1',
-              remainingTime === 0 ? `text-${color}` : 'opacity-50'
-            )}
-          />
+          <div className="absolute right-3 bottom-1">
+            {remainingTime === 0
+              ? (
+                <div className="flex space-x-3">
+                  <Button
+                    onClick={() => { setShowIgnoreConfirmation(true); }}
+                    variant="secondary"
+                  >
+                    Ignore
+                  </Button>
+                  <Button onClick={push}>Add</Button>
+                </div>
+                )
+              : (
+                <IconButton
+                  name="plus"
+                  onClick={push}
+                  size={6}
+                />
+                )
+            }
+          </div>
 
           <div className="absolute left-[4px] right-0 top-0">
             <TimerProgressLine />
@@ -161,9 +176,14 @@ export const CurrentBlock = () => {
       )}
 
       <ConfirmationModal
-        showModal={showConfirmation}
-        setShowModal={setShowConfirmation}
+        showModal={showPushConfirmation}
+        setShowModal={setShowPushConfirmation}
         onConfirm={pushCurrentBlock}
+      />
+      <ConfirmationModal
+        showModal={showIgnoreConfirmation}
+        setShowModal={setShowIgnoreConfirmation}
+        onConfirm={resetTimer}
       />
     </div>
   );
