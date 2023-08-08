@@ -16,6 +16,7 @@ import {
   ChevronRightIcon,
   ArrowTopRightOnSquareIcon,
   DocumentDuplicateIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
 
 interface IconProps {
@@ -41,6 +42,7 @@ const ICONS_MAP = {
   chevronRight: ChevronRightIcon,
   sendArrow: ArrowTopRightOnSquareIcon,
   copy: DocumentDuplicateIcon,
+  trash: TrashIcon,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {

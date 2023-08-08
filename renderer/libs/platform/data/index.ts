@@ -6,6 +6,7 @@ import {
   addDoc as addFirebaseDoc,
   setDoc as setFirebaseDoc,
   updateDoc as updateFirebaseDoc,
+  deleteDoc as deleteFirebaseDoc,
   arrayUnion,
 } from 'firebase/firestore';
 import {
@@ -75,4 +76,10 @@ export const addItemToArrayDoc = async (
     ...path
   );
   await updateFirebaseDoc(docRef, { [attribute]: arrayUnion(data) });
+};
+
+export const deleteDoc = async (...path: string[]) => {
+  await deleteFirebaseDoc(
+    doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path)
+  );
 };

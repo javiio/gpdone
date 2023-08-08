@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import { updateDoc, addItemToArrayDoc } from '~platform';
+import { updateDoc, deleteDoc, addItemToArrayDoc } from '~platform';
 import type { Task, TaskLink, SubTask } from '../';
 
 export const useTask = (task: Task) => {
@@ -30,11 +30,16 @@ export const useTask = (task: Task) => {
     await updateDoc({ plannedBlocks }, 'tasks', id);
   };
 
+  const remove = async () => {
+    await deleteDoc('tasks', id);
+  };
+
   return {
     toggle,
     addLink,
     updateLinks,
     updateSubtasks,
     updatePlannedBlocks,
+    remove,
   };
 };

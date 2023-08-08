@@ -64,7 +64,7 @@ export const SubTasks = ({ task }: { task: Task }) => {
           </span>
 
           <IconButton
-            name="x"
+            name="trash"
             size={4}
             className="absolute right-2 top-[5px] hidden group-hover:block"
             onClick={async () => { await handleRemove(i); }}
