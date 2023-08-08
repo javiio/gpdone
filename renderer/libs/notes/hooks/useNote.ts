@@ -17,8 +17,6 @@ export const useNote = (noteId: string) => {
     }
 
     const _note = data?.data() as Note | undefined;
-    console.log(_note);
-    console.log(_note?.body ?? EMPTY_CONTENT);
     setNote(_note);
     setEditorState(_note?.body ?? EMPTY_CONTENT);
   }, [data, isLoading, error]);
