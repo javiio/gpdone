@@ -17,6 +17,7 @@ import {
   ArrowTopRightOnSquareIcon,
   DocumentDuplicateIcon,
   TrashIcon,
+  EllipsisHorizontalIcon,
 } from '@heroicons/react/24/outline';
 
 interface IconProps {
@@ -43,6 +44,7 @@ const ICONS_MAP = {
   sendArrow: ArrowTopRightOnSquareIcon,
   copy: DocumentDuplicateIcon,
   trash: TrashIcon,
+  dots: EllipsisHorizontalIcon,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {

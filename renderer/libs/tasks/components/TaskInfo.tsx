@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NoteEditor } from '~notes';
-import { useTask, TaskLinks, type Task, TaskBlocksProgress } from '../';
+import { useTask, TaskLinks, type Task, TaskBlocksProgress, TaskActionsMenu } from '../';
 import { SubTasks } from './SubTasks';
 import { NumberSelector } from '~platform';
 
@@ -19,10 +19,16 @@ export const TaskInfo = ({ task }: { task: Task }) => {
 
   return (
     <div className="p-4 pt-8 relative">
-      <h2>{task.title}</h2>
+      <div className="flex space-x-2">
+        <h2 className="min-w-[128px]">{task.title}</h2>
+        <div className="mt-1">
+          <TaskActionsMenu task={task} />
+        </div>
+      </div>
+
       <div className="flex flex-col absolute top-0 right-2 items-end">
         <NumberSelector value={plannedBlocks} setValue={handleChangePlannedBlocks} />
-        <div className="m-0.5">
+        <div className="m-1">
           <TaskBlocksProgress task={task} />
         </div>
       </div>
