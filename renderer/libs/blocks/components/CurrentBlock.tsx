@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { Loading, Error, ConfirmationModal, IconButton, Button } from '~platform';
+import { Loading, Error, IconButton, Button, useConfirmation } from '~platform';
 import { Timer, TimerProgressLine, useTimer } from '~timer';
 import { BlockPlanForm, usePlanning, type BlockPlan } from '~planning';
 import { useCurrentBlock, useDailyBlocks } from '../';
 
 export const CurrentBlock = () => {
   const [title, setTitle] = useState('');
-  const [showPushConfirmation, setShowPushConfirmation] = useState(false);
-  const [showIgnoreConfirmation, setShowIgnoreConfirmation] = useState(false);
   const [fontSize, setFontSize] = useState('text-3xl');
   const {
     currentBlock,
@@ -23,6 +21,7 @@ export const CurrentBlock = () => {
   const { blocks } = useDailyBlocks();
   const { remainingTime, startTimer, resetTimer } = useTimer();
   const { plannedUndone } = usePlanning();
+  const { confirm } = useConfirmation();
 
   useEffect(() => {
     setFontSize(calcFontSize());
@@ -69,7 +68,7 @@ export const CurrentBlock = () => {
     if (remainingTime === 0) {
       await pushCurrentBlock();
     } else {
-      setShowPushConfirmation(true);
+      confirm({ onConfirm: pushCurrentBlock });
     }
   };
 
@@ -151,12 +150,13 @@ export const CurrentBlock = () => {
               ? (
                 <div className="flex space-x-3">
                   <Button
-                    onClick={() => { setShowIgnoreConfirmation(true); }}
-                    variant="secondary"
-                  >
+                    onClick={() => { confirm({ onConfirm: resetTimer }); }}
+                    variant="clear"
+                    size="sm"
+                    >
                     Ignore
                   </Button>
-                  <Button onClick={push}>Add</Button>
+                  <Button onClick={push} size="sm">Add</Button>
                 </div>
                 )
               : (
@@ -174,17 +174,6 @@ export const CurrentBlock = () => {
           </div>
         </>
       )}
-
-      <ConfirmationModal
-        showModal={showPushConfirmation}
-        setShowModal={setShowPushConfirmation}
-        onConfirm={pushCurrentBlock}
-      />
-      <ConfirmationModal
-        showModal={showIgnoreConfirmation}
-        setShowModal={setShowIgnoreConfirmation}
-        onConfirm={resetTimer}
-      />
     </div>
   );
 };

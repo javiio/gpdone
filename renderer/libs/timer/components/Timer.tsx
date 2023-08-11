@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import cn from 'classnames';
-import { ConfirmationModal, IconButton } from '~platform';
+import { IconButton, useConfirmation } from '~platform';
 import { useCurrentBlock } from '~blocks';
 import { ding, tick } from '~assets';
 
 import { useTimer } from '../';
 
 export const Timer: React.FC = () => {
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const {
     blockTime,
     remainingTime,
@@ -19,6 +18,7 @@ export const Timer: React.FC = () => {
   } = useTimer();
   const { color } = useCurrentBlock();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { confirm } = useConfirmation();
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 's' && event.metaKey) {
@@ -66,6 +66,10 @@ export const Timer: React.FC = () => {
     }
   };
 
+  const handleResetTimer = () => {
+    confirm({ onConfirm: resetTimer });
+  };
+
   return (
     <div className="relative">
       <audio ref={audioRef} />
@@ -73,7 +77,7 @@ export const Timer: React.FC = () => {
         <IconButton
           name="refresh"
           size="4"
-          onClick={() => { setShowConfirmation(true); }}
+          onClick={handleResetTimer}
           className="absolute top-[1px] -left-5"
         />
       )}
@@ -83,12 +87,6 @@ export const Timer: React.FC = () => {
       >
         {formatTime()}
       </button>
-
-      <ConfirmationModal
-        showModal={showConfirmation}
-        setShowModal={setShowConfirmation}
-        onConfirm={resetTimer}
-      />
     </div>
   );
 };
