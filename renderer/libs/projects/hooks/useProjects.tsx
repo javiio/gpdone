@@ -32,6 +32,7 @@ export const ProvideProjects = ({ children }: { children: ReactNode }) => {
       setProjects(
         data.docs
           .map((doc): Project => ({ ...doc.data() as ProjectData, id: doc.id }))
+          .filter((p) => p.active)
           .sort((a, b) => (a?.order ?? 0) - (b?.order ?? 0))
       );
     }

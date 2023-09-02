@@ -44,7 +44,7 @@ export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject 
           type="button"
           onClick={() => { handleSelectProject(undefined); }}
           className={cn(
-            'px-4 py-3 min-w-[64px] rounded-md rounded-b-none border-t border-x hover:bg-gray-400/25 hover:border-gray-400/50',
+            'px-2 py-1.5 text-sm min-w-[64px] rounded-md rounded-b-none border-t border-x hover:bg-gray-400/25 hover:border-gray-400/50',
             !project ? 'bg-gray-400/25 border-gray-400' : 'border-slate-900'
           )}
         >
@@ -57,7 +57,7 @@ export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject 
               type="button"
               onClick={() => { handleSelectProject(p); }}
               className={cn(
-                'px-4 py-3 min-w-[64px] rounded-md rounded-b-none border-t border-x',
+                'px-2 py-1.5 text-sm min-w-[64px] rounded-md rounded-b-none border-t border-x',
                 `hover:bg-${p.color}/25 hover:border-${p.color}/50`,
                 p.id === project?.id ? `border-${p.color} bg-${p.color}/25` : 'border-slate-900'
               )}
