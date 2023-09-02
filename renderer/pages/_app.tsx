@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { DynamicStylesGenerator, ProvideConfirmation } from '~platform';
@@ -15,11 +15,13 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const GPDApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
+  const prevPage = useRef<string | null>(null);
 
   useEffect(() => {
     // Fix for empty page on production
     // https://github.com/saltyshiomix/nextron/issues/241#issuecomment-1239401532
-    if (isProd) {
+    if (isProd && !prevPage.current) {
+      prevPage.current = router.asPath;
       if (window.location.href.search(/\d/) > 0) return;
       if (window.location.href.search('.html') < 0) {
         window.location.replace(`${window.location.href}.html`);
