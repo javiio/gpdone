@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useCookie } from 'react-use';
+import { useLocalStorage } from 'react-use';
 import { ResizablePanels } from '~platform';
 import { ProjectsTabs, type Project, useProjects } from '~projects';
 import { TaskForm, TasksList, TaskInfo, useTasks } from '~tasks';
 
 const Tasks = () => {
   const [project, setProject] = useState<Project | undefined>(undefined);
-  const [projectId, setProjectId] = useCookie('tasks-project-id');
+  const [projectId, setProjectId] = useLocalStorage('tasks-project-id', '');
   const { selectedTask } = useTasks();
   const { getProject } = useProjects();
 
