@@ -4,3 +4,4 @@ node_modules
 app
 dist
 renderer/libs/platform/data/firebase.config.ts
+.DS_Store
