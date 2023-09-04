@@ -1,6 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+/**
+ * To fix the 'white-screen' issue on reload on prod, go to: node_modules/electron_serve/index.js
+ * and update the getPath method:
+ * 1. Add a retry params and default it to true:
+ *  const getPath = async (path_, retry = true) => {
+ * 2. Update the catch block to retry with .html in the path:
+ *  if (retry) {
+ *    return getPath(`${path_}.html`, false);
+ *  }
+ */
+import React from 'react';
 import type { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
 import { DynamicStylesGenerator, ProvideConfirmation } from '~platform';
 import { ProvideCurrentBlock, CurrentBlock } from '~blocks';
 import { ProvideTimer } from '~timer';
@@ -11,24 +20,7 @@ import { Navbar } from 'layout/Navbar';
 import '../styles/globals.css';
 import '../styles/editor.css';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const GPDApp = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
-  const prevPage = useRef<string | null>(null);
-
-  useEffect(() => {
-    // Fix for empty page on production
-    // https://github.com/saltyshiomix/nextron/issues/241#issuecomment-1239401532
-    if (isProd && !prevPage.current) {
-      prevPage.current = router.asPath;
-      if (window.location.href.search(/\d/) > 0) return;
-      if (window.location.href.search('.html') < 0) {
-        window.location.replace(`${window.location.href}.html`);
-      }
-    }
-  }, [router.asPath]);
-
   return (
     <ProvideConfirmation>
       <ProvideProjects>
