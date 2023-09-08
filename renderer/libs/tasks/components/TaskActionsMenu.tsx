@@ -13,7 +13,7 @@ export const TaskActionsMenu = ({ task }: { task: Task }) => {
 
   return (
     <Menu as="div" className="relative block text-left">
-      <Menu.Button>
+      <Menu.Button as="span">
         <IconButton name="dots" size={6} />
       </Menu.Button>
       <Transition

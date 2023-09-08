@@ -23,7 +23,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ project }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-4 group">
+    <form onSubmit={handleSubmit} className="flex space-x-2 group">
       <input
         type="text"
         value={title}

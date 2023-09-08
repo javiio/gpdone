@@ -63,15 +63,13 @@ export const TaskItem = ({ task }: Props) => {
       />
 
       <div className={cn(
-        'ml-2',
+        'ml-2 flex-1',
         isCompleted && 'italic text-gray-400 line-through'
       )}>
         {title}
       </div>
 
-      <div className="absolute right-2 top-2.5">
-        <PlannedTag task={task} />
-      </div>
+      <PlannedTag task={task} />
     </div>
   );
 };

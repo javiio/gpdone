@@ -12,7 +12,7 @@ export interface TaskLink {
   url: string
 }
 
-export type TaskPlanned = 'today' | 'week' | 'quarter' | '';
+export type TaskPlanned = 'today' | 'week' | 'quarter';
 
 export interface TaskData {
   title: string

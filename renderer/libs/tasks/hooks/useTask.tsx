@@ -30,7 +30,7 @@ export const useTask = (task: Task) => {
     await updateDoc({ plannedBlocks }, 'tasks', id);
   };
 
-  const updatePlanned = async (planned: TaskPlanned) => {
+  const updatePlanned = async (planned: TaskPlanned | null) => {
     await updateDoc({ planned }, 'tasks', id);
   };
 

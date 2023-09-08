@@ -1,48 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { useTask, type Task, type TaskPlanned } from '../';
+import React from 'react';
+import cn from 'classnames';
+import { type TaskPlanned } from '../';
 import { Button } from '~platform';
 
 interface PlannedPickerProps {
-  task: Task
+  value: TaskPlanned | null
+  setValue: (planned: TaskPlanned | null) => void
 }
 
-export const PlannedPicker = ({ task }: PlannedPickerProps) => {
-  const [planned, setPlanned] = useState<TaskPlanned>();
-  const { updatePlanned } = useTask(task);
-
-  useEffect(() => {
-    setPlanned(task.planned);
-  }, [task]);
-
-  const handleSetPlanned = async (value: TaskPlanned) => {
-    const _planned = value === planned ? '' : value;
-    setPlanned(_planned);
-    await updatePlanned(_planned);
+export const PlannedPicker = ({ value, setValue }: PlannedPickerProps) => {
+  const handleOnClick = (planned: TaskPlanned) => {
+    setValue(value === planned ? null : planned);
   };
 
   return (
     <div className="flex space-x-2">
       <Button
         size="xs"
-        variant={planned === 'today' ? 'primary' : 'clear'}
-        onClick={async () => { await handleSetPlanned('today'); }}
-        className={planned === 'today' ? '!bg-green-500' : ''}
+        variant={value === 'today' ? 'primary' : 'clear'}
+        onClick={() => { handleOnClick('today'); }}
+        className={cn(
+          'w-6 text-center !py-0 !px-0 !block hover:bg-green-500 hover:border-green-500',
+          { '!bg-green-500': value === 'today' }
+        )}
       >
         T
       </Button>
       <Button
         size="xs"
-        variant={planned === 'week' ? 'primary' : 'clear'}
-        onClick={async () => { await handleSetPlanned('week'); }}
-        className={planned === 'week' ? '!bg-orange-500' : ''}
+        variant={value === 'week' ? 'primary' : 'clear'}
+        onClick={() => { handleOnClick('week'); }}
+        className={cn(
+          'w-6 text-center !px-0 !block hover:bg-orange-500 hover:border-orange-500',
+          { '!bg-orange-500': value === 'week' }
+        )}
       >
         W
       </Button>
       <Button
         size="xs"
-        variant={planned === 'quarter' ? 'primary' : 'clear'}
-        onClick={async () => { await handleSetPlanned('quarter'); }}
-        className={planned === 'quarter' ? '!bg-purple-500' : ''}
+        variant={value === 'quarter' ? 'primary' : 'clear'}
+        onClick={() => { handleOnClick('quarter'); }}
+        className={cn(
+          'w-6 text-center !px-0 !block hover:bg-purple-500 hover:border-purple-500',
+          { '!bg-purple-500': value === 'quarter' }
+        )}
       >
         Q
       </Button>

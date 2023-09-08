@@ -30,7 +30,7 @@ const Tasks = () => {
       <ResizablePanels vertical aSize="40%" bSize="60%">
         <div className="p-4 pt-2">
           <ProjectsTabs project={project} setProject={handleSetProject} />
-          <div className="my-4">
+          <div className="my-4 mr-24">
             <TaskForm project={project} />
           </div>
           <TasksList project={project} />
