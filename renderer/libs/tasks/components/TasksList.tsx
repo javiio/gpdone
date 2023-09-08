@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Disclosure } from '~platform';
 import { type Project } from '~projects';
-import { useProjectTasks, TaskItem, PlannedPicker, type TaskPlanned } from '../';
+import { useProjectTasks, TaskItem, PlannedFilter, type TaskPlanned } from '../';
 
 interface TasksListProps {
   project?: Project
@@ -9,17 +9,19 @@ interface TasksListProps {
 
 export const TasksList: React.FC<TasksListProps> = ({ project }) => {
   const { pending, completed } = useProjectTasks(project);
-  const [planned, setPlanned] = useState<TaskPlanned | null>(null);
+  const [plannedFilter, setPlannedFilter] = useState<TaskPlanned[]>([]);
 
   return (
     <div className="relative">
       <div className="absolute right-0 -top-12">
-        <PlannedPicker value={planned} setValue={setPlanned} />
+        <PlannedFilter selected={plannedFilter} setSelected={setPlannedFilter} />
       </div>
 
       <div className="flex-row space-y-0.5">
         {pending
-          .filter((task) => planned ? task.planned === planned : true)
+          .filter((task) => plannedFilter.length > 0
+            ? task.planned && plannedFilter.includes(task.planned)
+            : true)
           .map((task) => (
             <TaskItem key={task.id} task={task} />
           ))}

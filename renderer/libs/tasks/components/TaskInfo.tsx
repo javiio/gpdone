@@ -3,33 +3,25 @@ import { NoteEditor } from '~notes';
 import {
   useTask,
   TaskLinks,
-  PlannedPicker,
+  TaskPlannedPicker,
   SubTasks,
   TaskBlocksProgress,
   TaskActionsMenu,
   type Task,
-  type TaskPlanned,
 } from '../';
 import { NumberSelector } from '~platform';
 
 export const TaskInfo = ({ task }: { task: Task }) => {
   const [plannedBlocks, setPlannedBlocks] = useState(0);
-  const [planned, setPlanned] = useState<TaskPlanned | null>(null);
-  const { updatePlannedBlocks, updatePlanned } = useTask(task);
+  const { updatePlannedBlocks } = useTask(task);
 
   useEffect(() => {
     setPlannedBlocks(task.plannedBlocks);
-    setPlanned(task.planned ?? null);
   }, [task]);
 
   const handleChangePlannedBlocks = async (value: number) => {
     setPlannedBlocks(value);
     await updatePlannedBlocks(value);
-  };
-
-  const handleChangePlanned = async (value: TaskPlanned | null) => {
-    setPlanned(value);
-    await updatePlanned(value);
   };
 
   return (
@@ -49,7 +41,7 @@ export const TaskInfo = ({ task }: { task: Task }) => {
       </div>
       <div className="flex justify-between">
         <TaskLinks task={task} />
-        <PlannedPicker value={planned} setValue={handleChangePlanned} />
+        <TaskPlannedPicker task={task} />
       </div>
       <NoteEditor noteId={`task-${task.id}`} />
       <SubTasks task={task} />
