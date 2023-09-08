@@ -4,7 +4,7 @@ import { Icon, Loading } from '../';
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   children: React.ReactNode
   className?: string
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'xs' | 'sm' | 'md' | 'lg'
   variant?: 'primary' | 'clear' | 'link'
   theme?: 'light' | 'dark'
   icon?: string
@@ -25,6 +25,7 @@ export const Button = ({
 }: ButtonProps) => {
   const classes = [
     'rounded-md flex space-x-1.5 items-center',
+    size === 'xs' && 'text-xs py-0.5 px-2',
     size === 'sm' && 'text-sm py-1 px-3',
     size === 'md' && 'text-md py-2 px-4',
     variant === 'primary' && `bg-${color ?? 'purple-500'}`,
