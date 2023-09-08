@@ -12,12 +12,15 @@ export interface TaskLink {
   url: string
 }
 
+export type TaskPlanned = 'today' | 'week' | 'quarter' | '';
+
 export interface TaskData {
   title: string
   body?: string
   completed: boolean
   subtasks?: SubTask[]
   links?: TaskLink[]
+  planned?: TaskPlanned
   plannedBlocks: number
   blocksIds?: string[]
   projectId?: string

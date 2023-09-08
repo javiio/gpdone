@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NoteEditor } from '~notes';
-import { useTask, TaskLinks, type Task, TaskBlocksProgress, TaskActionsMenu } from '../';
-import { SubTasks } from './SubTasks';
+import {
+  useTask,
+  TaskLinks,
+  PlannedPicker,
+  SubTasks,
+  type Task,
+  TaskBlocksProgress,
+  TaskActionsMenu,
+} from '../';
 import { NumberSelector } from '~platform';
 
 export const TaskInfo = ({ task }: { task: Task }) => {
@@ -32,7 +39,10 @@ export const TaskInfo = ({ task }: { task: Task }) => {
           <TaskBlocksProgress task={task} />
         </div>
       </div>
-      <TaskLinks task={task} />
+      <div className="flex justify-between">
+        <TaskLinks task={task} />
+        <PlannedPicker task={task} />
+      </div>
       <NoteEditor noteId={`task-${task.id}`} />
       <SubTasks task={task} />
     </div>

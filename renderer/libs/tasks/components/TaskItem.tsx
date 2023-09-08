@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { IconButton } from '~platform';
 import { useCurrentBlock } from '~blocks';
 import { taskToBlockPlan } from '~planning';
-import { useTask, useTasks, type Task } from '../';
+import { useTask, useTasks, PlannedTag, type Task } from '../';
 
 interface Props {
   task: Task
@@ -52,7 +52,7 @@ export const TaskItem = ({ task }: Props) => {
             onClick={handleSendTask}
           />
         )}
-        </div>
+      </div>
 
       <input
         type="checkbox"
@@ -67,6 +67,10 @@ export const TaskItem = ({ task }: Props) => {
         isCompleted && 'italic text-gray-400 line-through'
       )}>
         {title}
+      </div>
+
+      <div className="absolute right-2 top-2.5">
+        <PlannedTag task={task} />
       </div>
     </div>
   );
